@@ -22,6 +22,12 @@ class ClientsController < ApplicationController
     end
   end
 
+  def destroy
+    @client.destroy
+
+    redirect_to clients_path
+  end
+
   private
 
   def client_params
