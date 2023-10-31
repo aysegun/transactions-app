@@ -1,2 +1,23 @@
 <h3>Show page</h3>
 <p>Find me on "...clients/views/clients/show.html.erb"</p>
+
+<h3>Transaction History for <%= @client.last_name %>, <%= @client.first_name %></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+
+<%= link_to "delete", client_path(@client), data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}  %>
+<%= link_to "Return clients", clients_path %>
+
+<%= button_to "delete", @client, method: :delete, data: {turbo_confirm: "Are you sure ?"} %>

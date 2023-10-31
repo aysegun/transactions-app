@@ -23,9 +23,10 @@ class ClientsController < ApplicationController
   end
 
   def destroy
+    @client = Client.find(params[:id])
     @client.destroy
 
-    redirect_to clients_path
+    redirect_to clients_path, status: :see_other
   end
 
   private
