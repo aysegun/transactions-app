@@ -12,7 +12,7 @@ class ClientsController < ApplicationController
   end
 
   def create
-    @client = Client.new
+    @client = Client.new(client_params)
 
     if @client.save
 
