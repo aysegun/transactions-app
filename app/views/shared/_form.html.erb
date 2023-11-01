@@ -1,0 +1,25 @@
+<%= form_with(model: [@client, @transaction], local: true) do |form| %>
+  <div class="field">
+    <%= form.label :amount %>
+    <%= form.text_field :amount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :type %>
+    <%= form.text_field :type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Submit' %>
+  </div>
+<% end %>
