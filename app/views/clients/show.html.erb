@@ -21,3 +21,5 @@
 <%= link_to "Return clients", clients_path %>
 
 <%= button_to "delete", @client, method: :delete, data: {turbo_confirm: "Are you sure ?"} %>
+
+<%= link_to "create transaction", new_client_transaction_path(@client) %>

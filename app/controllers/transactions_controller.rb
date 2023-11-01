@@ -9,6 +9,7 @@ class TransactionsController < ApplicationController
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity
+    end
   end
 
   def new; end
