@@ -3,7 +3,6 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = @client.transactions.build(transaction_params)
-
     if @transaction.save
       redirect_to client_path(@client)
     else
