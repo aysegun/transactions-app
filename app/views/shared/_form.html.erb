@@ -5,8 +5,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :type %>
-    <%= form.text_field :type %>
+    <%= form.label :transaction_type %>
+    <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type" %>
   </div>
 
   <div class="field">
