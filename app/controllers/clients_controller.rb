@@ -10,6 +10,8 @@ class ClientsController < ApplicationController
   def show
     @client = Client.find(params[:id])
     @transactions = @client.transactions
+    @expenses = @transactions.where(transaction_type: 'expense')
+    @payments = @transactions.where(transaction_type: 'payment')
   end
 
   def create

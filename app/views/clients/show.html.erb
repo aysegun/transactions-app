@@ -24,6 +24,23 @@
   </tbody>
 </table>
 
+<table>
+  <thead>
+    <tr>
+    <th>Total Expenses</th>
+    <th>Total Payments</th>
+    <th>Client's Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @expenses.sum(:amount) %></td>
+      <td><%= @payments.sum(:amount) %></td>
+      <td><%= (@payments.sum(:amount) - @expenses.sum(:amount)) %></td>
+    </tr>
+  </tbody>
+</table>
+
 <%= link_to "Return clients", clients_path %>
 <%= link_to "Create transaction", new_client_transaction_path(@client) %>
 <p></p>
