@@ -14,6 +14,29 @@ class TransactionsController < ApplicationController
     @transaction = @client.transactions.build
   end
 
+  def edit
+    @transaction = Transaction.find(params[:id])
+  end
+
+  def update
+    @transaction = Transaction.find(params[:id])
+    @client = @transaction.client
+
+    if @transaction.update(transaction_params)
+      redirect_to client_path(@client)
+    else
+      render edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @transaction = Transaction.find(params[:id])
+    @client = @transaction.client
+    @transaction.destroy
+
+    redirect_to client_path(@client), status: :see_other
+  end
+
   private
 
   def set_client
