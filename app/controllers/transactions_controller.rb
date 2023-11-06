@@ -4,6 +4,11 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
+      if @transaction.transaction_type == 'expense'
+        @case = Case.create(court: 'YourCourtName', court_number: 'YourCourtNumber')
+        @transaction.case = @case
+        @transaction.save
+      end
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity

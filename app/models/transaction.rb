@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :client
-  belong_to :case, if: -> { transaction_type == expense }
+  belongs_to :case, -> { where transaction_type == 'expense' }
 
   validates :amount, presence: true
   validates :transaction_type, presence: true
