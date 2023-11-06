@@ -44,6 +44,6 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:amount, :date, :transaction_type, :description)
+    params.require(:transaction).permit(:amount, :date, :transaction_type, :description, :court, :court_number)
   end
 end
