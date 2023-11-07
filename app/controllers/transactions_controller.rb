@@ -5,9 +5,8 @@ class TransactionsController < ApplicationController
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
       if @transaction.transaction_type == 'expense'
-        @case = Case.create(court: 'YourCourtName', court_number: 'YourCourtNumber')
-        @transaction.case = @case
-        @transaction.save
+        @case = Case.create(court: params[:transaction][:court], court_number: params[:transaction][:court_number], client: @client)
+        @transaction.update(case: @case)
       end
       redirect_to client_path(@client)
     else

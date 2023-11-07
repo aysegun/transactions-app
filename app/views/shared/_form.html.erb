@@ -19,7 +19,35 @@
     <%= form.date_field :date %>
   </div>
 
+  <div class="field" id="court_field" style="display: none;">
+  <%= form.label :court %>
+  <%= form.text_field :court %>
+  </div>
+
+  <div class="field" id="court_number_field" style="display: none;">
+    <%= form.label :court_number %>
+    <%= form.text_field :court_number %>
+  </div>
+
   <div class="actions">
     <%= form.submit 'Submit' %>
   </div>
 <% end %>
+
+
+<script>
+  const transactionTypeSelect = document.getElementById('transaction_transaction_type');
+  const courtField = document.getElementById('court_field');
+  const courtNumberField = document.getElementById('court_number_field');
+
+  transactionTypeSelect.addEventListener('change', function() {
+    const selectedValue = transactionTypeSelect.value;
+    if (selectedValue === 'expense') {
+      courtField.style.display = 'block';
+      courtNumberField.style.display = 'block';
+    } else {
+      courtField.style.display = 'none';
+      courtNumberField.style.display = 'none';
+    }
+  });
+</script>

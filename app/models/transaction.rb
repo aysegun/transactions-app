@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
 
   def associate_case_if_expense
     if transaction_type == 'expense'
-      create_case(court: 'YourCourtName', court_number: 'YourCourtNumber')
+      self.case = Case.create(court: 'YourCourtName', court_number: 'YourCourtNumber', client: client)
     end
   end
 end
