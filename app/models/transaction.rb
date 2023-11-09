@@ -1,6 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :client
-  belongs_to :case, optional: true
+  has_many :transaction_cases
+  has_many :cases, through: :transaction_cases
 
   validates :amount, presence: true
   validates :transaction_type, presence: true
@@ -12,9 +13,13 @@ class Transaction < ApplicationRecord
   private
 
   def associate_case_if_expense
-    if transaction_type == 'expense'
-      case_record = Case.create(court: params[:transaction][:court], court_number: params[:transaction][:court_number], client: client)
-      update(case: case_record)
+    if expense?
+      case_record = Case.create(
+        court: self['court'],
+        court_number: self['court_number'],
+        client: client
+      )
+      self.cases << case_record
     end
   end
 end

@@ -4,10 +4,16 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
-      if @transaction.transaction_type == 'expense'
-        @case = Case.create(court: params[:transaction][:court], court_number: params[:transaction][:court_number], client: @client)
-        @transaction.update(case: @case)
+      @transaction.reload
+      if @transaction.expense?
+        @case = Case.create(
+          court: transaction_params[:court],
+          court_number: transaction_params[:court_number],
+          client: @client
+        )
+        TransactionCase.create(transaction: @transaction, case: @case)
       end
+
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity
@@ -48,6 +54,15 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:amount, :date, :transaction_type, :description)
+    base_params = [:amount, :date, :transaction_type, :description]
+    specific_params = []
+
+    if params[:transaction] && params[:transaction_type] == 'expense'
+      specific_params = [:court, :court_number]
+    end
+
+    permitted_params = base_params + specific_params
+
+    params.require(:transaction).permit(*permitted_params)
   end
 end

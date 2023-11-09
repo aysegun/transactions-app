@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_06_131806) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_120134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_131806) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transaction_cases", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "case_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["case_id"], name: "index_transaction_cases_on_case_id"
+    t.index ["transaction_id"], name: "index_transaction_cases_on_transaction_id"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount"
     t.text "transaction_type"
@@ -42,5 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_131806) do
   end
 
   add_foreign_key "cases", "clients"
+  add_foreign_key "transaction_cases", "cases"
+  add_foreign_key "transaction_cases", "transactions"
   add_foreign_key "transactions", "clients"
 end
