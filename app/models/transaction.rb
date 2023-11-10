@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :client
-  has_many :transaction_cases
-  has_many :cases, through: :transaction_cases
+  has_many :transaction_cases, dependent: :destroy
+  has_many :cases, through: :transaction_cases, dependent: :destroy
 
   validates :amount, presence: true
   validates :transaction_type, presence: true
@@ -14,12 +14,13 @@ class Transaction < ApplicationRecord
 
   def associate_case_if_expense
     if expense?
-      case_record = Case.create(
+      case_record = cases.build(
         court: self['court'],
         court_number: self['court_number'],
         client: client
       )
-      self.cases << case_record
+      case_record.save
+      transaction_cases.create(case: case_record)
     end
   end
 end

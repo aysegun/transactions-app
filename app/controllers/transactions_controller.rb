@@ -11,7 +11,7 @@ class TransactionsController < ApplicationController
           court_number: transaction_params[:court_number],
           client: @client
         )
-        TransactionCase.create(transaction: @transaction, case: @case)
+        TransactionCase.create(related_transaction: @transaction)
       end
 
       redirect_to client_path(@client)
@@ -35,7 +35,7 @@ class TransactionsController < ApplicationController
     if @transaction.update(transaction_params)
       redirect_to client_path(@client)
     else
-      render edit, status: :unprocessable_entity
+      render 'edit', status: :unprocessable_entity
     end
   end
 
