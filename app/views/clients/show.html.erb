@@ -26,8 +26,8 @@
                     <% if transaction_cases.any? %>
                       <% transaction_cases.each do |transaction_case| %>
                         <% case_record = transaction_case.case %>
-                        <td>Court: <%= case_record.court %></td>
-                        <td>Court Number: <%= case_record.court_number %></td>
+                        <td>Court: <%= transaction_cases.first&.case&.court %></td></td>
+                        <td>Court Number: <%= transaction_cases.first&.case&.court_number %></td>
                       <% end %>
                     <% end %>
                 <% end %>

@@ -57,7 +57,7 @@ class TransactionsController < ApplicationController
     base_params = [:amount, :date, :transaction_type, :description]
     specific_params = []
 
-    if params[:transaction] && params[:transaction_type] == 'expense'
+    if params[:transaction] && [:transaction_type] == 'expense'
       specific_params = [:court, :court_number]
     end
 
