@@ -24,6 +24,10 @@ class TransactionsController < ApplicationController
     @transaction = @client.transactions.build
   end
 
+  def show
+    @transaction = Transaction.find(params[:id])
+  end
+
   def edit
     @transaction = Transaction.find(params[:id])
   end
@@ -54,11 +58,11 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    base_params = [:amount, :date, :transaction_type, :description]
+    base_params = %i[amount date transaction_type description]
     specific_params = []
 
     if params[:transaction] && [:transaction_type] == 'expense'
-      specific_params = [:court, :court_number]
+      specific_params = %i[court court_number]
     end
 
     permitted_params = base_params + specific_params
