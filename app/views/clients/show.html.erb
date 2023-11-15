@@ -22,20 +22,20 @@
               <td><%= transaction.date %></td>
               <td><%= transaction.transaction_type %></td>
 
-                <% if transaction.transaction_type == 'expense' %>
-                  <% transaction_cases = TransactionCase.where(transaction_id: transaction.id) %>
-                  <% if transaction_cases.any? %>
-                    <% transaction_cases.each do |transaction_case| %>
+              <% if transaction.transaction_type == 'expense' %>
+                <%# <% transaction_cases = TransactionCase.where(transaction_id: transaction.id) %>
+                <%# <% if transaction_cases.any? %>
+                    <% transaction.transaction_cases.each do |transaction_case| %>
                       <% case_record = transaction_case.case %>
                       <td>Court: <%= case_record&.court %></td>
                       <td>Court Number: <%= case_record&.court_number %></td>
                     <% end %>
-                  <% end %>
-                <% end %>
+                <%# <% end %>
+              <% end %>
               <td><%= button_to "Delete Transaction", client_transaction_path(@client, transaction), method: :delete, data: {turbo_confirm: "Are you sure you want to delete this transaction?"} %></td>
               <td> <%= link_to "Edit Transaction", edit_client_transaction_path(@client, transaction) %></td>
             </tr>
-          <% end %>
+        <% end %>
       </tbody>
     </table>
   </div>

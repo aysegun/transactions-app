@@ -4,16 +4,9 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
-      @transaction.reload
       if @transaction.expense?
-        @case = Case.create(
-          court: transaction_params[:court],
-          court_number: transaction_params[:court_number],
-          client: @client
-        )
-        TransactionCase.create(related_transaction: @transaction)
+        create_case_for_expense_transaction(@transaction)
       end
-
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity
@@ -25,7 +18,8 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    @transaction = Transaction.find(params[:id])
+    @transaction = Transaction.includes(:transaction_cases).find(params[:id])
+    # @transactions = Transaction.includes(:cases).all
   end
 
   def edit
@@ -58,15 +52,15 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    base_params = %i[amount date transaction_type description]
-    specific_params = []
+    base_params = %i[amount date transaction_type description court court_number]
+    params.require(:transaction).permit(*base_params)
+  end
 
-    if params[:transaction] && [:transaction_type] == 'expense'
-      specific_params = %i[court court_number]
-    end
-
-    permitted_params = base_params + specific_params
-
-    params.require(:transaction).permit(*permitted_params)
+  def create_case_for_expense_transaction(transaction)
+    case_record = @client.cases.create(
+      court: transaction.court,
+      court_number: transaction.court_number
+    )
+    transaction.transaction_cases.create(related_transaction: @transaction)
   end
 end

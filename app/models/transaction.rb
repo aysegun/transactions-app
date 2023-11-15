@@ -8,6 +8,8 @@ class Transaction < ApplicationRecord
 
   enum transaction_type: { expense: 'expense', payment: 'payment' }
 
+  attr_accessor :court, :court_number
+
   after_create :associate_case_if_expense
 
   private
@@ -15,8 +17,8 @@ class Transaction < ApplicationRecord
   def associate_case_if_expense
     if expense?
       case_record = cases.build(
-        court: self['court'],
-        court_number: self['court_number'],
+        court: court,
+        court_number: court_number,
         client: client
       )
       case_record.save
