@@ -1,5 +1,6 @@
 class CasesController < ApplicationController
   before_action :set_client, only: %i[new create]
+
   def new
     @case = @client.cases.new
   end

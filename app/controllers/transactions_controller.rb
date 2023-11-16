@@ -4,9 +4,7 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
-      if @transaction.expense?
-        create_case_for_expense_transaction(@transaction)
-      end
+      'create_case_for_expense_transaction(@transaction)' if @transaction.expense?
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity
@@ -19,7 +17,6 @@ class TransactionsController < ApplicationController
 
   def show
     @transaction = Transaction.includes(:transaction_cases).find(params[:id])
-    # @transactions = Transaction.includes(:cases).all
   end
 
   def edit
@@ -57,7 +54,7 @@ class TransactionsController < ApplicationController
   end
 
   def create_case_for_expense_transaction(transaction)
-    case_record = @client.cases.create(
+    @client.cases.create(
       court: transaction.court,
       court_number: transaction.court_number
     )
