@@ -4,7 +4,8 @@
 <h3>Transaction History for <%= @client.last_name %>, <%= @client.first_name %></h3>
 
 <div>
-  <div>
+  <div style="display: flex; justify-content: space-between;">
+
     <table>
       <thead>
         <tr>
@@ -12,30 +13,65 @@
           <th>Description</th>
           <th>Date</th>
           <th>Type</th>
+          <th>Court</th>
+          <th>Court Number</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <% @transactions.each do |transaction| %>
+          <% if transaction.transaction_type == 'expense' %>
             <tr>
               <td><%= transaction.amount %></td>
               <td><%= transaction.description %></td>
               <td><%= transaction.date %></td>
               <td><%= transaction.transaction_type %></td>
 
-              <% if transaction.transaction_type == 'expense' %>
-                <% transaction.transaction_cases.each do |transaction_case| %>
-                  <% case_record = transaction_case.case %>
-                  <td>Court: <%= case_record&.court %></td>
-                  <td>Court Number: <%= case_record&.court_number %></td>
-                <% end %>
+              <% transaction.transaction_cases.each do |transaction_case| %>
+                <% case_record = transaction_case.case %>
+                <td><%= case_record&.court %></td>
+                <td><%= case_record&.court_number %></td>
               <% end %>
-              <td><%= button_to "Delete Transaction", client_transaction_path(@client, transaction), method: :delete, data: {turbo_confirm: "Are you sure you want to delete this transaction?"} %></td>
-              <td> <%= link_to "Edit Transaction", edit_client_transaction_path(@client, transaction) %></td>
+
+              <td><%= button_to "Delete Transaction", client_transaction_path(@client, transaction),
+                                 method: :delete, data: { turbo_confirm: "Are you sure you want to delete this transaction?" } %></td>
+              <td><%= link_to "Edit Transaction", edit_client_transaction_path(@client, transaction) %></td>
             </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+
+    <table>
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @transactions.each do |transaction| %>
+          <% if transaction.transaction_type == 'payment' %>
+            <tr>
+              <td><%= transaction.amount %></td>
+              <td><%= transaction.description %></td>
+              <td><%= transaction.date %></td>
+              <td><%= transaction.transaction_type %></td>
+              <td><%= button_to "Delete Transaction", client_transaction_path(@client, transaction),
+                                method: :delete, data: { turbo_confirm: "Are you sure you want to delete this transaction?" } %></td>
+              <td><%= link_to "Edit Transaction", edit_client_transaction_path(@client, transaction) %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
   </div>
+
+
   <h3>Calculation for <%= @client.last_name %>, <%= @client.first_name %></h3>
   <div>
     <table>
