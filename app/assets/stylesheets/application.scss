@@ -17,37 +17,9 @@
  // External Libraries
 
  @import "bootstrap";
+ @import "font-awesome";
 
  // CSS Partials
 
  @import "components/form";
-
- .calculation-container th{
-    border: 1px solid black;
- }
- .calculation-container td{
-  border: 1px solid black;
-}
-.calculation-container table{
-  border: 1px solid black;
-}
-
-.expense-table th{
-  border: 1px solid black;
-}
-.expense-table td{
-  border: 1px solid black;
-}
-.expense-table table{
-  border: 1px solid black;
-}
-
-.payment-table th{
-  border: 1px solid black;
-}
-.payment-table td{
-  border: 1px solid black;
-}
-.payment-table table{
-  border: 1px solid black;
-}
+ @import "components/table";
