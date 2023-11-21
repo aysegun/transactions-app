@@ -1,9 +1,26 @@
-.client-form {
-  margin-left: 10px;
+// new client from
+.wrapper {
+  width: 40%;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border-radius: 15px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  input {
+    border-radius: 6px;
+  }
 }
-.form-group {
-  margin-top: 5px;
+
+.header-client {
+  text-align: center;
 }
-.form-submit {
-  margin-top: 10px;
+
+.wrapper-client{
+  height: 100vh;
+  width: 100%;
+  background-image: url("https://source.unsplash.com/DZpc4UY8ZtY/1600x900");
+  background-position: cover;
+  background-size: cover;
+  padding: 30px;
 }
