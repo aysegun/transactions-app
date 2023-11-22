@@ -1,12 +1,21 @@
-<h3>Clients List</h3>
-<p>Find me on "...clients/views/clients/index.html.erb"</p>
+<div class="card-container">
+  <p>Number of Clients:</p>
+  <div class="card-info">
+    <p>#<%= @clients.count %></p>
+  </div>
+</div>
 
-<ol>
-  <% @clients.each do |client| %>
-    <li>
-      <p><%= link_to client.last_name, client%></p>
-    </li>
-  <% end %>
-</ol>
 
-<%= link_to "Create new client", new_client_path %>
+<div class="list">
+  <h4>Clients List</h4>
+  <ol>
+    <% @clients.each do |client| %>
+      <li class="list-item">
+        <p><%= link_to client.last_name, client%>, <%= link_to client.first_name, client %></p>
+      </li>
+    <% end %>
+  </ol>
+</div>
+<div class="button-b">
+  <%= link_to "Create new client", new_client_path %>
+</div>
