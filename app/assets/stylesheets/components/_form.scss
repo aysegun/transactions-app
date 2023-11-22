@@ -1,4 +1,5 @@
 // new client from
+
 .wrapper {
   width: 40%;
   margin: auto;
@@ -26,6 +27,7 @@
 }
 
 // edit client form
+
 .wrapper-client-edit{
   height: 100vh;
   width: 100%;
@@ -33,4 +35,39 @@
   background-position: cover;
   background-size: cover;
   padding: 30px;
+}
+
+// new transaction form
+
+.wrapper-transaction{
+  height: 100vh;
+  width: 100%;
+  background-image: url("https://source.unsplash.com/hVhfqhDYciU/1600x900");
+  background-position: cover;
+  background-size: cover;
+  padding: 30px;
+}
+
+.form-transaction {
+  input {
+    width: 100%;
+  }
+}
+
+.field {
+  select{
+    width: 100%;
+  }
+}
+
+.field {
+  textarea {
+    width: 100%;
+  }
+}
+
+.field {
+  label {
+    font-size: bold;
+  }
 }
