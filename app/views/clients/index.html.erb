@@ -5,6 +5,16 @@
   </div>
 </div>
 
+<div class="search-container mb-5">
+  <%= form_with url: clients_path, method: :get, class:"d-flex" do %>
+    <%= text_field_tag :query,
+      params[:query],
+      class: "form-control",
+      placeholder: "Find a client..."
+    %>
+    <%= submit_tag "Search", class:"btn-s" %>
+  <% end %>
+</div>
 
 <div class="list">
   <h4>Clients List</h4>

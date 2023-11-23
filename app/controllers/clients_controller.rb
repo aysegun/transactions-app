@@ -7,6 +7,13 @@ class ClientsController < ApplicationController
 
   def index
     @clients = Client.all
+
+    if params[:query].present?
+      sql_query = 'first_name ILIKE :query OR last_name ILIKE :query'
+      @clients = Client.where(sql_query, query: "%#{params[:query]}%")
+    else
+      @clients = Client.all
+    end
   end
 
   def show
