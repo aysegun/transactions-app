@@ -6,7 +6,7 @@
       <p><%= Date.today %> <i class="fa-regular fa-calendar-days"></i></p>
     </div>
     <div class="d-flex" style= "gap: 250px">
-      <h4 class="<%=(@payments.sum(:amount) - @expenses.sum(:amount)).negative? ? 'neg-balance' : 'poz-balance' %>"><%= (@payments.sum(:amount) - @expenses.sum(:amount)) %> <i class="fa-solid fa-turkish-lira-sign"></i></h4>
+      <h4 class="<%=(@payments.sum(:amount) - @expenses.sum(:amount)).negative? ? 'neg-balance' : 'pos-balance' %>"><%= (@payments.sum(:amount) - @expenses.sum(:amount)) %> <i class="fa-solid fa-turkish-lira-sign"></i></h4>
       <%= link_to "Create Transaction", new_client_transaction_path(@client), class:"btn btn-success" %>
     </div>
     <div class="calculation-container mt-5">
