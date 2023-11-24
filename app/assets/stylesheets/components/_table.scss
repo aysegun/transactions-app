@@ -52,9 +52,17 @@
 }
 
 .index-table a:hover {
-  color: #EEE0C9;
+  color: white;
 }
 
 tr.even-row {
   background-color: #96B6C5;
+  a {
+    border-radius: 5px;
+    border: 1px solid white;
+    background-color: white;
+  }
+  a:hover {
+    color:#96B6C5;
+  }
 }
