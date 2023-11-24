@@ -11,16 +11,19 @@
   background-color: #0583D2;
   line-height: 45px;
   padding: 0 50px;
-  border-right: 2px solid white;
+  border-right: 1px solid white;
 }
 
 .expense-table th {
-  padding: 5px;
+  padding: 7px;
   border-bottom: 2px solid black;
 }
 
 .expense-table td {
   padding: 5px;
+  border-bottom: 1px solid #cccccc;
+  font-weight: lighter;
+  padding-right: 20px;
 }
 
 .expense-table a {
@@ -28,19 +31,31 @@
   color:#48BF91;
 }
 
+.payment-table {
+  table-layout: fixed;
+  width: 100%;
+}
 .payment-table th {
-  padding: 5px;
-  border-bottom: 2px solid black;
+  padding: 7px;
+  border-bottom: 1px solid black;
 }
 
 .payment-table td {
   padding: 5px;
+  padding-right: 20px;
+  border-bottom: 1px solid #cccccc;
+  font-weight: lighter;
+  width: auto;
 }
 
-.payment-table a {
-  text-decoration: none;
-  color:#48BF91;
-}
+// .payment-table a {
+//   text-decoration: none;
+//   color:white;
+//   border: 1px solid #48BF91;
+//   background-color: #48BF91;
+//   border-radius: 2px;
+//   padding: 2px;
+// }
 
 // index page
 
@@ -51,6 +66,8 @@
 
 .index-table th {
   padding: 7px;
+  background-color: #2E8BC0;
+  color: white;
 }
 .index-table td {
   padding: 5px;
@@ -68,7 +85,7 @@
   color: white;
 }
 
-tr.even-row {
+tr.odd-row {
   background-color: #96B6C5;
   a {
     border-radius: 5px;
