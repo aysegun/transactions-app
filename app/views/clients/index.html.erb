@@ -15,17 +15,31 @@
     <%= submit_tag "Search", class:"btn-s" %>
   <% end %>
 </div>
-
-<div class="list">
-  <h4>Clients List</h4>
-  <ol>
-    <% @clients.each do |client| %>
-      <li class="list-item">
-        <p><%= link_to client.last_name, client%>, <%= link_to client.first_name, client %></p>
-      </li>
-    <% end %>
-  </ol>
+<div class="index-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Client Name</th>
+        <th>Advance Payment</th>
+        <th>Expenses</th>
+        <th>Detail <i class="fa-solid fa-magnifying-glass"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clients.each_with_index do |client, index| %>
+        <tr class="<%= index.odd? ? 'odd-row' : 'even-row' %>">
+          <td><%= client.last_name %>, <%= client.first_name %></td>
+          <td><%= client.transactions.where(transaction_type: 'payment').sum(:amount) %></td>
+          <td><%= client.transactions.where(transaction_type: 'expense').sum(:amount) %></td>
+          <td><%= link_to "Review", client %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-<div class="button-b">
+
+
+
+<div class="button-b mt-5">
   <%= link_to "Create new client", new_client_path %>
 </div>
