@@ -20,7 +20,14 @@
 .show-page-container {
   margin-top: 25px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  //gap: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.table-card {
+  flex-grow: 2;
 }
 
 .table-card p{

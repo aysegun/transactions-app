@@ -1,4 +1,4 @@
-<h4 style="margin-top:25px; margin-left:50px;">Calculation for <%= @client.last_name %>, <%= @client.first_name %></h4>
+<h4 style="margin-top:25px; margin-left:25px;">Calculation for <%= @client.last_name %>, <%= @client.first_name %></h4>
 <div class="show-page-container">
   <div class="left-card">
     <div class="card-balance d-flex" style= "gap: 250px">
@@ -7,7 +7,7 @@
     </div>
     <div class="d-flex" style= "gap: 250px">
       <h4 class="<%=(@payments.sum(:amount) - @expenses.sum(:amount)).negative? ? 'neg-balance' : 'pos-balance' %>"><%= (@payments.sum(:amount) - @expenses.sum(:amount)) %> <i class="fa-solid fa-turkish-lira-sign"></i></h4>
-      <%= link_to "Create Transaction", new_client_transaction_path(@client), class:"btn btn-success" %>
+      <%= link_to "Create Transaction", new_client_transaction_path(@client), class:"button-b" %>
     </div>
     <div class="calculation-container mt-5">
       <table>
