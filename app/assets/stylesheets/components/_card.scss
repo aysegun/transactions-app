@@ -38,23 +38,32 @@
   background-color: #cccccc;
 }
 
-.neg-balance {
-  color: #bb2d3b;
-}
-.pos-balance {
-  color: #198754;
-}
-
-.show-card-container {
+.pos-show-card-container {
   width: 220px;
   height: 150px;
   background-color: #eeeac4;
   border-radius: 5px;
+  margin:auto;
+  margin-top: 50px;
 }
 
-.show-card-container p {
+.neg-show-card-container {
+  width: 220px;
+  height: 150px;
+  background-color: #bd4545;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 50px;;
+}
+
+.neg-show-card-container p {
   margin-left:20px;
 }
+
+.pos-show-card-container p {
+  margin-left:20px;
+}
+
 .show-card-detail {
   display: flex;
   justify-content: space-between;
@@ -82,4 +91,13 @@
 .info-line-two {
   font-weight: lighter;
   font-size: smaller;
+}
+
+.date-div {
+  position: absolute;
+  right: 0;
+}
+
+.left-card {
+  position: relative;
 }

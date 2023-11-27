@@ -42,3 +42,21 @@
 .btn-s {
   margin-left: 10px;
 }
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button-t {
+  text-align: center;
+  border: 1px solid #2E8BC0;
+  border-radius: 5px;
+  background-color: #2E8BC0;
+  padding: 5px 15px;
+}
+
+.button-t a {
+  text-decoration: none;
+  color: black;
+}
