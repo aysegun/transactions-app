@@ -44,3 +44,42 @@
 .pos-balance {
   color: #198754;
 }
+
+.show-card-container {
+  width: 220px;
+  height: 150px;
+  background-color: #eeeac4;
+  border-radius: 5px;
+}
+
+.show-card-container p {
+  margin-left:20px;
+}
+.show-card-detail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-icon{
+  display: flex;
+  gap: 5px;
+  padding-top: 12px;
+  padding-right: 20px;
+}
+
+.show-card-detail p {
+  font-weight: bolder;
+}
+
+.show-card-info {
+  padding-top: 22px;
+}
+
+.info-line-one {
+  font-weight: bolder;
+}
+
+.info-line-two {
+  font-weight: lighter;
+  font-size: smaller;
+}
