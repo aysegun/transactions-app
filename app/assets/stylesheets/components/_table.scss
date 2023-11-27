@@ -30,7 +30,10 @@
   text-decoration: none;
   color:#48BF91;
 }
-
+.expense-table td button {
+  border: none;
+  background: none;
+}
 .payment-table {
   table-layout: fixed;
   width: 100%;
@@ -46,6 +49,10 @@
   border-bottom: 1px solid #cccccc;
   font-weight: lighter;
   width: auto;
+}
+.payment-table td button{
+  border: none;
+  background: none;
 }
 
 .payment-table a {
