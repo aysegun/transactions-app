@@ -60,7 +60,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @transactions.each do |transaction| %>
+            <% @transactions.sort_by(&:date).reverse.each do |transaction| %>
               <% if transaction.transaction_type == 'expense' %>
                 <tr>
                   <td><%= transaction.date.strftime('%b %d, %Y') %></td>
@@ -98,7 +98,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @transactions.each do |transaction| %>
+              <% @transactions.sort_by(&:date).reverse.each do |transaction| %>
                 <% if transaction.transaction_type == 'payment' %>
                   <tr>
                     <td><%= transaction.date.strftime('%b %d, %Y') %></td>
