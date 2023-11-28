@@ -19,28 +19,23 @@
       </div>
     </div>
 
-
     <div class="calculation-container mt-5">
-      <table>
-        <thead>
-          <tr>
-            <th>Total Expenses <i class="fa-regular fa-paper-plane"></i></th>
-            <th>Total Payments <i class="fa-solid fa-arrow-down"></i></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= @expenses.sum(:amount) %> <i class="fa-solid fa-turkish-lira-sign fa-xs"></td>
-            <td><%= @payments.sum(:amount) %> <i class="fa-solid fa-turkish-lira-sign fa-xs"></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="expense-card">
+        <p>Total Expenses <i class="fa-regular fa-paper-plane"></i></p>
+        <p><%= @expenses.sum(:amount) %> <i class="fa-solid fa-turkish-lira-sign fa-xs"></i></p>
+      </div>
+      <div class="payment-card">
+        <p>Total Payments <i class="fa-solid fa-arrow-down"></i></p>
+        <p><%= @payments.sum(:amount) %> <i class="fa-solid fa-turkish-lira-sign fa-xs"></i></p>
+      </div>
     </div>
+
     <div class="button-group mt-5 mb-5">
       <%= link_to "", clients_path, class:"fa-solid fa-arrow-left btn btn-primary " %>
       <%= button_to "", @client, method: :delete, data: {turbo_confirm: "Are you sure you want to delete this client?"}, class:"fa-solid fa-ban btn btn-danger" %>
       <%= link_to "", edit_client_path,  class: "fa-solid fa-user-pen btn btn-warning " %>
     </div>
+
     <div class="button-t">
       <%= link_to "Create Transaction", new_client_transaction_path(@client) %>
     </div>
