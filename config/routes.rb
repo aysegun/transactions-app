@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :clients do
     resources :transactions
-    resources :cases
+    resources :cases do
+      resources :collections
+    end
   end
   root 'clients#new'
 end
