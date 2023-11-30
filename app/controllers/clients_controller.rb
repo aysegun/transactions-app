@@ -20,6 +20,7 @@ class ClientsController < ApplicationController
     @transactions = @client.transactions
     @expenses = @transactions.where(transaction_type: 'expense')
     @payments = @transactions.where(transaction_type: 'payment')
+    @collections = @client.cases.flat_map(&:collections)
   end
 
   def create

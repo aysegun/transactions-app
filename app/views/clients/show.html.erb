@@ -116,6 +116,29 @@
           </table>
         </div>
       </div>
+      <div class="mt-5">
+        <p style="font-weight: bold">Collections</p>
+        <div class="collection-table mt-3">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Amount <i class="fa-solid fa-turkish-lira-sign fa-xs"></th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @collections.each do |collection| %>
+                <tr>
+                  <td><%= collection.date.strftime('%b %d, %Y') if collection.date %></td>
+                  <td><%= collection.amount %></td>
+                  <td><%= collection.description %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

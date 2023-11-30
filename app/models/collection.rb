@@ -1,6 +1,6 @@
 class Collection < ApplicationRecord
   belongs_to :case
 
-  validates :amount, presense: true
-  validates :description, presense: true
+  validates :amount, presence: true
+  validates :description, presence: true
 end
