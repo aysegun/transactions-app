@@ -53,8 +53,7 @@
               <th>Amount <i class="fa-solid fa-turkish-lira-sign fa-xs"></th>
               <th>Type</th>
               <th>Description</th>
-              <th>Court</th>
-              <th>Court Number</th>
+              <th>Case Info</th>
               <th>Actions</th>
               <th></th>
             </tr>
@@ -69,8 +68,7 @@
                   <td><%= transaction.description %></td>
                   <% transaction.transaction_cases.each do |transaction_case| %>
                     <% case_record = transaction_case.case %>
-                    <td><%= case_record&.court %></td>
-                    <td><%= case_record&.court_number %></td>
+                    <td><%= case_record&.court %> - <%= case_record&.court_number %></td>
                   <% end %>
 
                   <td><%= button_to "", client_transaction_path(@client, transaction), class: "fa-regular fa-trash-can",
