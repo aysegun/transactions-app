@@ -1,0 +1,29 @@
+<div class="wrapper-collection">
+  <div class="wrapper">
+    <div class="header-collection">
+      <h3>New Collection</h3>
+    </div>
+    <div class="form-collection">
+      <%= form_with(model: [@case, @collection],local: true, url: client_case_collections_path(@case.client, @case)) do |form| %>
+        <div class="field mt-3">
+          <%= form.label :amount %>
+          <%= form.text_field :amount, class: 'form-control' %>
+        </div>
+
+        <div class="field mt-3">
+          <%= form.label :description %>
+          <%= form.text_area :description %>
+        </div>
+
+        <div class="field mt-3">
+          <%= form.label :date %>
+          <%= form.date_field :date %>
+        </div>
+
+        <div class="submit-button mt-3">
+          <%= form.submit 'Create Collection' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
