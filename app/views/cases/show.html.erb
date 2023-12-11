@@ -25,4 +25,5 @@
 </div>
 
 
-<%= link_to "Create Collection", new_client_case_collection_path(case_id: @case.id)  %>
+<p><%= link_to "Create Collection", new_client_case_collection_path(case_id: @case.id)  %></p>
+<p><%= link_to "Back to Client", client_path(@case.client) %></p>
