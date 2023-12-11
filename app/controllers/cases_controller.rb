@@ -14,6 +14,11 @@ class CasesController < ApplicationController
     end
   end
 
+  def show
+    @case = Case.find(params[:id])
+    @collections = @case.collections
+  end
+
   def edit
     @case = Case.find(params[:id])
   end

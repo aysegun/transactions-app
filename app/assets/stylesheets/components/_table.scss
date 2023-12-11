@@ -16,6 +16,7 @@
   text-decoration: none;
   color:#48BF91;
 }
+
 .expense-table .case-link a {
   color: black;
   font-weight: bolder;
@@ -24,18 +25,22 @@
   padding: 2px;
   background-color: #96B6C5;
 }
+
 .expense-table .case-link a:hover {
   color: white;
   background-color: #2E8BC0;
 }
+
 .expense-table td button {
   border: none;
   background: none;
 }
+
 .payment-table {
   table-layout: fixed;
   width: 100%;
 }
+
 .payment-table th {
   padding: 7px;
   border-bottom: 1px solid black;
@@ -48,6 +53,7 @@
   font-weight: lighter;
   width: auto;
 }
+
 .payment-table td button{
   border: none;
   background: none;
