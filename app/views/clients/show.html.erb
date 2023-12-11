@@ -68,7 +68,7 @@
                   <td><%= transaction.description %></td>
                   <% transaction.transaction_cases.each do |transaction_case| %>
                     <% case_record = transaction_case.case %>
-                    <td><%= case_record&.court %> - <%= case_record&.court_number %></td>
+                    <td><%= link_to "#{case_record&.court}- #{case_record&.court_number}", client_case_path(@client) %></td>
                   <% end %>
 
                   <td><%= button_to "", client_transaction_path(@client, transaction), class: "fa-regular fa-trash-can",
