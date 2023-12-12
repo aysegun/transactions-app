@@ -16,13 +16,7 @@ class Transaction < ApplicationRecord
 
   def associate_case_if_expense
     if expense?
-      case_record = cases.build(
-        court: court,
-        court_number: court_number,
-        client: client
-      )
-      case_record.save
-      transaction_cases.create(case: case_record)
+      transaction_cases.create(case: Case.find_or_create_by(court: court, court_number: court_number, client: client))
     end
   end
 end
