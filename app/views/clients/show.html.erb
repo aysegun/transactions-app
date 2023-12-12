@@ -5,7 +5,7 @@
       <%= Date.today %> <i class="fa-regular fa-calendar-days"></i>
     </div>
 
-    <div class="<%=(@payments.sum(:amount) - @expenses.sum(:amount)).negative? ? 'neg-show-card-container' : 'pos-show-card-container' %>">
+    <div class="<%=(@payments.sum(:amount) - @expenses.sum(:amount)).negative? ? 'neg-show-card-container' : (@payments.sum(:amount) - @expenses.sum(:amount)).zero? ? 'zero-show-card-container' : 'pos-show-card-container' %>">
       <div class=" show-card-info">
         <p class="info-line-one"><%= @client.first_name %> <%= @client.last_name %></p>
         <p class="info-line-two"> 4756 .... .... 0098</p>

@@ -41,7 +41,7 @@
 .pos-show-card-container {
   width: 220px;
   height: 150px;
-  background-color: #eeeac4;
+  background-color: #a9c3b6;
   border-radius: 5px;
   margin:auto;
   margin-top: 50px;
@@ -53,7 +53,15 @@
   background-color: #bd4545;
   border-radius: 5px;
   margin: auto;
-  margin-top: 50px;;
+  margin-top: 50px;
+}
+.zero-show-card-container {
+  width: 220px;
+  height: 150px;
+  background-color: #eeeac4;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .neg-show-card-container p {
@@ -62,6 +70,9 @@
 
 .pos-show-card-container p {
   margin-left:20px;
+}
+.zero-show-card-container p {
+  margin-left: 20px;
 }
 
 .show-card-detail {
