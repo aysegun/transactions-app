@@ -42,6 +42,12 @@ class TransactionsController < ApplicationController
     redirect_to client_path(@client), status: :see_other
   end
 
+  def case_options
+    transaction_type = params[:transaction_type]
+    cases = Case.where(transaction_type: transaction_type)
+    render partial: 'case_options', locals: { cases: cases }
+  end
+
   private
 
   def set_client
