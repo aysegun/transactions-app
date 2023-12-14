@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :set_client, only: %i[new create]
+  before_action :set_client, only: %i[new create case_options]
 
   def create
     @transaction = @client.transactions.build(transaction_params)
@@ -44,7 +44,7 @@ class TransactionsController < ApplicationController
 
   def case_options
     transaction_type = params[:transaction_type]
-    cases = Case.where(transaction_type: transaction_type)
+    cases = @client.cases.where(transaction_type: transaction_type)
     render partial: 'case_options', locals: { cases: cases }
   end
 

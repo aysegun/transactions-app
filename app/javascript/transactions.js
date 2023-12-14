@@ -1,13 +1,13 @@
 
 document.addEventListener('turbolinks:load', function() {
-  const transactionType = document.getElementById('transaction_transaction_type');
+  const transactionTypeSelect = document.getElementById('transaction_transaction_type');
   const caseDropdown = document.getElementById('transaction_case_id');
 
-  if (transactionType) {
-    transactionType.addEventListener('change', function() {
-      const selectedType = transactionType.value;
+  if (transactionTypeSelect) {
+    const updateCaseOptions = function() {
+      const selectedType = transactionTypeSelect.value;
 
-      fetch('/shared/case_options?transaction_type=' + selectedType)
+      fetch(`/shared/case_options?transaction_type=${selectedType}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -20,6 +20,12 @@ document.addEventListener('turbolinks:load', function() {
         .catch(error => {
           console.error('Fetch error:', error);
         });
+    };
+
+    transactionTypeSelect.addEventListener('change', updateCaseOptions);
+
+    document.addEventListener('turbolinks:before-cache', function() {
+      transactionTypeSelect.removeEventListener('change', updateCaseOptions);
     });
   }
 });
