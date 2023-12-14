@@ -1,7 +1,7 @@
 class Transaction < ApplicationRecord
   belongs_to :client
   has_many :transaction_cases, dependent: :destroy
-  has_many :cases, through: :transaction_cases, dependent: :destroy
+  has_many :cases, through: :transaction_cases
 
   validates :amount, presence: true
   validates :transaction_type, presence: true
