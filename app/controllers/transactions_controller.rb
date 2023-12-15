@@ -56,7 +56,7 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     base_params = %i[amount date transaction_type description court court_number]
-    params.require(:transaction).permit(*base_params)
+    params.require(:transaction).permit(*base_params, transaction_cases_attributes: [:case_id])
   end
 
   def create_case_for_expense_transaction(transaction)
