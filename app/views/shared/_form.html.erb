@@ -12,7 +12,7 @@
 
     <div class="field mt-3" id="case_info_field" style="display: none;">
       <%= form.label :case_info %>
-      <%= form.collection_select :case_id, Case.all, :id, :court, { prompt: 'Select case info' } %>
+      <%= form.collection_select :case_id, @client.cases.all, :id, :court, { prompt: 'Select case info' } %>
     </div>
 
     <div class="field mt-3">
