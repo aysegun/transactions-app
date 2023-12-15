@@ -47,16 +47,17 @@
   const courtNumberField = document.getElementById('court_number_field');
   const caseInfoField = document.getElementById('case_info_field');
 
-  transactionTypeSelect.addEventListener('change', function() {
+  function toggleFields() {
     const selectedValue = transactionTypeSelect.value;
-    if (selectedValue === 'expense') {
-      courtField.style.display = 'block';
-      courtNumberField.style.display = 'block';
-      caseInfoField.style.display = 'block';
-    } else {
-      courtField.style.display = 'none';
-      courtNumberField.style.display = 'none';
-      caseInfoField.style.display = 'none';
-    }
-  });
+
+    caseInfoField.style.display = selectedValue === 'expense' ? 'block' : 'none';
+
+    const isExpenseAndNewCase = selectedValue === 'expense' && form.case_id.value === '';
+    courtField.style.display = isExpenseAndNewCase ? 'block' : 'none';
+    courtNumberField.style.display = isExpenseAndNewCase ? 'block' : 'none';
+  }
+
+  toggleFields();
+
+  transactionTypeSelect.addEventListener('change', toggleFields);
 </script>
