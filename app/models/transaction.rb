@@ -15,8 +15,16 @@ class Transaction < ApplicationRecord
   private
 
   def associate_case_if_expense
-    if expense?
-      transaction_cases.create(case: Case.find_or_create_by(court: court, court_number: court_number, client: client))
+    return unless expense?
+
+    last_transaction_case = transaction_cases.last
+    selected_case_id = last_transaction_case&.case_id
+
+    if selected_case_id.present?
+      transaction_cases.create(case: Case.find(selected_case_id))
+    else
+      new_case = Case.find_or_create_by(court: court, court_number: court_number, client: client)
+      transaction_cases.create(case: new_case)
     end
   end
 end

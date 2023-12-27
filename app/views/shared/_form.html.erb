@@ -45,28 +45,30 @@
   <% end %>
 </div>
 
+
 <script>
-  const form = document.querySelector('form');
-  const transactionTypeSelect = document.getElementById('transaction_transaction_type');
-  const courtField = document.getElementById('court_field');
-  const courtNumberField = document.getElementById('court_number_field');
-  const caseInfoField = document.getElementById('case_info_field');
-  const caseIdSelect = document.getElementById('transaction_case_id');
-  const newCaseOption = 'new_case';
+    //const form = document.querySelector('form');
+    const transactionTypeSelect = document.getElementById('transaction_transaction_type');
+    const courtField = document.getElementById('court_field');
+    const courtNumberField = document.getElementById('court_number_field');
+    const caseInfoField = document.getElementById('case_info_field');
+    const caseIdSelect = document.getElementById('transaction_case_id');
+    const newCaseOption = 'new_case';
 
-  function toggleFields() {
-    const selectedValue = transactionTypeSelect.value;
-    const selectedCaseId = caseIdSelect.value;
+    function toggleFields() {
+      const selectedValue = transactionTypeSelect.value;
+      const selectedCaseId = caseIdSelect.value;
 
-    caseInfoField.style.display = selectedValue === 'expense' ? 'block' : 'none';
+      caseInfoField.style.display = selectedValue === 'expense' ? 'block' : 'none';
 
-    const isExpenseAndNewCase = selectedValue === 'expense' && selectedCaseId === newCaseOption;
-    courtField.style.display = isExpenseAndNewCase ? 'block' : 'none';
-    courtNumberField.style.display = isExpenseAndNewCase ? 'block' : 'none';
-  }
+      const isExpenseAndNewCase = selectedValue === 'expense' && selectedCaseId === newCaseOption;
+      courtField.style.display = isExpenseAndNewCase ? 'block' : 'none';
+      courtNumberField.style.display = isExpenseAndNewCase ? 'block' : 'none';
+    }
 
-  toggleFields();
+    toggleFields();
 
-  caseIdSelect.addEventListener('change', toggleFields);
-  transactionTypeSelect.addEventListener('change', toggleFields);
+    caseIdSelect.addEventListener('change', toggleFields);
+
+    transactionTypeSelect.addEventListener('change', toggleFields);
 </script>

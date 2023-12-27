@@ -4,7 +4,8 @@ class TransactionsController < ApplicationController
   def create
     @transaction = @client.transactions.build(transaction_params)
     if @transaction.save
-      'create_case_for_expense_transaction(@transaction)' if @transaction.expense?
+      create_case_for_expense_transaction(@transaction) if @transaction.expense?
+
       redirect_to client_path(@client)
     else
       render 'new', status: :unprocessable_entity
@@ -61,15 +62,14 @@ class TransactionsController < ApplicationController
 
   def create_case_for_expense_transaction(transaction)
     existing_case = @client.cases.find_by(court: transaction.court, court_number: transaction.court_number)
-
     if existing_case
-      transaction.transaction_cases.create(related_transaction: @transaction, case: existing_case)
+      transaction.transaction_cases.create(related_transaction: transaction, case: existing_case)
     else
       new_case = @client.cases.create(
         court: transaction.court,
         court_number: transaction.court_number
       )
-      transaction.transaction_cases.create(related_transaction: @transaction, case: new_case)
+      transaction.transaction_cases.create(related_transaction: transaction, case: new_case)
     end
   end
 end

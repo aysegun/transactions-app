@@ -3,14 +3,14 @@ document.addEventListener('turbolinks:load', function() {
   const transactionTypeSelect = document.getElementById('transaction_transaction_type');
   const caseDropdown = document.getElementById('transaction_case_id');
 
-  if (transactionTypeSelect) {
+  if (transactionTypeSelect && caseDropdown) {
     const updateCaseOptions = function() {
       const selectedType = transactionTypeSelect.value;
 
       fetch(`/shared/case_options?transaction_type=${selectedType}`)
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`HTTP error! Status: ${response.status}`);
           }
           return response.text();
         })
