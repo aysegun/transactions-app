@@ -4,10 +4,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   resources :clients do
-    resources :transactions
+    resources :transactions do
+      member do
+        get 'case_options'
+      end
+    end
     resources :cases do
       resources :collections
     end
   end
+
   root 'clients#new'
 end

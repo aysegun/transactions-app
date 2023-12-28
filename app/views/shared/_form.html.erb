@@ -1,5 +1,5 @@
 <div class="form-transaction">
-  <%= form_with(model: [@client, @transaction], local: true) do |form| %>
+  <%= form_with(model: [@client, @transaction], remote: true) do |form| %>
     <div class="field mt-3">
       <%= form.label :amount %>
       <%= form.text_field :amount %>

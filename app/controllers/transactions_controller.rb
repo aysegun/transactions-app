@@ -12,6 +12,24 @@ class TransactionsController < ApplicationController
     end
   end
 
+  # def create
+  #   @transaction = @client.transactions.build(transaction_params)
+  #   @selected_case_id = params[:case_id]
+
+  #   respond_to do |format|
+  #     if @transaction.save
+  #       # debugger
+  #       associate_case_if_expense if @transaction.expense?
+
+  #       format.html { redirect_to client_path(@client) }
+  #       format.json { render json: { success: true, redirect_path: client_path(@client) } }
+  #     else
+  #       format.html { render 'new', status: :unprocessable_entity }
+  #       format.json { render json: { errors: @transaction.errors.full_messages }, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
   def new
     @transaction = @client.transactions.build
   end
@@ -43,10 +61,20 @@ class TransactionsController < ApplicationController
     redirect_to client_path(@client), status: :see_other
   end
 
+  # def case_options
+  #   transaction_type = params[:transaction_type]
+  #   cases = @client.cases.where(transaction_type: transaction_type)
+  #   render partial: 'case_options', locals: { cases: cases }
+  # end
+
   def case_options
-    transaction_type = params[:transaction_type]
+    transaction_type = request.headers['X-Transaction-Type']
     cases = @client.cases.where(transaction_type: transaction_type)
-    render partial: 'case_options', locals: { cases: cases }
+
+    respond_to do |format|
+      format.html { render partial: 'case_options', locals: { cases: cases } }
+      format.json { render json: { cases: cases } }
+    end
   end
 
   private
