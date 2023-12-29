@@ -1,5 +1,5 @@
-<div class="form-transaction">
-  <%= form_with(model: [@client, @transaction], remote: true) do |form| %>
+<div class="form-transaction" data-controller="transaction-form">
+  <%= form_with(model: [@client, @transaction], remote: true, data: { action: 'ajax:success->transaction-form#updateFields' }) do |form| %>
     <div class="field mt-3">
       <%= form.label :amount %>
       <%= form.text_field :amount %>
@@ -7,7 +7,7 @@
 
     <div class="field mt-3">
       <%= form.label :transaction_type %>
-      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type' %>
+      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type', data: { target: 'transaction-form.transactionType' }%>
     </div>
 
     <div class="field mt-3" id="case_info_field" style="display: none;">
@@ -44,31 +44,3 @@
     </div>
   <% end %>
 </div>
-
-
-<script>
-    //const form = document.querySelector('form');
-    const transactionTypeSelect = document.getElementById('transaction_transaction_type');
-    const courtField = document.getElementById('court_field');
-    const courtNumberField = document.getElementById('court_number_field');
-    const caseInfoField = document.getElementById('case_info_field');
-    const caseIdSelect = document.getElementById('transaction_case_id');
-    const newCaseOption = 'new_case';
-
-    function toggleFields() {
-      const selectedValue = transactionTypeSelect.value;
-      const selectedCaseId = caseIdSelect.value;
-
-      caseInfoField.style.display = selectedValue === 'expense' ? 'block' : 'none';
-
-      const isExpenseAndNewCase = selectedValue === 'expense' && selectedCaseId === newCaseOption;
-      courtField.style.display = isExpenseAndNewCase ? 'block' : 'none';
-      courtNumberField.style.display = isExpenseAndNewCase ? 'block' : 'none';
-    }
-
-    toggleFields();
-
-    caseIdSelect.addEventListener('change', toggleFields);
-
-    transactionTypeSelect.addEventListener('change', toggleFields);
-</script>
