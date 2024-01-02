@@ -1,11 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="transaction-form"
 export default class extends Controller {
-  static targets = ['caseInfoField', 'courtField', 'courtNumberField'];
+  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionType'];
+  connect() {
+    console.log(`controller connected`)
+  }
 
-  updateFields(event) {
-    const transactionType = event.target.value;
+  updateFields() {
+    const transactionType = this.transactionTypeTarget.value;
     this.toggleFieldsVisibility(transactionType === 'expense');
   }
 
@@ -14,4 +16,9 @@ export default class extends Controller {
     this.courtFieldTarget.style.display = isExpense ? 'block' : 'none';
     this.courtNumberFieldTarget.style.display = isExpense ? 'block' : 'none';
   }
+
+  transactionTypeChanged() {
+    this.updateFields();
+  }
+
 }

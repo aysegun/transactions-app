@@ -1,14 +1,10 @@
 class TransactionsController < ApplicationController
   before_action :set_client, only: %i[new create case_options]
 
-  respond_to :html, :turbo_stream
-
   def create
     @transaction = @client.transactions.build(transaction_params)
 
     if @transaction.save
-      create_case_for_expense_transaction(@transaction) if @transaction.expense?
-
       respond_to do |format|
         format.turbo_stream { redirect_to client_path(@client) }
         format.html { redirect_to client_path(@client) }
@@ -61,20 +57,5 @@ class TransactionsController < ApplicationController
   def transaction_params
     base_params = %i[amount date transaction_type description court court_number]
     params.require(:transaction).permit(*base_params, transaction_cases_attributes: [:case_id])
-  end
-
-  def create_case_for_expense_transaction(transaction)
-    existing_case = @client.cases.find_by(court: transaction.court, court_number: transaction.court_number)
-    if existing_case
-      unless transaction.transaction_cases.exists?(case: existing_case)
-        transaction.transaction_cases.create(related_transaction: transaction, case: existing_case)
-      end
-    else
-      new_case = @client.cases.create(
-        court: transaction.court,
-        court_number: transaction.court_number
-      )
-      transaction.transaction_cases.create(related_transaction: transaction, case: new_case)
-    end
   end
 end

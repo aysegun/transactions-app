@@ -1,5 +1,5 @@
-<div class="form-transaction" data-controller="transaction-form">
-  <%= form_with(model: [@client, @transaction], remote: true, data: { action: 'ajax:success->transaction-form#updateFields' }) do |form| %>
+<div class="form-transaction" data-controller="transaction-form" data-action="change->transaction-form#transactionTypeChanged">
+  <%= form_with(model: [@client, @transaction], remote: true) do |form| %>
     <div class="field mt-3">
       <%= form.label :amount %>
       <%= form.text_field :amount %>
@@ -7,11 +7,12 @@
 
     <div class="field mt-3">
       <%= form.label :transaction_type %>
-      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type', data: { target: 'transaction-form.transactionType' }%>
+      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type', data: { target: 'transaction-form.transactionType',  action: 'change->transaction-form#transactionTypeChanged'}%>
     </div>
 
-
-    <%= render 'transactions/case_options', form: form %>
+    <div class="field mt-3" data-target="transaction-form.caseOptions" data-action="change->transaction-form#caseOptionsChanged">
+      <%= render 'shared/case_options', form: form %>
+    </div>
 
     <div class="field mt-3">
       <%= form.label :description %>
@@ -23,12 +24,12 @@
       <%= form.date_field :date %>
     </div>
 
-    <div class="field mt-3" id="court_field" style="display: none;">
+    <div class="field mt-3" id="court_field"  data-target="transaction-form.courtField">
       <%= form.label :court %>
       <%= form.text_field :court %>
     </div>
 
-    <div class="field mt-3" id="court_number_field" style="display: none;">
+    <div class="field mt-3" id="court_number_field" data-target="transaction-form.courtNumberField">
       <%= form.label :court_number %>
       <%= form.text_field :court_number %>
     </div>
