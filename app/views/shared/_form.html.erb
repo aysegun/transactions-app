@@ -5,12 +5,12 @@
       <%= form.text_field :amount %>
     </div>
 
-    <div class="field mt-3">
+    <div class="field mt-3" data-transaction-form-target="transactionType">
       <%= form.label :transaction_type %>
-      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type', data: { target: 'transaction-form.transactionType',  action: 'change->transaction-form#transactionTypeChanged'}%>
+      <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type', data: { target: 'transaction-form.transactionType' }%>
     </div>
 
-    <div class="field mt-3" data-target="transaction-form.caseOptions" data-action="change->transaction-form#caseOptionsChanged">
+    <div class="field mt-3" data-transaction-form-target="caseInfoField" data-action="change->transaction-form#caseOptionsChanged">
       <%= render 'shared/case_options', form: form %>
     </div>
 
@@ -24,12 +24,12 @@
       <%= form.date_field :date %>
     </div>
 
-    <div class="field mt-3" id="court_field"  data-target="transaction-form.courtField">
+    <div class="field mt-3" id="court_field"  data-transaction-form-target="courtField">
       <%= form.label :court %>
       <%= form.text_field :court %>
     </div>
 
-    <div class="field mt-3" id="court_number_field" data-target="transaction-form.courtNumberField">
+    <div class="field mt-3" id="court_number_field" data-transaction-form-target="courtNumberField">
       <%= form.label :court_number %>
       <%= form.text_field :court_number %>
     </div>

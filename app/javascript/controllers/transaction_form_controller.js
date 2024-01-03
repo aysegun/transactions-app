@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionType'];
   connect() {
     console.log(`controller connected`)
+    this.updateFields();
   }
 
   updateFields() {
