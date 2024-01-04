@@ -1,14 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionType'];
+  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField'];
 
   connect() {
+    console.log('Connected to transaction-form controller');
+    console.log('Transaction type field target:', this.transactionTypeFieldTarget);
     this.updateFields();
   }
 
   updateFields() {
-    const transactionType = this.transactionTypeTarget.value;
+    const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
+    // const transactionType = this.transactionTypeFieldTarget.value;
     console.log('Transaction type changed:', transactionType);
     this.toggleFieldsVisibility(transactionType === 'expense');
   }
@@ -20,15 +23,14 @@ export default class extends Controller {
   }
 
   transactionTypeChanged() {
-    const transactionType = this.transactionTypeTarget.value;
+    const transactionType = this.transactionTypeFieldTarget.value;
     console.log('Transaction type changed event triggered!');
     this.updateFields();
   }
 
   caseOptionsChanged() {
-    const selectedType = this.transactionTypeTarget.value;
+    const selectedType = this.transactionTypeFieldTarget.value;
 
-    // Fetching case options
     fetch('/shared/case_options?transaction_type=' + selectedType)
       .then(response => {
         if (!response.ok) {
@@ -36,10 +38,11 @@ export default class extends Controller {
         }
         return response.text();
       })
+
       .then(data => {
-        // Assuming your caseDropdown is a target with an appropriate identifier
         this.caseInfoFieldTarget.innerHTML = data;
       })
+
       .catch(error => {
         console.error('Fetch error:', error);
       });

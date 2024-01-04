@@ -5,7 +5,7 @@
       <%= form.text_field :amount %>
     </div>
 
-    <div class="field mt-3" data-transaction-form-target="transactionType" data-action="change->transaction-form#transactionTypeChanged" >
+    <div class="field mt-3" data-action="change->transaction-form#transactionTypeChanged" data-transaction-form-target="transactionTypeField" >
       <%= form.label :transaction_type %>
       <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type' %>
     </div>
