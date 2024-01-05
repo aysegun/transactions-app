@@ -1,4 +1,4 @@
-<div class="form-transaction" data-controller="transaction-form" >
+<div class="form-transaction" data-controller="transaction-form" data-client-id="<%= @client.id %>" >
   <%= form_with(model: [@client, @transaction], remote: true) do |form| %>
     <div class="field mt-3">
       <%= form.label :amount %>
@@ -10,7 +10,7 @@
       <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type' %>
     </div>
 
-    <div class="field mt-3" data-transaction-form-target="caseInfoField" data-action="change->transaction-form#caseOptionsChanged">
+    <div class="field mt-3" data-transaction-form-target="caseInfoField" >
       <%= render 'shared/case_options', form: form %>
     </div>
 

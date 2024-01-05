@@ -2,4 +2,4 @@
   <%= form.label :case_info %>
     <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
     <% cases_options << ['New Case', 'new_case'] %>
-  <%= form.collection_select :case_id, cases_options, :last, :first, { prompt: 'Select case info' } %>
+  <%= form.collection_select :case_id, cases_options, :last, :first, { prompt: 'Select case info' }, data: { action: "change->transaction-form#caseOptionsChanged" } %>
