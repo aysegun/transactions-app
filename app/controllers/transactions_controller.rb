@@ -48,6 +48,11 @@ class TransactionsController < ApplicationController
     redirect_to client_path(@client), status: :see_other
   end
 
+  def case_options
+    @cases = @client.cases.where(transaction_type: params[:transaction_type])
+    render partial: 'shared/case_options', locals: { cases: @cases }
+  end
+
   private
 
   def set_client
