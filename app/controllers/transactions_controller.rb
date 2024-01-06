@@ -49,8 +49,8 @@ class TransactionsController < ApplicationController
   end
 
   def case_options
-    @cases = @client.cases.where(transaction_type: params[:transaction_type])
-    render partial: 'shared/case_options', locals: { cases: @cases }
+    @cases = @client.cases.where(transaction_type: params[:transaction_type]).to_a
+    render partial: 'shared/case_options', locals: { form: @form, cases: @cases }
   end
 
   private

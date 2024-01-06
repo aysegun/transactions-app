@@ -1,57 +1,55 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField'];
+  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField', 'caseIdField'];
 
   connect() {
     console.log('Connected to transaction-form controller');
     console.log('Transaction type field target:', this.transactionTypeFieldTarget);
+    console.log('Case ID field target:', this.caseIdFieldTarget);
     this.updateFields();
   }
 
   updateFields() {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     // const transactionType = this.transactionTypeFieldTarget.value;
+    const caseId = this.caseIdFieldTarget.value;
     console.log('Transaction type changed:', transactionType);
-    this.toggleFieldsVisibility(transactionType === 'expense');
+    console.log('Case ID changed:', caseId);
+    this.toggleFieldsVisibility(transactionType, caseId);
   }
 
-  toggleFieldsVisibility(isExpense) {
+  toggleFieldsVisibility(transactionType, caseId) {
+    const isExpense = transactionType === 'expense';
+    const isNewCase = caseId === 'new_case';
+
     this.caseInfoFieldTarget.style.display = isExpense ? 'block' : 'none';
-    this.courtFieldTarget.style.display = isExpense ? 'block' : 'none';
-    this.courtNumberFieldTarget.style.display = isExpense ? 'block' : 'none';
+    this.courtFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
+    this.courtNumberFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
   }
 
   transactionTypeChanged() {
-    const transactionType = this.transactionTypeFieldTarget.value;
+    // const transactionType = this.transactionTypeFieldTarget.value;
     console.log('Transaction type changed event triggered!');
     this.updateFields();
   }
 
   caseOptionsChanged() {
-    console.log('Inside caseOptionsChanged');
+    this.fetchCaseOptions();
+  }
+
+  fetchCaseOptions() {
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
-    // const selectedType = this.transactionTypeFieldTarget.value;
     const clientId = this.element.dataset.clientId;
-    console.log('Selected Type:', selectedType);
-    console.log('Client ID:', clientId);
 
-    if(clientId) {
-
+    if (clientId) {
       fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}`)
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(`Network response was not ok (${response.status}: ${response.statusText})`);
-          }
-          return response.json();
-      })
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
           this.caseInfoFieldTarget.innerHTML = data.options_html;
           this.captureSelectedCaseId();
-      })
-      .catch(error => {
-          console.error(`Fetch error:`, error.message);
-      });
+        })
+        .catch(error => console.error('Fetch error:', error.message));
     }
   }
 
