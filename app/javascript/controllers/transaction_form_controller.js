@@ -13,7 +13,9 @@ export default class extends Controller {
   updateFields() {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     // const transactionType = this.transactionTypeFieldTarget.value;
-    const caseId = this.caseIdFieldTarget.value;
+    const caseDropdown = this.caseIdFieldTarget.querySelector('select');
+    const caseId = caseDropdown ? caseDropdown.value : null;
+    // const caseId = this.caseIdFieldTarget.value;
     console.log('Transaction type changed:', transactionType);
     console.log('Case ID changed:', caseId);
     this.toggleFieldsVisibility(transactionType, caseId);
@@ -22,7 +24,8 @@ export default class extends Controller {
   toggleFieldsVisibility(transactionType, caseId) {
     const isExpense = transactionType === 'expense';
     const isNewCase = caseId === 'new_case';
-
+    console.log('isExpense:', isExpense);
+    console.log('isNewCase:', isNewCase);
     this.caseInfoFieldTarget.style.display = isExpense ? 'block' : 'none';
     this.courtFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
     this.courtNumberFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
@@ -59,6 +62,7 @@ export default class extends Controller {
     if (caseDropdown) {
         const selectedCaseId = caseDropdown.value;
         console.log('Selected Case ID:', selectedCaseId);
+        this.updateFields();
     }
   }
 

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :clients do
     resources :transactions do
       member do
-        get 'case_options'
+        get 'case_options', to: 'transactions#case_options'
       end
     end
     resources :cases do
