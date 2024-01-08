@@ -7,17 +7,18 @@ export default class extends Controller {
     console.log('Connected to transaction-form controller');
     console.log('Transaction type field target:', this.transactionTypeFieldTarget);
     console.log('Case ID field target:', this.caseIdFieldTarget);
+
     this.updateFields();
   }
 
   updateFields() {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
-    // const transactionType = this.transactionTypeFieldTarget.value;
     const caseDropdown = this.caseIdFieldTarget.querySelector('select');
     const caseId = caseDropdown ? caseDropdown.value : null;
-    // const caseId = this.caseIdFieldTarget.value;
+
     console.log('Transaction type changed:', transactionType);
     console.log('Case ID changed:', caseId);
+
     this.toggleFieldsVisibility(transactionType, caseId);
   }
 
@@ -26,13 +27,13 @@ export default class extends Controller {
     const isNewCase = caseId === 'new_case';
     console.log('isExpense:', isExpense);
     console.log('isNewCase:', isNewCase);
+
     this.caseInfoFieldTarget.style.display = isExpense ? 'block' : 'none';
     this.courtFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
     this.courtNumberFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
   }
 
   transactionTypeChanged() {
-    // const transactionType = this.transactionTypeFieldTarget.value;
     console.log('Transaction type changed event triggered!');
     this.updateFields();
   }
@@ -41,18 +42,22 @@ export default class extends Controller {
     this.fetchCaseOptions();
   }
 
-  fetchCaseOptions() {
+  async fetchCaseOptions() {
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
     const clientId = this.element.dataset.clientId;
+    console.log('Client ID:', clientId);
 
     if (clientId) {
-      fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}`)
-        .then(response => response.json())
-        .then(data => {
-          this.caseInfoFieldTarget.innerHTML = data.options_html;
-          this.captureSelectedCaseId();
-        })
-        .catch(error => console.error('Fetch error:', error.message));
+      try {
+        const response = await fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}`);
+        const data = await response.json();
+
+        this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', data.options_html);
+        this.captureSelectedCaseId();
+
+      } catch (error) {
+        console.error('Fetch error:', error.message);
+      }
     }
   }
 

@@ -1,5 +1,4 @@
-
-  <%= form.label :case_info %>
-    <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
-    <% cases_options << ['New Case', 'new_case'] %>
-  <%= form.collection_select :case_id, cases_options, :last, :first, { prompt: 'Select case info or create new case' }, data: { action: "change->transaction-form#caseOptionsChanged", target: "transaction-form.caseIdField" }  %>
+<%= label_tag :case_info %>
+  <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
+  <% cases_options << ['New Case', 'new_case'] %>
+<%= select_tag 'transaction[case_id]', options_for_select(cases_options), prompt: 'Select case info or create new case', data: { action: "change->transaction-form#caseOptionsChanged", target: "transaction-form.caseIdField" } %>
