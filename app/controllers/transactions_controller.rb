@@ -48,19 +48,6 @@ class TransactionsController < ApplicationController
     redirect_to client_path(@client), status: :see_other
   end
 
-  # def case_options
-  #   puts "Received case_options request."
-  #   @cases = @client.cases.where(transaction_type: params[:transaction_type]).to_a
-  #   render json: { options_html: render_to_string(partial: 'shared/case_options', locals: { form: @form, cases: @cases }) }
-  # end
-  # def case_options
-  #   selected_type = params[:transaction_type]
-  #   client_id = params[:client_id]
-
-  #   data = { options_html: render_to_string(partial: 'shared/case_options', locals: { cases: Case.where(client_id: client_id) }) }
-
-  #   render json: data
-  # end
   def case_options
     selected_type = params[:transaction_type]
     client_id = params[:client_id]
@@ -73,6 +60,24 @@ class TransactionsController < ApplicationController
       format.json { render json: { options_html: render_to_string(partial: 'shared/case_options', locals: { cases: @cases }) } }
     end
   end
+  # def case_options
+  #   selected_type = params[:transaction_type]
+  #   client_id = params[:client_id]
+
+  #   begin
+  #     @cases = Case.where(client_id: client_id)
+  #     options_html = render_to_string(partial: 'shared/case_options', locals: { cases: @cases })
+
+  #     respond_to do |format|
+  #       format.turbo_stream do
+  #         render turbo_stream: turbo_stream.replace('case_options', partial: 'shared/case_options', locals: { cases: @cases })
+  #       end
+  #       format.json { render json: { options_html: options_html } }
+  #     end
+  #   rescue StandardError => e
+  #     render json: { error: e.message }, status: :unprocessable_entity
+  #   end
+  # end
 
   private
 

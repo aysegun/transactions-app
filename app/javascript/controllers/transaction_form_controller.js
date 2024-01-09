@@ -50,9 +50,11 @@ export default class extends Controller {
     if (clientId) {
       try {
         const response = await fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}`);
-        const data = await response.json();
+        const turboStreamContent = await response.text();
+        const htmlContent = new DOMParser().parseFromString(turboStreamContent, 'text/html');
+        const optionsHtml = htmlContent.querySelector('turbo-stream template').innerHTML;
 
-        this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', data.options_html);
+        this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', optionsHtml);
         this.captureSelectedCaseId();
 
       } catch (error) {
