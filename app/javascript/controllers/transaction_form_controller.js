@@ -14,12 +14,14 @@ export default class extends Controller {
   updateFields() {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     const caseDropdown = this.caseIdFieldTarget.querySelector('select');
+    console.log('Case Dropdown:', caseDropdown);
     const caseId = caseDropdown ? caseDropdown.value : null;
 
     console.log('Transaction type changed:', transactionType);
     console.log('Case ID changed:', caseId);
 
     this.toggleFieldsVisibility(transactionType, caseId);
+
   }
 
   toggleFieldsVisibility(transactionType, caseId) {
@@ -49,14 +51,17 @@ export default class extends Controller {
 
     if (clientId) {
       try {
-        const response = await fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}`);
+        const response = await fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}&timestamp=${Date.now()}`);
         const turboStreamContent = await response.text();
-        const htmlContent = new DOMParser().parseFromString(turboStreamContent, 'text/html');
-        const optionsHtml = htmlContent.querySelector('turbo-stream template').innerHTML;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(turboStreamContent, 'application/xml');
+        const optionsHtml = xmlDoc.querySelector('turbo-stream template').innerHTML;
 
         this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', optionsHtml);
-        this.captureSelectedCaseId();
 
+        setTimeout(() => {
+          this.captureSelectedCaseId();
+         }, 0);
       } catch (error) {
         console.error('Fetch error:', error.message);
       }
@@ -69,7 +74,10 @@ export default class extends Controller {
     if (caseDropdown) {
         const selectedCaseId = caseDropdown.value;
         console.log('Selected Case ID:', selectedCaseId);
-        this.updateFields();
+        // this.updateFields();
+        if (selectedCaseId !== null) {
+          this.updateFields();
+        }
     }
   }
 
