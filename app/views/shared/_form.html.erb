@@ -10,8 +10,11 @@
       <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type' %>
     </div>
 
-    <div class="field mt-3" data-transaction-form-target="caseInfoField" >
-      <%= render 'shared/case_options', form: form %>
+    <div class="field mt-3" data-transaction-form-target="caseInfoField">
+      <%= label_tag :case_info %>
+        <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
+        <% cases_options << ['New Case', 'new_case'] %>
+      <%= select_tag 'transaction[case_id]', options_for_select(cases_options), prompt: 'Select case info or create new case', data: { action: "change->transaction-form#caseOptionsChanged", 'transaction-form-target': 'caseIdField' } %>
     </div>
 
     <div class="field mt-3">

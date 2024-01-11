@@ -57,8 +57,8 @@ export default class extends Controller {
         const xmlDoc = parser.parseFromString(turboStreamContent, 'application/xml');
         const optionsHtml = xmlDoc.querySelector('turbo-stream template').innerHTML;
 
-        this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', optionsHtml);
-
+        // this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', optionsHtml);
+        this.caseInfoFieldTarget.innerHTML = optionsHtml;
         setTimeout(() => {
           this.captureSelectedCaseId();
          }, 0);
@@ -70,6 +70,7 @@ export default class extends Controller {
 
   captureSelectedCaseId() {
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
+    console.log('Case Dropdown:', caseDropdown);
 
     if (caseDropdown) {
         const selectedCaseId = caseDropdown.value;
