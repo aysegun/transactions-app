@@ -31,8 +31,8 @@ export default class extends Controller {
     console.log('isNewCase:', isNewCase);
 
     this.caseInfoFieldTarget.style.display = isExpense ? 'block' : 'none';
-    this.courtFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
-    this.courtNumberFieldTarget.style.display = isNewCase && isExpense ? 'block' : 'none';
+    this.courtFieldTarget.style.display = isNewCase ? 'block' : 'none';
+    this.courtNumberFieldTarget.style.display = isNewCase ? 'block' : 'none';
   }
 
   transactionTypeChanged() {
@@ -56,25 +56,26 @@ export default class extends Controller {
         if (!response.ok) {
           throw new Error(`Fetch error: ${response.statusText}`);
         }
-        const jsonData = await response.json();
-        // const turboStreamContent = await response.text();
-        // const parser = new DOMParser();
-        // const xmlDoc = parser.parseFromString(turboStreamContent, 'application/xml');
-        // const optionsHtml = xmlDoc.querySelector('turbo-stream template').innerHTML;
 
-        //this.caseInfoFieldTarget.insertAdjacentHTML('beforeend', optionsHtml);
-        this.caseInfoFieldTarget.innerHTML = '';
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
+          const turboStreamContent = await response.text();
+          TurboStreams.append(turboStreamContent);
+        } else {
+          const jsonData = await response.json();
+          this.caseInfoFieldTarget.innerHTML = '';
 
-        // this.captureSelectedCaseId();
-        for (const caseData of jsonData.cases) {
-          const option = document.createElement('option');
-          option.value = caseData.id;
-          option.text = caseData.court;
-          this.caseInfoFieldTarget.appendChild(option);
+          for (const caseData of jsonData.cases) {
+            const option = document.createElement('option');
+            option.value = caseData.id;
+            option.text = caseData.court;
+            this.caseInfoFieldTarget.appendChild(option);
+          }
         }
       } catch (error) {
-        console.error('Fetch error:', error.message);
-      }
+          console.error('Fetch error:', error.message );
+          this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
+    }
     }
   }
 
@@ -85,7 +86,6 @@ export default class extends Controller {
     if (caseDropdown) {
         const selectedCaseId = caseDropdown.value;
         console.log('Selected Case ID:', selectedCaseId);
-        // this.updateFields();
         if (selectedCaseId !== null) {
           this.updateFields();
         }

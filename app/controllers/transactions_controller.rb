@@ -48,33 +48,13 @@ class TransactionsController < ApplicationController
     redirect_to client_path(@client), status: :see_other
   end
 
-  # def case_options
-  #   selected_type = params[:transaction_type]
-  #   client_id = params[:client_id]
-
-  #   @cases = Case.where(client_id: client_id)
-
-  #   respond_to do |format|
-  #     format.turbo_stream do
-  #       render turbo_stream: turbo_stream.replace('case_options') { render plain: '', layout: false }
-  #     end
-  #     format.json do
-  #       options_html = render_to_string(locals: { cases: @cases })
-  #       render json: { options_html: options_html }
-  #     end
-  #   end
-  # rescue StandardError => e
-  #   Rails.logger.error("Error in case_options: #{e.message}")
-  #   render status: :internal_server_error, json: { error: 'Internal Server Error' }
-  # end
   def case_options
-    selected_type = params[:transaction_type]
     client_id = params[:client_id]
 
     @cases = Case.where(client_id: client_id)
 
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace('caseInfoField', html: render_to_string(inline: '<%= render "shared/case_options", collection: @cases %>' )) }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace('caseInfoField', partial: 'shared/case_options', locals: { cases: @cases }) }
       format.json { render json: { cases: @cases.map { |c| { court: c.court, id: c.id } } } }
     end
   end
