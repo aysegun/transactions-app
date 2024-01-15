@@ -10,9 +10,11 @@
       <%= form.select :transaction_type, Transaction.transaction_types.keys, prompt: "Select Transaction Type", id: 'transaction_transaction_type' %>
     </div>
 
-    <div class="field mt-3" data-transaction-form-target="caseInfoField">
-      <%= render 'shared/case_options', collection: @cases %>
-    </div>
+
+      <div class="field mt-3" data-transaction-form-target="caseInfoField">
+        <%= render 'shared/case_options', collection: @cases %>
+      </div>
+
 
     <div class="field mt-3">
       <%= form.label :description %>
