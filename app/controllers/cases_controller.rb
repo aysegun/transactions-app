@@ -8,9 +8,13 @@ class CasesController < ApplicationController
   def create
     @case = @client.cases.new(case_params)
     if @case.save
-      redirect_to client_path(@client)
+      respond_to do |format|
+        format.turbo_stream { redirect_to client_path(@client) }
+        format.html { redirect_to client_path(@client) }
+      end
     else
-      render new, status: :unprocessable_entity
+      format.turbo_stream { render turbo_stream: turbo_stream.replace('form-errors', partial: 'shared/form_errors', locals: { resource: @cases }) }
+      format.html { render 'new', status: :unprocessable_entity }
     end
   end
 

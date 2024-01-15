@@ -73,7 +73,7 @@ export default class extends Controller {
           }
         }
       } catch (error) {
-          console.error('Fetch error:', error.message );
+          console.error('Error processing JSON:', error.message );
           this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
     }
     }
