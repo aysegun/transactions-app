@@ -9,6 +9,7 @@ export default class extends Controller {
     console.log('Case ID field target:', this.caseIdFieldTarget);
 
     this.updateFields();
+
   }
 
   updateFields() {
@@ -45,6 +46,8 @@ export default class extends Controller {
   }
 
   async fetchCaseOptions() {
+    // console.log('TurboStreams:', TurboStreams)
+
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
     const clientId = this.element.dataset.clientId;
     console.log('Client ID:', clientId);

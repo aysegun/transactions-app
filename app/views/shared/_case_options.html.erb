@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "transaction_case_id" do%>
+<%= turbo_frame_tag "transaction_case_id" do %>
   <%= label_tag :case_info %>
     <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
     <% cases_options << ['New Case', 'new_case'] %>
