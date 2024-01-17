@@ -27,3 +27,27 @@
 
 <p><%= link_to "Create Collection", new_client_case_collection_path(case_id: @case.id)  %></p>
 <p><%= link_to "Back to Client", client_path(@case.client) %></p>
+
+
+<p>Collection Calculation for <% @collections.each do |collection| %>
+  <%= collection.case.court %><%= collection.case.court_number %>.
+Date: <%= collection.date.strftime('%b %d, %Y') if collection.date  %><% end %></p>
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Transaction Party</th>
+        <th>Details</th>
+        <th>Ratio/Notes</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <td><%= select_tag 'transaction_party', options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tbody>
+  </table>
+</div>
