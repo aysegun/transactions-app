@@ -37,17 +37,20 @@ Date: <%= collection.date.strftime('%b %d, %Y') if collection.date  %><% end %><
     <thead>
       <tr>
         <th>Transaction Party</th>
-        <th>Details</th>
-        <th>Ratio/Notes</th>
+        <th>Notes</th>
+        <th>Ratio</th>
         <th>Amount</th>
         <th>Date</th>
       </tr>
     </thead>
     <tbody>
-      <td><%= select_tag 'transaction_party', options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <tr>
+        <td><%= select_tag 'transaction_party_#{collection.id}', options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %></td>
+        <td><%= text_area_tag 'notes_#{collection.id}', nil, placeholder: 'Enter notes here' %></td>
+        <td><%= select_tag 'ratio_#{collection.id}', options_for_select(['9,1%', '4,55%', '2,7%']), prompt: 'Select Ratio' %></td>
+        <td></td>
+        <td><%= date_field_tag 'date_#{collection.id}', nil, placeholder: 'Select Date' %></td>
+      </tr>
     </tbody>
   </table>
 </div>
