@@ -44,13 +44,25 @@ Date: <%= collection.date.strftime('%b %d, %Y') if collection.date  %><% end %><
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><%= select_tag 'transaction_party_#{collection.id}', options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %></td>
-        <td><%= text_area_tag 'notes_#{collection.id}', nil, placeholder: 'Enter notes here' %></td>
-        <td><%= select_tag 'ratio_#{collection.id}', options_for_select(['9,1%', '4,55%', '2,7%']), prompt: 'Select Ratio' %></td>
-        <td></td>
-        <td><%= date_field_tag 'date_#{collection.id}', nil, placeholder: 'Select Date' %></td>
-      </tr>
+      <% @collections.each do |collection| %>
+        <tr>
+          <td>
+            <%= select_tag "transaction_party_#{collection.id}", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
+          </td>
+          <td>
+            <%= text_area_tag "notes_#{collection.id}", nil, placeholder: 'Enter notes here' %>
+          </td>
+          <td>
+            <%= select_tag "ratio_#{collection.id}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio' %>
+          </td>
+          <td>
+            <%= text_field_tag "amount_#{collection.id}", collection.calculation_amount('none'), readonly: true %>
+          </td>
+          <td>
+            <%= date_field_tag "date_#{collection.id}", nil, placeholder: 'Select Date' %>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
