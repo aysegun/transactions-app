@@ -53,10 +53,10 @@ Date: <%= collection.date.strftime('%b %d, %Y') if collection.date  %><% end %><
             <%= text_area_tag "notes_#{collection.id}", nil, placeholder: 'Enter notes here' %>
           </td>
           <td>
-            <%= select_tag "ratio_#{collection.id}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio' %>
+            <%= select_tag "ratio_#{collection.id}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio', data: { target: 'amount.ratio', action: 'change->transaction-form#updateAmount' }  %>
           </td>
           <td>
-            <%= text_field_tag "amount_#{collection.id}", collection.calculation_amount('none'), readonly: true %>
+            <%= text_field_tag "amount_#{collection.id}", collection.calculation_amount('none'), readonly: true,  data: { target: 'amount.amount', originalAmount: collection.amount }  %>
           </td>
           <td>
             <%= date_field_tag "date_#{collection.id}", nil, placeholder: 'Select Date' %>
