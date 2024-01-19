@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField', 'caseIdField', 'amount', 'ratio'];
+  static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField', 'caseIdField'];
 
   connect() {
     console.log('Connected to transaction-form controller');
@@ -94,33 +94,4 @@ export default class extends Controller {
         }
     }
   }
-
-  updateAmount() {
-    console.log('updateAmount called');
-    const selectedRatio = this.ratioTarget.value;
-    const originalAmount = parseFloat(this.amountTarget.getAttribute("data-original-amount"));
-    console.log('Selected Ratio:', selectedRatio);
-    console.log('Original Amount:', originalAmount);
-
-    const calculationAmount = this.calculateAmount(selectedRatio, originalAmount);
-    console.log('Calculation Amount:', calculationAmount);
-
-    this.amountTarget.value = calculationAmount.toFixed(2);
-  }
-
-  calculateAmount(selectedRatio, originalAmount) {
-    switch (selectedRatio) {
-      case '9,1%':
-        return originalAmount * 9.1 / 100;
-      case '4,55%':
-        return originalAmount * 4.55 / 100;
-      case '2,7%':
-        return originalAmount * 2.7 / 100;
-      case 'none':
-        return originalAmount;
-      default:
-        return originalAmount;
-    }
-  }
-
 }
