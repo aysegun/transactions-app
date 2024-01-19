@@ -5,18 +5,17 @@ export default class extends Controller {
   static targets = [ "ratio", "amount"]
 
   connect() {
-    this.calculateAmount();
+    this.originalAmount = parseFloat(this.amountTarget.value);
   }
 
   updateAmount() {
     this.calculateAmount();
   }
   calculateAmount() {
-    const originalAmount = parseFloat(this.amountTarget.value);
     const selectedRatio = this.ratioTarget.value;
 
     console.log("calculateAmount called");
-    console.log("Original Amount:", originalAmount);
+    console.log("Original Amount:", this.originalAmount);
     console.log("Selected Ratio:", selectedRatio);
 
     const ratioMap = {
@@ -31,10 +30,15 @@ export default class extends Controller {
     console.log("Ratio Map Value:", ratioMapValue);
 
     if (ratioMapValue !== undefined) {
-      const calculatedAmountBeforeFix = originalAmount * ratioMapValue;
-      console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
+      let calculatedAmount;
 
-      const calculatedAmount = calculatedAmountBeforeFix.toFixed(2);
+      if (selectedRatio === 'none') {
+        calculatedAmount = this.originalAmount;
+      } else {
+        const calculatedAmountBeforeFix = this.originalAmount * ratioMapValue;
+        console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
+        calculatedAmount = calculatedAmountBeforeFix.toFixed(2);
+      }
 
       console.log("Calculated Amount:", calculatedAmount);
 
