@@ -96,10 +96,14 @@ export default class extends Controller {
   }
 
   updateAmount() {
+    console.log('updateAmount called');
     const selectedRatio = this.ratioTarget.value;
     const originalAmount = parseFloat(this.amountTarget.getAttribute("data-original-amount"));
+    console.log('Selected Ratio:', selectedRatio);
+    console.log('Original Amount:', originalAmount);
 
     const calculationAmount = this.calculateAmount(selectedRatio, originalAmount);
+    console.log('Calculation Amount:', calculationAmount);
 
     this.amountTarget.value = calculationAmount.toFixed(2);
   }
