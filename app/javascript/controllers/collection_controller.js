@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="collection"
 export default class extends Controller {
   static targets = [ "ratio", "amount"]
 
@@ -48,4 +47,12 @@ export default class extends Controller {
     }
   }
 
+  updateTable() {
+    const selectedCollectionId = this.element.value;
+
+    console.log("updateTable called");
+    console.log("Selected Collection ID:", selectedCollectionId);
+
+    this.element.dispatchEvent(new CustomEvent('collection:update', { detail: { selectedCollectionId } }));
+  }
 }
