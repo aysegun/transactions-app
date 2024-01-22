@@ -47,12 +47,12 @@ export default class extends Controller {
     }
   }
 
-  updateTable() {
-    const selectedCollectionId = this.element.value;
+  updateTable(event) {
+    const selectedCollectionId = event.target.value;
 
     console.log("updateTable called");
     console.log("Selected Collection ID:", selectedCollectionId);
 
-    this.element.dispatchEvent(new CustomEvent('collection:update', { detail: { selectedCollectionId } }));
+    console.log("Fetching data for Collection ID:", selectedCollectionId);
   }
 }
