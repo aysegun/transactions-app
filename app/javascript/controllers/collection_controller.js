@@ -42,6 +42,10 @@ export default class extends Controller {
       console.log("Calculated Amount:", calculatedAmount);
 
       this.amountTarget.value = calculatedAmount;
+
+      // if (!this.dependentValue) {
+      //   this.originalAmount = calculatedAmount;
+      // }
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
@@ -53,6 +57,22 @@ export default class extends Controller {
     console.log("updateTable called");
     console.log("Selected Collection ID:", selectedCollectionId);
 
-    console.log("Fetching data for Collection ID:", selectedCollectionId);
+    fetch(`/clients/${clientId}/cases/${caseId}/collections/${selectedCollectionId}`)
+    .then(response => {
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status} ${response.statusText}`);
+    }
+    return response.json();
+    })
+    .then(data => {
+      const collectionData = data;
+
+      const calculatedValue = collectionData.calculateAmount();
+
+      console.log("Calculated Value:", calculatedValue);
+    })
+    .catch(error => {
+      console.error("Error fetching data:", error);
+    });
   }
 }

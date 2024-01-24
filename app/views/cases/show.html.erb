@@ -34,7 +34,7 @@
 
 
 
-<p>Collection Calculation for <%= @selected_collection&.case&.court %><%= @selected_collection&.case&.court_number %>. Date: <%= @selected_collection&.date&.strftime('%b %d, %Y') %></p>
+<p>Collection Calculation for <%= @collection&.case&.court %><%= @collection&.case&.court_number %>. Date: <%= @selected_collection&.date&.strftime('%b %d, %Y') %></p>
 <div data-controller="collection">
   <table>
     <thead>
@@ -73,10 +73,10 @@
             <%= text_area_tag "notes", nil, placeholder: 'Enter notes here' %>
           </td>
           <td>
-            <%= select_tag "ratio", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio' %>
+            <%= select_tag "ratio", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio", dependent: true }%>
           </td>
           <td>
-            <%= text_field_tag "amount", collection.calculation_amount('none'), readonly: true %>
+            <%= text_field_tag "amount", "", readonly: true, data: { collection_target: "amount", dependent: true } %>
           </td>
           <td>
             <%= date_field_tag "date", nil, placeholder: 'Select Date' %>
