@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection", "ratio_2", "amount_2"]
+  static targets = [ "ratio", "amount", "selection"]
 
   connect() {
     this.originalAmount = parseFloat(this.amountTarget.value);
@@ -42,6 +42,8 @@ export default class extends Controller {
 
       console.log("Calculated Amount:", calculatedAmount);
 
+
+
       this.amountTarget.value = calculatedAmount;
 
       // if (!this.dependentValue) {
@@ -51,43 +53,6 @@ export default class extends Controller {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
   }
-  // calculateAmount(event) {
-  //   const selectedRatio = this.ratioTarget.value;
-  //   const selectedRatio_2 = this.ratio_2Target.value;
-
-  //   // Calculate amount for the first row based on selectedRatio_1
-  //   let originalAmount;
-  //   if (selectedRatio === 'none') {
-  //     originalAmount = parseFloat(this.amountTarget.value);
-  //   } else {
-  //     originalAmount = parseFloat(this.amountTarget.value) * ratioValue(selectedRatio);
-  //   }
-
-  //   // Set the calculated amount for the first row
-  //   this.amountTarget.value = originalAmount.toFixed(2);
-
-  //   // Calculate amount for the second row based on originalAmount_1 and selectedRatio_2
-  //   let originalAmount_2;
-  //   if (selectedRatio_2 === 'none') {
-  //     originalAmount_2 = originalAmount;
-  //   } else {
-  //     originalAmount_2 = originalAmount * ratioValue(selectedRatio_2);
-  //   }
-
-  //   // Set the calculated amount for the second row
-  //   this.amount_2Target.value = originalAmount_2.toFixed(2);
-  // }
-
-  // ratioValue(selectedRatio) {
-  //   const ratioMap = {
-  //     '9,1%': 0.091,
-  //     '4,55%': 0.0455,
-  //     '2,7%': 0.027,
-  //     'none': 1,
-  //   };
-
-  //   return ratioMap[selectedRatio];
-  // }
 
   updateTable() {
     const selectedCollectionId = this.selectionTarget.value;
