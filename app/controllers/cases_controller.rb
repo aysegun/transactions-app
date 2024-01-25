@@ -21,6 +21,7 @@ class CasesController < ApplicationController
   def show
     @case = Case.find(params[:id])
     @collections = @case.collections
+    @client = @case.client
   end
 
   def edit

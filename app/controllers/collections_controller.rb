@@ -9,6 +9,20 @@ class CollectionsController < ApplicationController
     @collection = @case.collections.build
   end
 
+  def show
+    @collection = Collection.find(params[:id])
+    @case = @collection.case
+    @client = @case&.client
+
+    render json: collection
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { error: e.message }, status: :not_found
+    rescue => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+  end
+
+
   def create
     @collection = @case.collections.build(collection_params)
     if @collection.save

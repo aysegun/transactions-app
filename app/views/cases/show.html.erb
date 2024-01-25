@@ -4,7 +4,7 @@
   <p style="font-weight: bold">Collections</p>
 
 
-  <%= select_tag "selected_collection", options_from_collection_for_select(@collections, 'id', 'description'), prompt: 'Select a collection',  data: { controller: 'collection', action: 'change->collection#updateTable' } %>
+  <%= select_tag "selected_collection", options_from_collection_for_select(@collections, 'id', 'description'), prompt: 'Select a collection',  data: { controller: 'collection', action: 'change->collection#updateTable', collection_target: 'selection'} %>
 
   <div class="collection-table mt-3">
     <table>
@@ -35,7 +35,7 @@
 
 
 <p>Collection Calculation for <%= @collection&.case&.court %><%= @collection&.case&.court_number %>. Date: <%= @selected_collection&.date&.strftime('%b %d, %Y') %></p>
-<div data-controller="collection">
+<div data-controller="collection" data-client-id="<%= @client.id %>" data-case-id="<%= @case.id %>">
   <table>
     <thead>
       <tr>
@@ -67,19 +67,19 @@
         </tr>
         <tr>
           <td>
-            <%= select_tag "transaction_party", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
+            <%= select_tag "transaction_party_2", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
           </td>
           <td>
-            <%= text_area_tag "notes", nil, placeholder: 'Enter notes here' %>
+            <%= text_area_tag "notes_2", nil, placeholder: 'Enter notes here' %>
           </td>
           <td>
-            <%= select_tag "ratio", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio", dependent: true }%>
+            <%= select_tag "ratio_2", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio_2" }%>
           </td>
           <td>
-            <%= text_field_tag "amount", "", readonly: true, data: { collection_target: "amount", dependent: true } %>
+            <%= text_field_tag "amount_2", "", readonly: true, data: { collection_target: "amount_2"} %>
           </td>
           <td>
-            <%= date_field_tag "date", nil, placeholder: 'Select Date' %>
+            <%= date_field_tag "date_2", nil, placeholder: 'Select Date' %>
           </td>
         </tr>
       <% end %>
