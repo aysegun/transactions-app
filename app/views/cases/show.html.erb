@@ -47,39 +47,39 @@
       </tr>
     </thead>
     <tbody>
-      <% @collections.each do |collection| %>
-        <tr>
+      <% @collections.each_with_index do |collection, index| %>
+        <tr data-row-id="<%= index %>">
           <td>
-            <%= select_tag "transaction_party", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
+            <%= select_tag "transaction_party_#{index}", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
           </td>
           <td>
-            <%= text_area_tag "notes", nil, placeholder: 'Enter notes here' %>
+            <%= text_area_tag "notes_#{index}", nil, placeholder: 'Enter notes here' %>
           </td>
           <td>
-            <%= select_tag "ratio", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio', data: { action: 'change->collection#calculateAmount', collection_target: "ratio" } %>
+            <%= select_tag "ratio_#{index}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio', data: { action: 'change->collection#calculateAmount', collection_target: "ratio", index: index } %>
+          </td>
+          <td data-collection-target="amount">
+            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index} %>
           </td>
           <td>
-            <%= text_field_tag "amount", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount" } %>
-          </td>
-          <td>
-            <%= date_field_tag "date", nil, placeholder: 'Select Date' %>
+            <%= date_field_tag "date_#{index}", nil, placeholder: 'Select Date' %>
           </td>
         </tr>
         <tr>
           <td>
-            <%= select_tag "transaction_party", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
+            <%= select_tag "transaction_party_#{index}", options_for_select(['Lawyer', 'Client','Enforcement Office']), prompt: 'Select transaction party' %>
           </td>
           <td>
-            <%= text_area_tag "notes", nil, placeholder: 'Enter notes here' %>
+            <%= text_area_tag "notes_#{index}", nil, placeholder: 'Enter notes here' %>
           </td>
           <td>
-            <%= select_tag "ratio", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio" }%>
+            <%= select_tag "ratio_#{index}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio", index: index}%>
+          </td>
+          <td data-collection-target="amount">
+            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index} %>
           </td>
           <td>
-            <%= text_field_tag "amount", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount"} %>
-          </td>
-          <td>
-            <%= date_field_tag "date", nil, placeholder: 'Select Date' %>
+            <%= date_field_tag "date_#{index}", nil, placeholder: 'Select Date' %>
           </td>
         </tr>
       <% end %>

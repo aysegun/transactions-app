@@ -3,19 +3,34 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "ratio", "amount", "selection"]
 
+  // connect() {
+  //   this.originalAmount = parseFloat(this.amountTarget.value);
+  // }
+
   connect() {
-    this.originalAmount = parseFloat(this.amountTarget.value);
+    this.originalAmounts = [];
+    const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
+    amountTargets.forEach((amountTarget, index) => {
+      this.originalAmounts[index] = parseFloat(amountTarget.value);
+    });
   }
+
 
   updateAmount() {
     this.calculateAmount();
   }
 
-  calculateAmount() {
-    const selectedRatio = this.ratioTarget.value;
+  calculateAmount(event) {
+    // const selectedRatio = this.ratioTarget.value;
+
+    // console.log("calculateAmount called");
+    // console.log("Original Amount:", this.originalAmount);
+    // console.log("Selected Ratio:", selectedRatio);
+    const index = event.target.getAttribute('data-index');
+    const selectedRatio = this.ratioTargets[index].value;
 
     console.log("calculateAmount called");
-    console.log("Original Amount:", this.originalAmount);
+    console.log("Original Amount:", this.originalAmounts[index]);
     console.log("Selected Ratio:", selectedRatio);
 
     const ratioMap = {
@@ -33,9 +48,9 @@ export default class extends Controller {
       let calculatedAmount;
 
       if (selectedRatio === 'none') {
-        calculatedAmount = this.originalAmount;
+        calculatedAmount = this.originalAmounts[index];
       } else {
-        const calculatedAmountBeforeFix = this.originalAmount * ratioMapValue;
+        const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
         console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
         calculatedAmount = calculatedAmountBeforeFix.toFixed(2);
       }
@@ -44,11 +59,7 @@ export default class extends Controller {
 
 
 
-      this.amountTarget.value = calculatedAmount;
-
-      // if (!this.dependentValue) {
-      //   this.originalAmount = calculatedAmount;
-      // }
+      this.amountTargets[index].value = calculatedAmount;
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
