@@ -58,8 +58,8 @@
           <td>
             <%= select_tag "ratio_#{index}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio', data: { action: 'change->collection#calculateAmount', collection_target: "ratio", index: index } %>
           </td>
-          <td data-collection-target="amount">
-            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index} %>
+          <td >
+            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index, row: 'first'} %>
           </td>
           <td>
             <%= date_field_tag "date_#{index}", nil, placeholder: 'Select Date' %>
@@ -75,8 +75,8 @@
           <td>
             <%= select_tag "ratio_#{index}", options_for_select(['9,1%', '4,55%', '2,7%', 'none']), prompt: 'Select Ratio',  data: { action: 'change->collection#calculateAmount', collection_target: "ratio", index: index}%>
           </td>
-          <td data-collection-target="amount">
-            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index} %>
+          <td >
+            <%= text_field_tag "amount_#{index}", collection.calculation_amount('none'), readonly: true, data: { collection_target: "amount", index: index, row:'second'} %>
           </td>
           <td>
             <%= date_field_tag "date_#{index}", nil, placeholder: 'Select Date' %>

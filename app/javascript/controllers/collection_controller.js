@@ -11,9 +11,12 @@ export default class extends Controller {
     this.originalAmounts = [];
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
     amountTargets.forEach((amountTarget, index) => {
-      this.originalAmounts[index] = parseFloat(amountTarget.value);
+        const originalAmount = parseFloat(amountTarget.value);
+        console.log(`Original Amount ${index}:`, originalAmount);
+        this.originalAmounts[index] = originalAmount;
     });
   }
+
 
 
   updateAmount() {
@@ -27,11 +30,17 @@ export default class extends Controller {
     // console.log("Original Amount:", this.originalAmount);
     // console.log("Selected Ratio:", selectedRatio);
     const index = event.target.getAttribute('data-index');
+    const row = event.target.getAttribute('data-row');
+
     const selectedRatio = this.ratioTargets[index].value;
 
     console.log("calculateAmount called");
     console.log("Original Amount:", this.originalAmounts[index]);
     console.log("Selected Ratio:", selectedRatio);
+
+    const originalAmount = parseFloat(this.amountTargets[index].value);
+    const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
+    // const originalAmount = parseFloat(amountTarget.value);
 
     const ratioMap = {
       '9,1%': 0.091,
@@ -44,22 +53,23 @@ export default class extends Controller {
 
     console.log("Ratio Map Value:", ratioMapValue);
 
-    if (ratioMapValue !== undefined) {
+    if (!isNaN(originalAmount) && ratioMapValue !== undefined) {
       let calculatedAmount;
 
       if (selectedRatio === 'none') {
-        calculatedAmount = this.originalAmounts[index];
+        calculatedAmount = this.originalAmount;
       } else {
-        const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
+        const calculatedAmountBeforeFix = this.originalAmount * ratioMapValue;
         console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
-        calculatedAmount = calculatedAmountBeforeFix.toFixed(2);
+        calculatedAmount = parseFloat(calculatedAmountBeforeFix.toFixed(2));
       }
 
       console.log("Calculated Amount:", calculatedAmount);
 
 
 
-      this.amountTargets[index].value = calculatedAmount;
+      this.amountTarget.value = calculatedAmount.toFixed(2);
+      // amountTarget.value = calculatedAmount.toFixed(2);
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
