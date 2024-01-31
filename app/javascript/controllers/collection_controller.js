@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = [ "ratio", "amount", "selection"]
 
   connect() {
+    console.log("Ratio Targets:", this.ratioTargets);
     this.originalAmounts = [];
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
     amountTargets.forEach((amountTarget, index) => {
@@ -19,22 +20,23 @@ export default class extends Controller {
   }
 
   calculateAmount(event) {
-    // const selectedRatio = this.ratioTarget.value;
 
-    // console.log("calculateAmount called");
-    // console.log("Original Amount:", this.originalAmount);
-    // console.log("Selected Ratio:", selectedRatio);
     const index = event.target.getAttribute('data-index');
     const row = event.target.getAttribute('data-row');
+
+    if (!this.ratioTargets || this.ratioTargets.length === 0) {
+      console.error("Ratio targets not yet populated. Skipping calculation.");
+      return;
+    }
 
     const selectedRatio = this.ratioTargets[index].value;
 
     console.log("calculateAmount called");
     console.log("Original Amount:", this.originalAmounts[index]);
     console.log("Selected Ratio:", selectedRatio);
+    console.log("Index:", index);
+    console.log("Row:", row);
 
-    // const originalAmount = parseFloat(this.amountTargets[index].value);
-    // const originalAmount = parseFloat(this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row).value);
     const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
 
     if (!amountTarget) {
@@ -43,7 +45,7 @@ export default class extends Controller {
     }
 
     const originalAmount = parseFloat(amountTarget.value);
-    console.log("Amount target:", amountTarget);
+    console.log("Amount target:", amountTarget.value);
     console.log("Original Amount:", originalAmount);
 
 
@@ -63,6 +65,7 @@ export default class extends Controller {
 
       if (selectedRatio === 'none') {
         calculatedAmount = this.originalAmount;
+
       } else {
         const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
         console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
@@ -71,16 +74,8 @@ export default class extends Controller {
 
       console.log("Calculated Amount:", calculatedAmount);
 
-    //   const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
-
-    //   if (amountTarget) {
-    //     amountTarget.value = calculatedAmount.toFixed(2);
-    // } else {
-    //     console.error("Amount target not found.");
-    // }
-
-      // this.amountTarget.value = calculatedAmount.toFixed(2);
       amountTarget.value = calculatedAmount.toFixed(2);
+
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
