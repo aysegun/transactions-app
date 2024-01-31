@@ -59,7 +59,7 @@ export default class extends Controller {
       if (selectedRatio === 'none') {
         calculatedAmount = this.originalAmount;
       } else {
-        const calculatedAmountBeforeFix = this.originalAmount * ratioMapValue;
+        const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
         console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
         calculatedAmount = parseFloat(calculatedAmountBeforeFix.toFixed(2));
       }
