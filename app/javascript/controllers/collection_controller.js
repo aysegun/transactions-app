@@ -3,10 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "ratio", "amount", "selection"]
 
-  // connect() {
-  //   this.originalAmount = parseFloat(this.amountTarget.value);
-  // }
-
   connect() {
     this.originalAmounts = [];
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
@@ -16,7 +12,6 @@ export default class extends Controller {
         this.originalAmounts[index] = originalAmount;
     });
   }
-
 
 
   updateAmount() {
@@ -38,9 +33,19 @@ export default class extends Controller {
     console.log("Original Amount:", this.originalAmounts[index]);
     console.log("Selected Ratio:", selectedRatio);
 
-    const originalAmount = parseFloat(this.amountTargets[index].value);
+    // const originalAmount = parseFloat(this.amountTargets[index].value);
+    // const originalAmount = parseFloat(this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row).value);
     const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
-    // const originalAmount = parseFloat(amountTarget.value);
+
+    if (!amountTarget) {
+      console.error("Amount target not found. Index:", index, "Row:", row);
+      return;
+    }
+
+    const originalAmount = parseFloat(amountTarget.value);
+    console.log("Amount target:", amountTarget);
+    console.log("Original Amount:", originalAmount);
+
 
     const ratioMap = {
       '9,1%': 0.091,
@@ -66,10 +71,16 @@ export default class extends Controller {
 
       console.log("Calculated Amount:", calculatedAmount);
 
+    //   const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
 
+    //   if (amountTarget) {
+    //     amountTarget.value = calculatedAmount.toFixed(2);
+    // } else {
+    //     console.error("Amount target not found.");
+    // }
 
-      this.amountTarget.value = calculatedAmount.toFixed(2);
-      // amountTarget.value = calculatedAmount.toFixed(2);
+      // this.amountTarget.value = calculatedAmount.toFixed(2);
+      amountTarget.value = calculatedAmount.toFixed(2);
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
