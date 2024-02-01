@@ -21,15 +21,19 @@ export default class extends Controller {
 
   calculateAmount(event) {
 
-    const index = event.target.getAttribute('data-index');
-    const row = event.target.getAttribute('data-row');
+    // const index = event.target.getAttribute('data-index');
+    // const row = event.target.getAttribute('data-row');
+    const index = event.target.dataset.index;
+    const row = event.target.dataset.row;
+    console.log("Index and Row:", index, row);
 
     if (!this.ratioTargets || this.ratioTargets.length === 0) {
       console.error("Ratio targets not yet populated. Skipping calculation.");
       return;
     }
 
-    const selectedRatio = this.ratioTargets[index].value;
+    // const selectedRatio = this.ratioTargets[index].value;
+    const selectedRatio = this.element.querySelector(`[data-collection-target="ratio"][data-index="${index}"][data-row="${row}"]`).value;
 
     console.log("calculateAmount called");
     console.log("Original Amount:", this.originalAmounts[index]);
@@ -37,7 +41,8 @@ export default class extends Controller {
     console.log("Index:", index);
     console.log("Row:", row);
 
-    const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
+    // const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
+    const amountTarget = this.element.querySelector(`[data-collection-target="amount"][data-index="${index}"][data-row="${row}"]`);
 
     if (!amountTarget) {
       console.error("Amount target not found. Index:", index, "Row:", row);
@@ -64,7 +69,7 @@ export default class extends Controller {
       let calculatedAmount;
 
       if (selectedRatio === 'none') {
-        calculatedAmount = this.originalAmount;
+        calculatedAmount = this.originalAmounts[index];
 
       } else {
         const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
