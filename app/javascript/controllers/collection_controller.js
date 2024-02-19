@@ -6,23 +6,21 @@ export default class extends Controller {
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
     this.originalAmounts = [];
+
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
     amountTargets.forEach((amountTarget, index) => {
         const originalAmount = parseFloat(amountTarget.value);
-        console.log(`Original Amount ${index}:`, originalAmount);
+        console.log(`Initialization - Original Amount ${index}:`, originalAmount);
         this.originalAmounts[index] = originalAmount;
     });
   }
 
-
-  updateAmount() {
-    this.calculateAmount();
-  }
+  // updateAmount() {
+  //   this.calculateAmount();
+  // }
 
   calculateAmount(event) {
 
-    // const index = event.target.getAttribute('data-index');
-    // const row = event.target.getAttribute('data-row');
     const index = event.target.dataset.index;
     const row = event.target.dataset.row;
     console.log("Index and Row:", index, row);
@@ -49,7 +47,7 @@ export default class extends Controller {
       return;
     }
 
-    const originalAmount = parseFloat(amountTarget.value);
+    const originalAmount = parseFloat(amountTarget.value) || 0;
     console.log("Amount target:", amountTarget.value);
     console.log("Original Amount:", originalAmount);
 
@@ -79,39 +77,49 @@ export default class extends Controller {
 
       console.log("Calculated Amount:", calculatedAmount);
 
-      amountTarget.value = calculatedAmount.toFixed(2);
+      // amountTarget.value = calculatedAmount.toFixed(2);
+      //amountTarget.value = calculatedAmount;
+      //amountTarget.setAttribute('value', calculatedAmount);
+
+      this.setValue(amountTarget, calculatedAmount);
 
     } else {
       console.error("Ratio is not truthy. Skipping calculation.");
     }
   }
+  setValue(target, value) {
+    target.value = value;
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
 
   updateTable() {
     const selectedCollectionId = this.selectionTarget.value;
-    const clientId = this.data.get("clientId");
-    const caseId = this.data.get("caseId");
+    const clientId = this.element.getAttribute("data-client-id");
+    const caseId = this.element.getAttribute("data-case-id");
 
     console.log("updateTable called");
     console.log("Selected Collection ID:", selectedCollectionId);
     console.log("Client ID:", clientId);
     console.log("Case ID:", caseId);
 
-    fetch(`/clients/${clientId}/cases/${caseId}/collections/${selectedCollectionId}`)
-    .then(response => {
-    if (!response.ok) {
-      throw new Error(`Server returned ${response.status} ${response.statusText}`);
-    }
-    return response.json();
-    })
-    .then(data => {
-      if (data) {
-        const collectionData = data;
-        const calculatedValue = collectionData.calculateAmount();
-        console.log("Calculated Value:", calculatedValue);
-    } else {
-        console.error("Empty JSON response received");
-    }
-  })
+    if (clientId && caseId && selectedCollectionId) {
+      fetch(`/clients/${clientId}/cases/${caseId}/collections/${selectedCollectionId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Server returned ${response.status} ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(data => {
 
+          this.selectionTarget.insertAdjacentHTML('afterend', data);
+        })
+        .catch(error => {
+          console.error("Error fetching collection data:", error.message);
+        });
+    } else {
+      console.warn("Client ID, case ID, or collection ID is missing");
+    }
   }
 }
