@@ -15,13 +15,11 @@ class CollectionsController < ApplicationController
     @client = @case&.client
 
     render json: collection
-    rescue ActiveRecord::RecordNotFound => e
-      render json: { error: e.message }, status: :not_found
-    rescue => e
-      render json: { error: e.message }, status: :unprocessable_entity
-    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
-
 
   def create
     @collection = @case.collections.build(collection_params)

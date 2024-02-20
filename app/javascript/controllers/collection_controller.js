@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection"]
+  static targets = [ "ratio", "amount", "selection"];
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
@@ -15,10 +15,6 @@ export default class extends Controller {
     });
   }
 
-  // updateAmount() {
-  //   this.calculateAmount();
-  // }
-
   calculateAmount(event) {
 
     const index = event.target.dataset.index;
@@ -30,7 +26,6 @@ export default class extends Controller {
       return;
     }
 
-    // const selectedRatio = this.ratioTargets[index].value;
     const selectedRatio = this.element.querySelector(`[data-collection-target="ratio"][data-index="${index}"][data-row="${row}"]`).value;
 
     console.log("calculateAmount called");
@@ -39,7 +34,6 @@ export default class extends Controller {
     console.log("Index:", index);
     console.log("Row:", row);
 
-    // const amountTarget = this.amountTargets.find(target => target.dataset.index === index && target.dataset.row === row);
     const amountTarget = this.element.querySelector(`[data-collection-target="amount"][data-index="${index}"][data-row="${row}"]`);
 
     if (!amountTarget) {
@@ -76,10 +70,6 @@ export default class extends Controller {
       }
 
       console.log("Calculated Amount:", calculatedAmount);
-
-      // amountTarget.value = calculatedAmount.toFixed(2);
-      //amountTarget.value = calculatedAmount;
-      //amountTarget.setAttribute('value', calculatedAmount);
 
       this.setValue(amountTarget, calculatedAmount);
 
