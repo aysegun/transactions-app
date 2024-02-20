@@ -14,7 +14,7 @@ class CollectionsController < ApplicationController
     @case = @collection.case
     @client = @case&.client
 
-    render json: collection
+    render json: @collection
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
   rescue => e
