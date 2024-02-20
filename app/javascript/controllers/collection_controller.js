@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection"];
+  static targets = [ "ratio", "amount", "selection", "collectionTable"];
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
@@ -102,8 +102,17 @@ export default class extends Controller {
           return response.json();
         })
         .then(data => {
+          console.log("Collection Data:", data);
+          const collectionTable = document.querySelector('.collection-calculation-table tbody');
+          collectionTable.innerHTML = '';
 
-          this.selectionTarget.insertAdjacentHTML('afterend', data);
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
+            <td>${data.date}</td>
+            <td>${data.amount}</td>
+            <td>${data.description}</td>
+          `;
+          collectionTable.appendChild(newRow);
         })
         .catch(error => {
           console.error("Error fetching collection data:", error.message);
