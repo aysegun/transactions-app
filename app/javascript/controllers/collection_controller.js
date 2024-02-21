@@ -128,7 +128,7 @@ export default class extends Controller {
               </select>
             </td>
             <td>${data.amount}</td>
-            <td>${data.date}</td>
+            <td><input type="date"></td>
           `;
           collectionTable.appendChild(newRow);
         })
