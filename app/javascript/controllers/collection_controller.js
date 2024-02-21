@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection", "collectionTable"];
+  static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty"];
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
@@ -108,9 +108,27 @@ export default class extends Controller {
 
           const newRow = document.createElement('tr');
           newRow.innerHTML = `
-            <td>${data.date}</td>
+            <td>
+              <select data-collection-target="transactionParty">
+                <option value="Select">Select</option>
+                <option value="Lawyer">Lawyer</option>
+                <option value="Client">Client</option>
+                <option value="Enforcement Office">Enforcement Office</option>
+              </select>
+            </td>
+            <td>
+             <textarea placeholder="Enter notes here" data-collection-target="notes"></textarea>
+            </td>
+            <td>
+              <select data-collection-target="ratio">
+                <option value="9,1%">9,1%</option>
+                <option value="4,55%">4,55%</option>
+                <option value="2,7%">2,7%</option>
+                <option value="none">none</option>
+              </select>
+            </td>
             <td>${data.amount}</td>
-            <td>${data.description}</td>
+            <td>${data.date}</td>
           `;
           collectionTable.appendChild(newRow);
         })
@@ -122,3 +140,7 @@ export default class extends Controller {
     }
   }
 }
+
+// <td>${this.element.querySelector(`[data-collection-target="transactionParty"]`).value}</td>
+// this gives me null
+// find another way to get the value of the transactionParty
