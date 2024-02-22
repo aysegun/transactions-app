@@ -106,41 +106,41 @@ export default class extends Controller {
           const collectionTable = document.querySelector('.collection-calculation-table tbody');
           collectionTable.innerHTML = '';
 
-          const newRow = document.createElement('tr');
-          newRow.innerHTML = `
-            <td>
-              <select data-collection-target="transactionParty">
-                <option value="Select">Select</option>
-                <option value="Lawyer">Lawyer</option>
-                <option value="Client">Client</option>
-                <option value="Enforcement Office">Enforcement Office</option>
-              </select>
-            </td>
-            <td>
-             <textarea placeholder="Enter notes here" data-collection-target="notes"></textarea>
-            </td>
-            <td>
-              <select data-collection-target="ratio">
-                <option value="9,1%">9,1%</option>
-                <option value="4,55%">4,55%</option>
-                <option value="2,7%">2,7%</option>
-                <option value="none">none</option>
-              </select>
-            </td>
-            <td>${data.amount}</td>
-            <td><input type="date"></td>
-          `;
-          collectionTable.appendChild(newRow);
+          const newRow1 = createRow(data, 1);
+          const newRow2 = createRow(data, 2);
+
+          collectionTable.appendChild(newRow1);
+          collectionTable.appendChild(newRow2);
         })
-        .catch(error => {
-          console.error("Error fetching collection data:", error.message);
-        });
     } else {
       console.warn("Client ID, case ID, or collection ID is missing");
     }
+    function createRow(data, index) {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+          <td>
+              <select data-collection-target="transactionParty_${index}">
+                  <option value="Select">Select</option>
+                  <option value="Lawyer">Lawyer</option>
+                  <option value="Client">Client</option>
+                  <option value="Enforcement Office">Enforcement Office</option>
+              </select>
+          </td>
+          <td>
+              <textarea placeholder="Enter notes here" data-collection-target="notes_${index}"></textarea>
+          </td>
+          <td>
+              <select data-collection-target="ratio_${index}">
+                  <option value="9,1%">9,1%</option>
+                  <option value="4,55%">4,55%</option>
+                  <option value="2,7%">2,7%</option>
+                  <option value="none">none</option>
+              </select>
+          </td>
+          <td>${data.amount}</td>
+          <td><input type="date"></td>
+      `;
+      return newRow;
+    }
   }
 }
-
-// <td>${this.element.querySelector(`[data-collection-target="transactionParty"]`).value}</td>
-// this gives me null
-// find another way to get the value of the transactionParty
