@@ -84,6 +84,8 @@ export default class extends Controller {
   }
 
   createRow(data, index) {
+
+
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
         <td>
@@ -105,7 +107,7 @@ export default class extends Controller {
                 <option value="none">none</option>
             </select>
         </td>
-        <td>${data.amount}</td>
+        <td>${data.calculateAmount}</td>
         <td><input type="date"></td>
     `;
     return newRow;
