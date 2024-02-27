@@ -5,6 +5,7 @@ export default class extends Controller {
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
+
     this.originalAmounts = [];
 
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
@@ -100,16 +101,21 @@ export default class extends Controller {
             <textarea placeholder="Enter notes here" data-collection-target="notes_${index}"></textarea>
         </td>
         <td>
-            <select data-collection-target="ratio_${index}">
+            <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount">
+                <option value="Select">Select Ratio</option>
                 <option value="9,1%">9,1%</option>
                 <option value="4,55%">4,55%</option>
                 <option value="2,7%">2,7%</option>
                 <option value="none">none</option>
             </select>
         </td>
-        <td>${data.calculateAmount}</td>
+        <td data-collection-target="amount_${index}">${data.amount}</td>
         <td><input type="date"></td>
     `;
+    const selectElement = newRow.querySelector(`[data-collection-target="ratio_${index}"]`);
+    selectElement.addEventListener('change', (event) => {
+      this.calculateAmount(event);
+    });
     return newRow;
   }
 
