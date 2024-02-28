@@ -17,75 +17,61 @@ export default class extends Controller {
   }
 
   calculateAmount(event) {
+    const selectedRatio = event.target.value;
+    const index = event.target.dataset.index; // Extract index from dataset
 
-    const index = event.target.dataset.index;
-    const row = event.target.dataset.row;
-    console.log("Index and Row:", index, row);
-
-    if (!this.ratioTargets || this.ratioTargets.length === 0) {
-      console.error("Ratio targets not yet populated. Skipping calculation.");
+    if (index === undefined) {
+      console.error("Index is undefined");
       return;
     }
 
-    const selectedRatio = this.element.querySelector(`[data-collection-target="ratio"][data-index="${index}"][data-row="${row}"]`).value;
-
-
-    console.log("calculateAmount called");
-    console.log("Original Amount:", this.originalAmounts[index]);
-    console.log("Selected Ratio:", selectedRatio);
-    console.log("Index:", index);
-    console.log("Row:", row);
-
-    const amountTarget = this.element.querySelector(`[data-collection-target="amount"][data-index="${index}"][data-row="${row}"]`);
-
-    if (!amountTarget) {
-      console.error("Amount target not found. Index:", index, "Row:", row);
+    // Assuming the amount associated with each collection is stored on the client side
+    const amountElement = this.element.querySelector(`[data-collection-target="amount_${index}"]`);
+    if (!amountElement) {
+      console.error(`Amount element not found for index ${index}`);
       return;
     }
 
-    const originalAmount = parseFloat(amountTarget.value) || 0;
-    console.log("Amount target:", amountTarget.value);
-    console.log("Original Amount:", originalAmount);
+    let amount = parseFloat(amountElement.textContent); // Retrieve the amount from the DOM or a JavaScript variable
 
+    if (isNaN(amount)) {
+      console.error(`Amount is not a valid number for index ${index}`);
+      return;
+    }
 
-    const ratioMap = {
-      '9,1%': 0.091,
-      '4,55%': 0.0455,
-      '2,7%': 0.027,
-      'none': 1,
-    };
+    let calculatedAmount;
 
-    const ratioMapValue = ratioMap[selectedRatio];
+    switch (selectedRatio) {
+      case '9,1%':
+        calculatedAmount = amount * 9.1 / 100;
+        break;
+      case '4,55%':
+        calculatedAmount = amount * 4.55 / 100;
+        break;
+      case '2,7%':
+        calculatedAmount = amount * 2.7 / 100;
+        break;
+      case 'none':
+        calculatedAmount = amount;
+        break;
+      default:
+        calculatedAmount = amount;
+    }
 
-    console.log("Ratio Map Value:", ratioMapValue);
+    // Assuming this.element is the row element containing the amount and ratio targets
+    const amountTarget = this.element.querySelector(`[data-collection-target="amount_${index}"]`);
 
-    if (!isNaN(originalAmount) && ratioMapValue !== undefined) {
-      let calculatedAmount;
-
-      if (selectedRatio === 'none') {
-        calculatedAmount = this.originalAmounts[index];
-
-      } else {
-        const calculatedAmountBeforeFix = this.originalAmounts[index] * ratioMapValue;
-        console.log("Calculated Amount Before Fix:", calculatedAmountBeforeFix);
-        calculatedAmount = parseFloat(calculatedAmountBeforeFix.toFixed(2));
-      }
-
-      console.log("Calculated Amount:", calculatedAmount);
-
-      this.setValue(amountTarget, calculatedAmount);
-
+    // Check if the amountTarget is found before trying to update its textContent
+    if (amountTarget) {
+      amountTarget.textContent = calculatedAmount.toFixed(2); // Adjust the precision as needed
     } else {
-      console.error("Ratio is not truthy. Skipping calculation.");
+      console.error(`Amount target not found for index ${index}`);
     }
-  }
-  setValue(target, value) {
-    target.value = value;
-    target.dispatchEvent(new Event('input', { bubbles: true }));
-  }
+}
+
+
 
   createRow(data, index) {
-
 
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
@@ -101,7 +87,7 @@ export default class extends Controller {
             <textarea placeholder="Enter notes here" data-collection-target="notes_${index}"></textarea>
         </td>
         <td>
-            <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount">
+            <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount" data-index="${index}">
                 <option value="Select">Select Ratio</option>
                 <option value="9,1%">9,1%</option>
                 <option value="4,55%">4,55%</option>
@@ -112,10 +98,6 @@ export default class extends Controller {
         <td data-collection-target="amount_${index}">${data.amount}</td>
         <td><input type="date"></td>
     `;
-    const selectElement = newRow.querySelector(`[data-collection-target="ratio_${index}"]`);
-    selectElement.addEventListener('change', (event) => {
-      this.calculateAmount(event);
-    });
     return newRow;
   }
 
