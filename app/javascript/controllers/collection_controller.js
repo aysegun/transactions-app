@@ -75,14 +75,7 @@ export default class extends Controller {
 
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
-        <td>
-            <select data-collection-target="transactionParty_${index}">
-                <option value="Select">Select</option>
-                <option value="Lawyer">Lawyer</option>
-                <option value="Client">Client</option>
-                <option value="Enforcement Office">Enforcement Office</option>
-            </select>
-        </td>
+        <td>Enforcement Office</td>
         <td>
             <textarea placeholder="Enter notes here" data-collection-target="notes_${index}"></textarea>
         </td>
