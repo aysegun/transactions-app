@@ -10,66 +10,66 @@ export default class extends Controller {
 
     const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
     amountTargets.forEach((amountTarget, index) => {
-        const originalAmount = parseFloat(amountTarget.value);
-        console.log(`Initialization - Original Amount ${index}:`, originalAmount);
-        this.originalAmounts[index] = originalAmount;
+        const originalAmount = parseFloat(amountTarget.textContent);
+        if (!isNaN(originalAmount)) {
+          console.log(`Initialization - Original Amount ${index}:`, originalAmount);
+          this.originalAmounts[index] = originalAmount;
+        } else {
+          console.error(`Original amount is not a valid number for index ${index}`, amountTarget.textContent);
+        }
     });
   }
 
   calculateAmount(event) {
     const selectedRatio = event.target.value;
-    const index = event.target.dataset.index; // Extract index from dataset
+    const index = event.target.dataset.index;
 
     if (index === undefined) {
-      console.error("Index is undefined");
-      return;
+        console.error("Index is undefined");
+        return;
     }
 
-    // Assuming the amount associated with each collection is stored on the client side
     const amountElement = this.element.querySelector(`[data-collection-target="amount_${index}"]`);
+
     if (!amountElement) {
-      console.error(`Amount element not found for index ${index}`);
-      return;
+        console.error(`Amount element not found for index ${index}`);
+        return;
     }
 
-    let amount = parseFloat(amountElement.textContent); // Retrieve the amount from the DOM or a JavaScript variable
+    const originalAmount = parseFloat(amountElement.dataset.originalAmount);
 
-    if (isNaN(amount)) {
-      console.error(`Amount is not a valid number for index ${index}`);
-      return;
+    if (isNaN(originalAmount)) {
+        console.error(`Original amount is not a valid number for index ${index}`);
+        return;
     }
 
     let calculatedAmount;
 
     switch (selectedRatio) {
-      case '9,1%':
-        calculatedAmount = amount * 9.1 / 100;
-        break;
-      case '4,55%':
-        calculatedAmount = amount * 4.55 / 100;
-        break;
-      case '2,7%':
-        calculatedAmount = amount * 2.7 / 100;
-        break;
-      case 'none':
-        calculatedAmount = amount;
-        break;
-      default:
-        calculatedAmount = amount;
+        case '9,1%':
+            calculatedAmount = originalAmount * 9.1 / 100;
+            break;
+        case '4,55%':
+            calculatedAmount = originalAmount * 4.55 / 100;
+            break;
+        case '2,7%':
+            calculatedAmount = originalAmount * 2.7 / 100;
+            break;
+        case 'none':
+            calculatedAmount = originalAmount;
+            break;
+        default:
+            calculatedAmount = originalAmount;
     }
 
-    // Assuming this.element is the row element containing the amount and ratio targets
     const amountTarget = this.element.querySelector(`[data-collection-target="amount_${index}"]`);
 
-    // Check if the amountTarget is found before trying to update its textContent
     if (amountTarget) {
-      amountTarget.textContent = calculatedAmount.toFixed(2); // Adjust the precision as needed
+        amountTarget.textContent = calculatedAmount.toFixed(2);
     } else {
-      console.error(`Amount target not found for index ${index}`);
+        console.error(`Amount target not found for index ${index}`);
     }
-}
-
-
+  }
 
   createRow(data, index) {
 
@@ -95,7 +95,7 @@ export default class extends Controller {
                 <option value="none">none</option>
             </select>
         </td>
-        <td data-collection-target="amount_${index}">${data.amount}</td>
+        <td data-collection-target="amount_${index}" data-original-amount="${data.amount}">${data.amount}</td>
         <td><input type="date"></td>
     `;
     return newRow;
