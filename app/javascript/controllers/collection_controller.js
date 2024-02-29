@@ -71,14 +71,12 @@ export default class extends Controller {
     }
   }
 
-  createRow(data, index) {
+  createRow(data, index, description) {
 
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
         <td>Enforcement Office</td>
-        <td>
-            <textarea placeholder="Enter notes here" data-collection-target="notes_${index}"></textarea>
-        </td>
+        <td>${description}</td>
         <td>
             <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount" data-index="${index}">
                 <option value="Select">Select Ratio</option>
@@ -118,8 +116,8 @@ export default class extends Controller {
           const collectionTable = document.querySelector('.collection-calculation-table tbody');
           collectionTable.innerHTML = '';
 
-          const newRow1 = this.createRow(data, 1);
-          const newRow2 = this.createRow(data, 2);
+          const newRow1 = this.createRow(data, 1, "Collection Fee");
+          const newRow2 = this.createRow(data, 2, "Prison Fee");
 
           collectionTable.appendChild(newRow1);
           collectionTable.appendChild(newRow2);
