@@ -77,13 +77,15 @@ export default class extends Controller {
     newRow.innerHTML = `
         <td>${transactionParty}</td>
         <td>${description}</td>
-        <td>
+        ${index !== 4 ? `<td>
             <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount" data-index="${index}">
                 <option value="Select">Select Ratio</option>
                 ${ratioOptions.map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
             </select>
+        </td>` : `<td> - </td>`}
+        <td data-collection-target="amount_${index}" data-original-amount="${index !== 4 ? data.amount : ''}">
+            ${index !== 4 ? data.amount : `<input type="text" placeholder="Enter Amount" data-user-input="amount_${index}">`}
         </td>
-        <td data-collection-target="amount_${index}" data-original-amount="${data.amount}">${data.amount}</td>
         <td><input type="date"></td>
     `;
     return newRow;
