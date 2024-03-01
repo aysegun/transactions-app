@@ -80,6 +80,14 @@ export default class extends Controller {
     }
   }
 
+  updateTitle(collectionTitleElement, selectedCollection, amount) {
+    if (selectedCollection) {
+        collectionTitleElement.innerHTML = `<p>Collection for id: ${selectedCollection} - Amount: ${amount}</p>`;
+    } else {
+        collectionTitleElement.innerHTML = `<p>No collection selected</p>`;
+    }
+  }
+
   createRow(data, index, description, transactionParty, ratioOptions) {
 
     const newRow = document.createElement('tr');
@@ -112,6 +120,7 @@ export default class extends Controller {
     console.log("Case ID:", caseId);
 
     if (clientId && caseId && selectedCollectionId) {
+      const collectionTitleElement = document.querySelector('[data-collection-target="collectionTitle"]');
       fetch(`/clients/${clientId}/cases/${caseId}/collections/${selectedCollectionId}`)
         .then(response => {
           if (!response.ok) {
@@ -160,7 +169,12 @@ export default class extends Controller {
           collectionTable.appendChild(newRow3);
           collectionTable.appendChild(newRow4);
           collectionTable.appendChild(newRow5);
+
+          this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
         })
+        .catch(error => {
+          console.error("Error fetching collection data:", error);
+        });
     } else {
       console.warn("Client ID, case ID, or collection ID is missing");
     }
