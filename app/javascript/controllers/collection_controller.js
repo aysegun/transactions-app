@@ -131,10 +131,17 @@ export default class extends Controller {
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
           ]);
+          const newRow4 = this.createRow(data, 4, "Attorney Fee", "Lawyer", [
+            { value: "10%", label: "10%" },
+            { value: "15%", label: "15%" },
+            { value: "20%", label: "20%" },
+            { value: "none", label: "none" }
+          ]);
 
           collectionTable.appendChild(newRow1);
           collectionTable.appendChild(newRow2);
           collectionTable.appendChild(newRow3);
+          collectionTable.appendChild(newRow4);
         })
     } else {
       console.warn("Client ID, case ID, or collection ID is missing");
