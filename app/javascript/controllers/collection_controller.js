@@ -55,6 +55,15 @@ export default class extends Controller {
         case '2,7%':
             calculatedAmount = originalAmount * 2.7 / 100;
             break;
+        case '10%':
+            calculatedAmount = originalAmount * 10 / 100;
+            break;
+        case '15%':
+            calculatedAmount = originalAmount * 15 / 100;
+            break;
+        case '20%':
+            calculatedAmount = originalAmount * 20 / 100;
+            break;
         case 'none':
             calculatedAmount = originalAmount;
             break;
