@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty"];
+  static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty", "collectionTitle"];
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);

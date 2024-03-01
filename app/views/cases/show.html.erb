@@ -32,8 +32,10 @@
 <p><%= link_to "Back to Client", client_path(@case.client) %></p>
 
 
+<div class="collection-title" data-collection-target="collectionTitle" >
+  <p> Collection for</p>
+</div>
 
-<p>Collection Calculation</p>
 <div class="collection-calculation-table" data-collection-target="collectionTable" data-controller="collection" data-client-id="<%= @client.id %>" data-case-id="<%= @case.id %>">
   <table>
     <thead>
