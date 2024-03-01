@@ -71,19 +71,16 @@ export default class extends Controller {
     }
   }
 
-  createRow(data, index, description) {
+  createRow(data, index, description, transactionParty, ratioOptions) {
 
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
-        <td>Enforcement Office</td>
+        <td>${transactionParty}</td>
         <td>${description}</td>
         <td>
             <select data-collection-target="ratio_${index}" data-action="change->collection#calculateAmount" data-index="${index}">
                 <option value="Select">Select Ratio</option>
-                <option value="9,1%">9,1%</option>
-                <option value="4,55%">4,55%</option>
-                <option value="2,7%">2,7%</option>
-                <option value="none">none</option>
+                ${ratioOptions.map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
             </select>
         </td>
         <td data-collection-target="amount_${index}" data-original-amount="${data.amount}">${data.amount}</td>
@@ -116,11 +113,28 @@ export default class extends Controller {
           const collectionTable = document.querySelector('.collection-calculation-table tbody');
           collectionTable.innerHTML = '';
 
-          const newRow1 = this.createRow(data, 1, "Collection Fee");
-          const newRow2 = this.createRow(data, 2, "Prison Fee");
+          const newRow1 = this.createRow(data, 1, "Collection Fee", "Enforcement Office", [
+            { value: "9,1%", label: "9,1%" },
+            { value: "4,55%", label: "4,55%" },
+            { value: "2,7%", label: "2,7%" },
+            { value: "none", label: "none" }
+          ]);
+          const newRow2 = this.createRow(data, 2, "Prison Fee", "Enforcement Office", [
+            { value: "9,1%", label: "9,1%" },
+            { value: "4,55%", label: "4,55%" },
+            { value: "2,7%", label: "2,7%" },
+            { value: "none", label: "none" }
+          ]);
+          const newRow3 = this.createRow(data, 3, "Legal Fee", "Lawyer", [
+            { value: "10%", label: "10%" },
+            { value: "15%", label: "15%" },
+            { value: "20%", label: "20%" },
+            { value: "none", label: "none" }
+          ]);
 
           collectionTable.appendChild(newRow1);
           collectionTable.appendChild(newRow2);
+          collectionTable.appendChild(newRow3);
         })
     } else {
       console.warn("Client ID, case ID, or collection ID is missing");
