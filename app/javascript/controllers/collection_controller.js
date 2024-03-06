@@ -75,6 +75,7 @@ export default class extends Controller {
 
     if (amountTarget) {
         amountTarget.textContent = calculatedAmount.toFixed(2);
+        // amountTarget.dataset.originalAmount = calculatedAmount.toFixed(2);
     } else {
         console.error(`Amount target not found for index ${index}`);
     }
@@ -179,5 +180,27 @@ export default class extends Controller {
       console.warn("Client ID, case ID, or collection ID is missing");
     }
 
+  }
+
+  sumAmounts() {
+    let totalAmount = 0;
+
+    const amountElements = this.element.querySelectorAll('[data-collection-target="amount"]');
+    amountElements.forEach(amountElement => {
+      const amount = parseFloat(amountElement.textContent);
+      if (!isNaN(amount)) {
+        totalAmount += amount;
+      } else {
+        const userInput = amountElement.querySelector('input[data-user-input]');
+        if (userInput) {
+          const manuallyEnteredAmount = parseFloat(userInput.value);
+          if (!isNaN(manuallyEnteredAmount)) {
+            totalAmount += manuallyEnteredAmount;
+          }
+        }
+      }
+    });
+
+    console.log('Total Amount:', totalAmount);
   }
 }
