@@ -207,5 +207,6 @@ export default class extends Controller {
     }
 
     console.log('Total Amount:', totalAmount);
+
   }
 }
