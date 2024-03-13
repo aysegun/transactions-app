@@ -184,49 +184,11 @@ export default class extends Controller {
 
   }
 
-  // sumAmounts() {
-  //   let totalAmount = 0;
-
-  //   const amountElements = this.element.querySelectorAll('[data-collection-target="amount_"]');
-  //   amountElements.forEach(amountElement => {
-  //     const amount = parseFloat(amountElement.textContent);
-  //     if (!isNaN(amount)) {
-  //       totalAmount += amount;
-  //     } else {
-  //       const userInput = amountElement.querySelector('input[data-user-input]');
-  //       if (userInput) {
-  //         const manuallyEnteredAmount = parseFloat(userInput.value);
-  //         if (!isNaN(manuallyEnteredAmount)) {
-  //           totalAmount += manuallyEnteredAmount;
-  //         }
-  //       }
-  //     }
-  //   });
-
-  //   const totalAmountElement = document.getElementById('totalAmount');
-  //   if (totalAmountElement) {
-  //       totalAmountElement.textContent = totalAmount.toFixed(2);
-  //   }
-
-  //   console.log('Total Amount:', totalAmount);
-
-  // }
-
   sumAmounts() {
     console.log("Amount Targets:", this.amountTargets);
+
     let totalAmount = 0;
-
-    // const amountElements = this.element.querySelectorAll(`[data-collection-target^="amount_"]`);
     const amountElements = this.amountTargets;
-
-
-    // amountElements.forEach(amountElement => {
-    //     const amount = parseFloat(amountElement.textContent);
-    //     console.log('Amount:', amount);
-    //     if (!isNaN(amount)) {
-    //         totalAmount += amount;
-    //     }
-    // });
 
     amountElements.forEach(amountElement => {
       const amountText = amountElement.textContent.trim();
