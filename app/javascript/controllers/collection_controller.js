@@ -1,10 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty", "collectionTitle"];
+  static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty", "collectionTitle", "totalAmount"];
 
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
+    console.log("Amount Targets:", this.amountTargets);
 
     this.originalAmounts = [];
 
@@ -89,8 +90,8 @@ export default class extends Controller {
     }
   }
 
-  createRow(data, index, description, transactionParty, ratioOptions) {
-
+  createRow(data, index, description, transactionParty, ratioOptions, amountTargetId) {
+    console.log(`Creating row for index ${index}`);
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
         <td>${transactionParty}</td>
@@ -101,7 +102,7 @@ export default class extends Controller {
                 ${ratioOptions.map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
             </select>
         </td>` : `<td> - </td>`}
-        <td data-collection-target="amount_${index}" data-original-amount="${index !== 4 && index !== 3 ? data.amount : ''}">
+        <td data-collection-target="${amountTargetId}" data-original-amount="${index !== 4 && index !== 3 ? data.amount : ''}">
             ${index !== 4 && index !== 3 ? data.amount : `<input type="text" placeholder="Enter Amount" data-user-input="amount_${index}">`}
         </td>
         <td><input type="date"></td>
@@ -139,31 +140,31 @@ export default class extends Controller {
             { value: "4,55%", label: "4,55%" },
             { value: "2,7%", label: "2,7%" },
             { value: "none", label: "none" }
-          ]);
+          ],"amount_1");
           const newRow2 = this.createRow(data, 2, "Prison Fee", "Enforcement Office", [
             { value: "9,1%", label: "9,1%" },
             { value: "4,55%", label: "4,55%" },
             { value: "2,7%", label: "2,7%" },
             { value: "none", label: "none" }
-          ]);
+          ], "amount_2");
           const newRow3 = this.createRow(data, 3, "Legal Fee", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ]);
+          ],"amount_3");
           const newRow4 = this.createRow(data, 4, "Attorney Fee", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ]);
+          ], "amount_4");
           const newRow5 = this.createRow(data, 5, "Collection Fee-Lawyer", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ]);
+          ],"amount_5");
 
           collectionTable.appendChild(newRow1);
           collectionTable.appendChild(newRow2);
@@ -172,6 +173,7 @@ export default class extends Controller {
           collectionTable.appendChild(newRow5);
 
           this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
+          this.sumAmounts();
         })
         .catch(error => {
           console.error("Error fetching collection data:", error);
@@ -211,6 +213,7 @@ export default class extends Controller {
   // }
 
   sumAmounts() {
+    console.log("Amount Targets:", this.amountTargets);
     let totalAmount = 0;
 
     // const amountElements = this.element.querySelectorAll(`[data-collection-target^="amount_"]`);
