@@ -9,7 +9,7 @@ export default class extends Controller {
 
     this.originalAmounts = [];
 
-    const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount"]'));
+    const amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target="amount_"]'));
     amountTargets.forEach((amountTarget, index) => {
         const originalAmount = parseFloat(amountTarget.textContent);
         if (!isNaN(originalAmount)) {
@@ -73,6 +73,9 @@ export default class extends Controller {
     }
 
     const amountTarget = this.element.querySelector(`[data-collection-target="amount_${index}"]`);
+
+    amountElement.dataset.calculatedAmount = calculatedAmount.toFixed(2);
+    amountElement.textContent = calculatedAmount.toFixed(2);
 
     if (amountTarget) {
         amountTarget.textContent = calculatedAmount.toFixed(2);
@@ -188,15 +191,13 @@ export default class extends Controller {
     console.log("Amount Targets:", this.amountTargets);
 
     let totalAmount = 0;
-    const amountElements = this.amountTargets;
+
+    const amountElements = this.element.querySelectorAll('[data-calculatedAmount]');
 
     amountElements.forEach(amountElement => {
-      const amountText = amountElement.textContent.trim();
-      console.log('Amount Text:', amountText);
-      const amount = parseFloat(amountText);
-      console.log('Parsed Amount:', amount);
-      if (!isNaN(amount)) {
-          totalAmount += amount;
+      const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
+      if (!isNaN(calculatedAmount)) {
+          totalAmount += calculatedAmount;
       }
     });
 
