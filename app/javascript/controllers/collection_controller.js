@@ -202,6 +202,14 @@ export default class extends Controller {
       }
     });
 
+    const userInputAmounts = this.element.querySelectorAll('[data-user-input]');
+    userInputAmounts.forEach(inputElement => {
+        const userInputValue = parseFloat(inputElement.value);
+        if (!isNaN(userInputValue)) {
+            totalAmount += userInputValue;
+        }
+    });
+
     console.log('Total Amount Before Formatting:', totalAmount);
 
     const totalAmountElement = document.getElementById('totalAmount');
