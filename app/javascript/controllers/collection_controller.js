@@ -83,6 +83,7 @@ export default class extends Controller {
     } else {
         console.error(`Amount target not found for index ${index}`);
     }
+    this.sumAmounts();
   }
 
   updateTitle(collectionTitleElement, selectedCollection, amount) {
@@ -176,7 +177,6 @@ export default class extends Controller {
           collectionTable.appendChild(newRow5);
 
           this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
-          this.sumAmounts();
         })
         .catch(error => {
           console.error("Error fetching collection data:", error);
