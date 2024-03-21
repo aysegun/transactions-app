@@ -93,7 +93,7 @@ export default class extends Controller {
     }
   }
 
-  createRow(data, index, description, transactionParty, ratioOptions, amountTargetId) {
+  createRow(data, index, description, transactionParty, ratioOptions, amountTargetId, calculatedAmount) {
     console.log(`Creating row for index ${index}`);
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
@@ -105,7 +105,7 @@ export default class extends Controller {
                 ${ratioOptions.map(option => `<option value="${option.value}">${option.label}</option>`).join('')}
             </select>
         </td>` : `<td> - </td>`}
-        <td data-collection-target="${amountTargetId}" data-original-amount="${index !== 4 && index !== 3 ? data.amount : ''}">
+        <td data-collection-target="${amountTargetId}" data-original-amount="${index !== 4 && index !== 3 ? data.amount : ''}" data-calculated-amount="${index !== 4 && index !== 3 ? calculatedAmount : ''}">
             ${index !== 4 && index !== 3 ? data.amount : `<input type="text" placeholder="Enter Amount" data-user-input="amount_${index}">`}
         </td>
         <td><input type="date"></td>
@@ -143,31 +143,31 @@ export default class extends Controller {
             { value: "4,55%", label: "4,55%" },
             { value: "2,7%", label: "2,7%" },
             { value: "none", label: "none" }
-          ],"amount_1");
+          ],"amount_1", data.calculatedAmount);
           const newRow2 = this.createRow(data, 2, "Prison Fee", "Enforcement Office", [
             { value: "9,1%", label: "9,1%" },
             { value: "4,55%", label: "4,55%" },
             { value: "2,7%", label: "2,7%" },
             { value: "none", label: "none" }
-          ], "amount_2");
+          ], "amount_2", data.calculatedAmount);
           const newRow3 = this.createRow(data, 3, "Legal Fee", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ],"amount_3");
+          ],"amount_3", data.calculatedAmount);
           const newRow4 = this.createRow(data, 4, "Attorney Fee", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ], "amount_4");
+          ], "amount_4", data.calculatedAmount);
           const newRow5 = this.createRow(data, 5, "Collection Fee-Lawyer", "Lawyer", [
             { value: "10%", label: "10%" },
             { value: "15%", label: "15%" },
             { value: "20%", label: "20%" },
             { value: "none", label: "none" }
-          ],"amount_5");
+          ],"amount_5", data.calculatedAmount);
 
           collectionTable.appendChild(newRow1);
           collectionTable.appendChild(newRow2);
@@ -192,7 +192,8 @@ export default class extends Controller {
 
     let totalAmount = 0;
 
-    const amountElements = this.element.querySelectorAll('[data-calculatedAmount]');
+    const amountElements = this.element.querySelectorAll('[data-calculated-amount]');
+    console.log("Amount Elements:", amountElements);
 
     amountElements.forEach(amountElement => {
       const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
