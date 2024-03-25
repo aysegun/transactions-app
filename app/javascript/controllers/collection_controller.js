@@ -3,6 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty", "collectionTitle", "totalAmount"];
 
+
+  amountTargets = [];
+
   connect() {
     console.log("Ratio Targets:", this.ratioTargets);
     console.log("Amount Targets:", this.amountTargets);
@@ -176,6 +179,12 @@ export default class extends Controller {
           collectionTable.appendChild(newRow4);
           collectionTable.appendChild(newRow5);
 
+          // Reassign Amount Targets after updating the table
+          this.amountTargets = Array.from(this.element.querySelectorAll('[data-collection-target^="amount_"]'));
+
+        // Log Amount Targets to verify
+          console.log("Amount Targets:", this.amountTargets);
+
           this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
         })
         .catch(error => {
@@ -188,6 +197,7 @@ export default class extends Controller {
   }
 
   sumAmounts() {
+    console.log("Button clicked, sumAmounts method called");
     console.log("Amount Targets:", this.amountTargets);
 
     let totalAmount = 0;
