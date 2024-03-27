@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "ratio", "amount", "selection", "collectionTable", "transactionParty", "collectionTitle", "totalAmount"];
 
+  constructor() {
+    super(...arguments);
+    window.stimulusRef = this; // Define stimulusRef as a reference to the current instance
+  }
 
   amountTargets = [];
 
@@ -89,6 +93,10 @@ export default class extends Controller {
     this.sumAmounts();
   }
 
+  handleAmountInput(event) {
+    this.sumAmounts();
+  }
+
   updateTitle(collectionTitleElement, selectedCollection, amount) {
     if (selectedCollection) {
         collectionTitleElement.innerHTML = `<p>Collection for id: ${selectedCollection} - Amount: ${amount}</p>`;
@@ -110,7 +118,7 @@ export default class extends Controller {
             </select>
         </td>` : `<td> - </td>`}
         <td data-collection-target="${amountTargetId}" data-original-amount="${index !== 4 && index !== 3 ? data.amount : ''}" data-calculated-amount="${index !== 4 && index !== 3 ? calculatedAmount : ''}">
-            ${index !== 4 && index !== 3 ? data.amount : `<input type="text" placeholder="Enter Amount" data-user-input="amount_${index}">`}
+            ${index !== 4 && index !== 3 ? data.amount : `<input type="text" placeholder="Enter Amount" data-user-input="amount_${index}" onchange="stimulusRef.handleAmountInput(event)">`}
         </td>
         <td><input type="date"></td>
     `;
@@ -197,7 +205,7 @@ export default class extends Controller {
   }
 
   sumAmounts() {
-    console.log("Button clicked, sumAmounts method called");
+    //console.log("Button clicked, sumAmounts method called");
     console.log("Amount Targets:", this.amountTargets);
 
     let totalAmount = 0;
