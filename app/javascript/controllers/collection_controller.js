@@ -11,6 +11,11 @@ export default class extends Controller {
   amountTargets = [];
 
   connect() {
+
+    document.getElementById('printButton').addEventListener('click', () => {
+      this.printTable();
+    });
+
     console.log("Ratio Targets:", this.ratioTargets);
     console.log("Amount Targets:", this.amountTargets);
 
@@ -26,6 +31,26 @@ export default class extends Controller {
           console.error(`Original amount is not a valid number for index ${index}`, amountTarget.textContent);
         }
     });
+  }
+
+  printTable() {
+    // Select the table element you want to print
+    const table = this.collectionTableTarget;
+
+    // Open a new window for printing
+    const printWindow = window.open('', '_blank');
+
+    // Write the HTML content of the table to the new window
+    printWindow.document.write('<html><head><title>Print Table</title></head><body>');
+    printWindow.document.write('<h1>Calculation Results</h1>');
+    printWindow.document.write(table.outerHTML);
+    printWindow.document.write('</body></html>');
+
+    // Close the document after writing
+    printWindow.document.close();
+
+    // Print the content
+    printWindow.print();
   }
 
   calculateAmount(event) {
