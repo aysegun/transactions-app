@@ -37,6 +37,13 @@ export default class extends Controller {
     // Select the table element you want to print
     const table = this.collectionTableTarget;
 
+    const totalAmountElement = document.getElementById('totalAmount');
+    let totalAmount = 0;
+
+    if (totalAmountElement) {
+        totalAmount = parseFloat(totalAmountElement.textContent);
+    }
+
     // Open a new window for printing
     const printWindow = window.open('', '_blank');
 
@@ -49,6 +56,7 @@ export default class extends Controller {
     }
 
     printWindow.document.write(table.outerHTML);
+    printWindow.document.write(`<p>Total Amount: ${totalAmount.toFixed(2)}</p>`);
     printWindow.document.write('</body></html>');
 
     // Close the document after writing
@@ -268,4 +276,5 @@ export default class extends Controller {
 
     console.log('Total Amount:', totalAmount);
   }
+
 }
