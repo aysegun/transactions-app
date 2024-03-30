@@ -49,9 +49,29 @@ export default class extends Controller {
 
     // Write the HTML content of the table to the new window
     printWindow.document.write('<html><head><title>Print Table</title></head><body>');
-    printWindow.document.write(`<h1>Collection Amount: ${amount}</h1>`);
+    // printWindow.document.write(`<h1>Collection Amount: ${amount}</h1>`);
 
-    printWindow.document.write(table.outerHTML);
+    // printWindow.document.write(table.outerHTML);
+
+      // Write the table headers
+  printWindow.document.write('<table><thead><tr><th>Transaction Party</th><th>Details</th><th>Ratio</th><th>Amount</th><th>Date</th></tr></thead><tbody>');
+
+  // Iterate over each row in the table and write its content to the print window
+  table.querySelectorAll('tbody tr').forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const transactionParty = cells[0].textContent;
+    const details = cells[1].textContent;
+    const ratioElement = cells[2].querySelector('select');
+    const ratio = ratioElement ? ratioElement.value : '';
+    const amount = cells[3].textContent;
+    const dateElement = cells[4].querySelector('input[type="date"]');
+    const date = dateElement ? dateElement.value : '';
+
+    printWindow.document.write(`<tr><td>${transactionParty}</td><td>${details}</td><td>${ratio}</td><td>${amount}</td><td>${date}</td></tr>`);
+  });
+
+  // Close the table and body
+  printWindow.document.write('</tbody></table>');
     printWindow.document.write(`<p>Total Amount: ${totalAmount.toFixed(2)}</p>`);
     printWindow.document.write('</body></html>');
 
