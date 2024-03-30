@@ -63,9 +63,14 @@ export default class extends Controller {
     const details = cells[1].textContent;
     const ratioElement = cells[2].querySelector('select');
     const ratio = ratioElement ? ratioElement.value : '';
-    const amount = cells[3].textContent;
+    let amount = cells[3].textContent;
     const dateElement = cells[4].querySelector('input[type="date"]');
     const date = dateElement ? dateElement.value : '';
+
+    const userInputAmount = cells[3].querySelector('input[data-user-input]');
+    if (userInputAmount) {
+      amount = userInputAmount.value;
+    }
 
     printWindow.document.write(`<tr><td>${transactionParty}</td><td>${details}</td><td>${ratio}</td><td>${amount}</td><td>${date}</td></tr>`);
   });
