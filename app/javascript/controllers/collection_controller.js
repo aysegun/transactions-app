@@ -33,7 +33,7 @@ export default class extends Controller {
     });
   }
 
-  printTable(selectedCollection) {
+  printTable(amount) {
     // Select the table element you want to print
     const table = this.collectionTableTarget;
 
@@ -49,11 +49,7 @@ export default class extends Controller {
 
     // Write the HTML content of the table to the new window
     printWindow.document.write('<html><head><title>Print Table</title></head><body>');
-    if (selectedCollection) {
-      printWindow.document.write(`<h1>Collection for id: ${selectedCollection} - Amount: ${amount}</h1>`);
-    } else {
-      printWindow.document.write('<h1>No collection selected</h1>');
-    }
+    printWindow.document.write(`<h1>Collection Amount: ${amount}</h1>`);
 
     printWindow.document.write(table.outerHTML);
     printWindow.document.write(`<p>Total Amount: ${totalAmount.toFixed(2)}</p>`);
@@ -232,7 +228,7 @@ export default class extends Controller {
           console.log("Amount Targets:", this.amountTargets);
 
           this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
-          this.printTable(selectedCollectionId);
+          this.printTable(data.amount);
         })
         .catch(error => {
           console.error("Error fetching collection data:", error);
