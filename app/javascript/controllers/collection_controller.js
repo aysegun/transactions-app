@@ -290,9 +290,17 @@ export default class extends Controller {
 
     console.log('Total Amount Before Formatting:', totalAmount);
 
+    const originalAmount = parseFloat(this.element.dataset.originalAmount); // Assuming original amount is stored in dataset of the controller element
+    const amountToBeSentToClient = originalAmount - totalAmount;
+
     const totalAmountElement = document.getElementById('totalAmount');
     if (totalAmountElement) {
         totalAmountElement.textContent = totalAmount.toFixed(2);
+    }
+
+    const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
+    if (amountToBeSentToClientElement) {
+        amountToBeSentToClientElement.textContent = amountToBeSentToClient.toFixed(2);
     }
 
     console.log('Total Amount:', totalAmount);
