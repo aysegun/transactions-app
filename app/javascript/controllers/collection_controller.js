@@ -264,22 +264,61 @@ export default class extends Controller {
 
   }
 
-  sumAmounts() {
-    //console.log("Button clicked, sumAmounts method called");
-    console.log("Amount Targets:", this.amountTargets);
+  // sumAmounts() {
+  //   //console.log("Button clicked, sumAmounts method called");
+  //   console.log("Amount Targets:", this.amountTargets);
 
+  //   let totalAmount = 0;
+
+  //   const amountElements = this.element.querySelectorAll('[data-calculated-amount]');
+  //   console.log("Amount Elements:", amountElements);
+
+  //   amountElements.forEach(amountElement => {
+  //     const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
+  //     if (!isNaN(calculatedAmount)) {
+  //         totalAmount += calculatedAmount;
+  //     }
+  //   });
+
+  //   const userInputAmounts = this.element.querySelectorAll('[data-user-input]');
+  //   userInputAmounts.forEach(inputElement => {
+  //       const userInputValue = parseFloat(inputElement.value);
+  //       if (!isNaN(userInputValue)) {
+  //           totalAmount += userInputValue;
+  //       }
+  //   });
+
+  //   console.log('Total Amount Before Formatting:', totalAmount);
+
+  //   const originalAmount = parseFloat(this.element.dataset.originalAmount);
+  //   const amountToBeSentToClient = (originalAmount - totalAmount).toFixed(2);
+  //   console.log('Amount to be Sent to Client:', amountToBeSentToClient);
+
+  //   const totalAmountElement = document.getElementById('totalAmount');
+  //   if (totalAmountElement) {
+  //       totalAmountElement.textContent = totalAmount.toFixed(2);
+  //   }
+
+  //   const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
+  //   if (amountToBeSentToClientElement) {
+  //     amountToBeSentToClientElement.textContent = amountToBeSentToClient;
+  //   }
+
+  //   console.log('Total Amount:', totalAmount);
+  // }
+  sumAmounts() {
     let totalAmount = 0;
 
-    const amountElements = this.element.querySelectorAll('[data-calculated-amount]');
-    console.log("Amount Elements:", amountElements);
-
+    // Calculate total amount for inputs with original amounts
+    const amountElements = this.element.querySelectorAll('[data-calculated-amount][data-original-amount]');
     amountElements.forEach(amountElement => {
-      const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
-      if (!isNaN(calculatedAmount)) {
-          totalAmount += calculatedAmount;
-      }
+        const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
+        if (!isNaN(calculatedAmount)) {
+            totalAmount += calculatedAmount;
+        }
     });
 
+    // Calculate total amount for manually entered inputs
     const userInputAmounts = this.element.querySelectorAll('[data-user-input]');
     userInputAmounts.forEach(inputElement => {
         const userInputValue = parseFloat(inputElement.value);
@@ -288,22 +327,29 @@ export default class extends Controller {
         }
     });
 
-    console.log('Total Amount Before Formatting:', totalAmount);
+    // Get original amount for inputs 1, 2, and 5
+    const originalAmount1 = parseFloat(this.element.querySelector('[data-collection-target="amount_1"]').dataset.originalAmount);
+    const originalAmount2 = parseFloat(this.element.querySelector('[data-collection-target="amount_2"]').dataset.originalAmount);
+    const originalAmount5 = parseFloat(this.element.querySelector('[data-collection-target="amount_5"]').dataset.originalAmount);
 
-    const originalAmount = parseFloat(this.element.dataset.originalAmount); // Assuming original amount is stored in dataset of the controller element
-    const amountToBeSentToClient = originalAmount - totalAmount;
+    // Calculate amount to be sent to the client
+    let amountToBeSentToClient = (originalAmount1 + originalAmount2 + originalAmount5) - totalAmount;
 
-    const totalAmountElement = document.getElementById('totalAmount');
-    if (totalAmountElement) {
-        totalAmountElement.textContent = totalAmount.toFixed(2);
-    }
+    console.log('Amount to be Sent to Client:', amountToBeSentToClient);
 
+    // Update the amount to be sent to client element
     const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
     if (amountToBeSentToClientElement) {
         amountToBeSentToClientElement.textContent = amountToBeSentToClient.toFixed(2);
     }
 
+    // Update total amount element
+    const totalAmountElement = document.getElementById('totalAmount');
+    if (totalAmountElement) {
+        totalAmountElement.textContent = totalAmount.toFixed(2);
+    }
+
     console.log('Total Amount:', totalAmount);
-  }
+}
 
 }
