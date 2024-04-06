@@ -329,11 +329,11 @@ export default class extends Controller {
 
     // Get original amount for inputs 1, 2, and 5
     const originalAmount1 = parseFloat(this.element.querySelector('[data-collection-target="amount_1"]').dataset.originalAmount);
-    const originalAmount2 = parseFloat(this.element.querySelector('[data-collection-target="amount_2"]').dataset.originalAmount);
-    const originalAmount5 = parseFloat(this.element.querySelector('[data-collection-target="amount_5"]').dataset.originalAmount);
+    // const originalAmount2 = parseFloat(this.element.querySelector('[data-collection-target="amount_2"]').dataset.originalAmount);
+    // const originalAmount5 = parseFloat(this.element.querySelector('[data-collection-target="amount_5"]').dataset.originalAmount);
 
     // Calculate amount to be sent to the client
-    let amountToBeSentToClient = (originalAmount1 + originalAmount2 + originalAmount5) - totalAmount;
+    let amountToBeSentToClient = originalAmount1 - totalAmount;
 
     console.log('Amount to be Sent to Client:', amountToBeSentToClient);
 
