@@ -33,15 +33,23 @@ export default class extends Controller {
     });
   }
 
-  printTable(amount) {
+  printTable(amount, amountToBeSentToClient) {
     // Select the table element you want to print
     const table = this.collectionTableTarget;
 
     const totalAmountElement = document.getElementById('totalAmount');
     let totalAmount = 0;
+    // Retrieve the amount to be sent to the client element
+    const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
+    let amountToBeSentToClient = 0
 
     if (totalAmountElement) {
         totalAmount = parseFloat(totalAmountElement.textContent);
+    }
+
+    // Parse amount to be sent to client from the element's text content if it exists
+    if (amountToBeSentToClientElement) {
+      amountToBeSentToClient = parseFloat(amountToBeSentToClientElement.textContent);
     }
 
     // Open a new window for printing
@@ -49,35 +57,33 @@ export default class extends Controller {
 
     // Write the HTML content of the table to the new window
     printWindow.document.write('<html><head><title>Print Table</title></head><body>');
-    // printWindow.document.write(`<h1>Collection Amount: ${amount}</h1>`);
-
-    // printWindow.document.write(table.outerHTML);
 
       // Write the table headers
-  printWindow.document.write('<table><thead><tr><th>Transaction Party</th><th>Details</th><th>Ratio</th><th>Amount</th><th>Date</th></tr></thead><tbody>');
+    printWindow.document.write('<table><thead><tr><th>Transaction Party</th><th>Details</th><th>Ratio</th><th>Amount</th><th>Date</th></tr></thead><tbody>');
 
   // Iterate over each row in the table and write its content to the print window
-  table.querySelectorAll('tbody tr').forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const transactionParty = cells[0].textContent;
-    const details = cells[1].textContent;
-    const ratioElement = cells[2].querySelector('select');
-    const ratio = ratioElement ? ratioElement.value : '';
-    let amount = cells[3].textContent;
-    const dateElement = cells[4].querySelector('input[type="date"]');
-    const date = dateElement ? dateElement.value : '';
+    table.querySelectorAll('tbody tr').forEach(row => {
+      const cells = row.querySelectorAll('td');
+      const transactionParty = cells[0].textContent;
+      const details = cells[1].textContent;
+      const ratioElement = cells[2].querySelector('select');
+      const ratio = ratioElement ? ratioElement.value : '';
+      let amount = cells[3].textContent;
+      const dateElement = cells[4].querySelector('input[type="date"]');
+      const date = dateElement ? dateElement.value : '';
 
-    const userInputAmount = cells[3].querySelector('input[data-user-input]');
-    if (userInputAmount) {
-      amount = userInputAmount.value;
-    }
+      const userInputAmount = cells[3].querySelector('input[data-user-input]');
+      if (userInputAmount) {
+        amount = userInputAmount.value;
+      }
 
-    printWindow.document.write(`<tr><td>${transactionParty}</td><td>${details}</td><td>${ratio}</td><td>${amount}</td><td>${date}</td></tr>`);
-  });
+      printWindow.document.write(`<tr><td>${transactionParty}</td><td>${details}</td><td>${ratio}</td><td>${amount}</td><td>${date}</td></tr>`);
+    });
 
   // Close the table and body
-  printWindow.document.write('</tbody></table>');
+    printWindow.document.write('</tbody></table>');
     printWindow.document.write(`<p>Total Amount: ${totalAmount.toFixed(2)}</p>`);
+    printWindow.document.write(`<p>Amount to be Sent to Client: ${amountToBeSentToClient.toFixed(2)}</p>`);
     printWindow.document.write('</body></html>');
 
     // Close the document after writing
@@ -253,7 +259,7 @@ export default class extends Controller {
           console.log("Amount Targets:", this.amountTargets);
 
           this.updateTitle(collectionTitleElement, selectedCollectionId, data.amount);
-          this.printTable(data.amount);
+          this.printTable(data.amount, amountToBeSentToClient);
         })
         .catch(error => {
           console.error("Error fetching collection data:", error);
@@ -264,48 +270,6 @@ export default class extends Controller {
 
   }
 
-  // sumAmounts() {
-  //   //console.log("Button clicked, sumAmounts method called");
-  //   console.log("Amount Targets:", this.amountTargets);
-
-  //   let totalAmount = 0;
-
-  //   const amountElements = this.element.querySelectorAll('[data-calculated-amount]');
-  //   console.log("Amount Elements:", amountElements);
-
-  //   amountElements.forEach(amountElement => {
-  //     const calculatedAmount = parseFloat(amountElement.dataset.calculatedAmount);
-  //     if (!isNaN(calculatedAmount)) {
-  //         totalAmount += calculatedAmount;
-  //     }
-  //   });
-
-  //   const userInputAmounts = this.element.querySelectorAll('[data-user-input]');
-  //   userInputAmounts.forEach(inputElement => {
-  //       const userInputValue = parseFloat(inputElement.value);
-  //       if (!isNaN(userInputValue)) {
-  //           totalAmount += userInputValue;
-  //       }
-  //   });
-
-  //   console.log('Total Amount Before Formatting:', totalAmount);
-
-  //   const originalAmount = parseFloat(this.element.dataset.originalAmount);
-  //   const amountToBeSentToClient = (originalAmount - totalAmount).toFixed(2);
-  //   console.log('Amount to be Sent to Client:', amountToBeSentToClient);
-
-  //   const totalAmountElement = document.getElementById('totalAmount');
-  //   if (totalAmountElement) {
-  //       totalAmountElement.textContent = totalAmount.toFixed(2);
-  //   }
-
-  //   const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
-  //   if (amountToBeSentToClientElement) {
-  //     amountToBeSentToClientElement.textContent = amountToBeSentToClient;
-  //   }
-
-  //   console.log('Total Amount:', totalAmount);
-  // }
   sumAmounts() {
     let totalAmount = 0;
 
