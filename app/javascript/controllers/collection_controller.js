@@ -41,6 +41,7 @@ export default class extends Controller {
 
     const totalAmountElement = document.getElementById('totalAmount');
     let totalAmount = 0;
+
     // Retrieve the amount to be sent to the client element
     const amountToBeSentToClientElement = document.getElementById('amountToBeSentToClient');
     let amountToBeSentToClient = 0
@@ -88,7 +89,7 @@ export default class extends Controller {
     if (!isNaN(amountToBeSentToClient)) {
       printWindow.document.write(`<p>Amount to be Sent to Client: ${amountToBeSentToClient.toFixed(2)}</p>`);
     }
-    //printWindow.document.write(`<p>Amount to be Sent to Client: ${amountToBeSentToClient.toFixed(2)}</p>`);
+
     printWindow.document.write('</body></html>');
 
     // Close the document after writing
