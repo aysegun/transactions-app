@@ -37,6 +37,8 @@ export default class extends Controller {
     // Select the table element you want to print
     const table = this.collectionTableTarget;
 
+    const currentDate = new Date().toLocaleDateString();
+
     const totalAmountElement = document.getElementById('totalAmount');
     let totalAmount = 0;
     // Retrieve the amount to be sent to the client element
@@ -58,8 +60,8 @@ export default class extends Controller {
     // Write the HTML content of the table to the new window
     printWindow.document.write('<html><head><title>Print Table</title></head><body>');
 
-      // Write the table headers
-    printWindow.document.write('<table><thead><tr><th>Transaction Party</th><th>Details</th><th>Ratio</th><th>Amount</th><th>Date</th></tr></thead><tbody>');
+    // Write the table headers
+    printWindow.document.write(`<table><thead><tr><th colspan="5">Collection Details on ${currentDate}</th></tr><tr><th>Transaction Party</th><th>Details</th><th>Ratio</th><th>Amount</th><th>Date</th></tr></thead><tbody>`);
 
     // Iterate over each row in the table and write its content to the print window
     table.querySelectorAll('tbody tr').forEach(row => {
