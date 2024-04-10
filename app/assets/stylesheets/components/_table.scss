@@ -1,4 +1,4 @@
-// show page
+// client show page
 
 .expense-table th {
   padding: 7px;
@@ -106,4 +106,17 @@ tr.odd-row {
 .index-table thead tr {
   position: sticky;
   top: 200px;
+}
+
+
+// case show page
+
+.collection-table th {
+  padding: 7px;
+  border-bottom: 2px solid black;
+}
+
+.collection-table td {
+  padding: 5px;
+  padding-right: 20px;
 }

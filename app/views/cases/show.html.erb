@@ -27,10 +27,13 @@
   </div>
 </div>
 
+<div class="button-b mt-3">
+  <%= link_to "Create Collection", new_client_case_collection_path(case_id: @case.id)  %>
+</div>
 
-<p><%= link_to "Create Collection", new_client_case_collection_path(case_id: @case.id)  %></p>
-<p><%= link_to "Back to Client", client_path(@case.client) %></p>
-
+<div class="button-r mt-3">
+  <%= link_to "Back to Client", client_path(@case.client) %>
+</div>
 
 <div class="collection-title" data-collection-target="collectionTitle" >
   <p></p>
