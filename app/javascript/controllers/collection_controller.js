@@ -134,6 +134,9 @@ export default class extends Controller {
         case '2,7%':
             calculatedAmount = originalAmount * 2.7 / 100;
             break;
+        case '2,0%':
+            calculatedAmount = originalAmount * 2.0 / 100;
+            break;
         case '10%':
             calculatedAmount = originalAmount * 10 / 100;
             break;
@@ -228,9 +231,8 @@ export default class extends Controller {
             { value: "none", label: "none" }
           ],"amount_1", data.calculatedAmount);
           const newRow2 = this.createRow(data, 2, "Prison Fee", "Enforcement Office", [
-            { value: "9,1%", label: "9,1%" },
-            { value: "4,55%", label: "4,55%" },
-            { value: "2,7%", label: "2,7%" },
+
+            { value: "2,0%", label: "2,0%" },
             { value: "none", label: "none" }
           ], "amount_2", data.calculatedAmount);
           const newRow3 = this.createRow(data, 3, "Legal Fee", "Lawyer", [
@@ -320,6 +322,5 @@ export default class extends Controller {
     }
 
     console.log('Total Amount:', totalAmount);
-}
-
+  }
 }
