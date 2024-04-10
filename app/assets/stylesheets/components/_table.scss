@@ -110,6 +110,9 @@ tr.odd-row {
 
 
 // case show page
+.collection-table {
+  margin-left: 25px;
+}
 
 .collection-table th {
   padding: 7px;
@@ -119,4 +122,32 @@ tr.odd-row {
 .collection-table td {
   padding: 5px;
   padding-right: 20px;
+}
+
+.d-menu {
+  margin-left: 25px;
+}
+
+.collection-calculation-table {
+  margin-left: 25px;
+}
+
+.collection-calculation-table th {
+  padding: 7px;
+  border: 1px solid black;
+}
+
+.collection-calculation-table td {
+  padding: 5px;
+  padding-right: 20px;
+  border: 1px solid black;
+}
+
+.expense-detail {
+  margin-left: 25px;
+}
+
+.collection-title {
+  margin-left: 25px;
+  margin-top: 15px;
 }

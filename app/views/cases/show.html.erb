@@ -1,10 +1,11 @@
 <h3>Find me on app/views/cases/show.html.erb</h3>
 
 <div class="mt-5">
-  <p style="font-weight: bold">Collections</p>
+  <p style="font-weight: bold; margin-left:25px">Collections</p>
 
-  <%= select_tag "selected_collection", options_from_collection_for_select(@collections, 'id', 'description'), prompt: 'Select a collection', data: { controller: 'collection', action: 'change->collection#updateTable', client_id: @client.id, case_id: @case.id, collection_target: 'selection'} %>
-
+  <div class="d-menu">
+    <%= select_tag "selected_collection", options_from_collection_for_select(@collections, 'id', 'description'), prompt: 'Select a collection', data: { controller: 'collection', action: 'change->collection#updateTable', client_id: @client.id, case_id: @case.id, collection_target: 'selection'} %>
+  </div>
   <div class="collection-table mt-3">
     <table>
       <thead>
@@ -55,8 +56,8 @@
 </div>
 
 
-<div class="mt-3">Expenses: <span id="totalAmount"></span></div>
-<div class="mt-3">Amount to be sent to the client: <span id="amountToBeSentToClient"></span></div>
+<div class="expense-detail mt-3">Expenses: <span id="totalAmount"></span></div>
+<div class="expense-detail mt-3">Amount to be sent to the client: <span id="amountToBeSentToClient"></span></div>
 
 
 <button id="printButton">Print Table</button>
