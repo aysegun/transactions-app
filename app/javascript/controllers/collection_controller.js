@@ -85,7 +85,7 @@ export default class extends Controller {
 
     // Close the table and body
     printWindow.document.write('</tbody></table>');
-    printWindow.document.write(`<p>Total Amount: ${totalAmount.toFixed(2)}</p>`);
+    printWindow.document.write(`<p>Expenses: ${totalAmount.toFixed(2)}</p>`);
     if (!isNaN(amountToBeSentToClient)) {
       printWindow.document.write(`<p>Amount to be Sent to Client: ${amountToBeSentToClient.toFixed(2)}</p>`);
     }
