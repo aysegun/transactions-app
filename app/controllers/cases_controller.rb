@@ -5,6 +5,10 @@ class CasesController < ApplicationController
     @case = @client.cases.new
   end
 
+  def index
+    @cases = Case.all
+  end
+
   def create
     @case = @client.cases.new(case_params)
     if @case.save

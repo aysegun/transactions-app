@@ -173,7 +173,7 @@ export default class extends Controller {
 
   updateTitle(collectionTitleElement, selectedCollection, amount) {
     if (selectedCollection) {
-        collectionTitleElement.innerHTML = `<p>Collection for id: ${selectedCollection} - Amount: ${amount}</p>`;
+        collectionTitleElement.innerHTML = `<p>Expense details for collection  id: ${selectedCollection} - Amount: ${amount}</p>`;
     } else {
         collectionTitleElement.innerHTML = `<p>No collection selected</p>`;
     }
