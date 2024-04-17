@@ -33,7 +33,7 @@
           <td><%= client.transactions.where(transaction_type: 'expense').sum(:amount) %></td>
           <td>
             <%= link_to "Review", client %>
-            <%= link_to "", client_cases_path(client), class:"fa-regular fa-folder-open" %>
+            <%= link_to "", client_cases_path(client_id: client.id), class:"fa-regular fa-folder-open" %>
           </td>
         </tr>
       <% end %>

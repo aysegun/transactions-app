@@ -6,7 +6,11 @@ class CasesController < ApplicationController
   end
 
   def index
-    @cases = Case.all
+    if params[:client_id].present?
+      @cases = Case.where(client_id: params[:client_id])
+    else
+      @cases = Case.all
+    end
   end
 
   def create

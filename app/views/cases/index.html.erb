@@ -1,1 +1,4 @@
 <h3>Find me on app/views/cases/index.html.erb</h3>
+<% @cases.each do |individual_case| %>
+  <p><%= individual_case.court && individual_case.court_number %></p>
+<% end %>
