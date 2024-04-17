@@ -2,3 +2,7 @@
 <% @cases.each do |individual_case| %>
   <p><%= individual_case.court && individual_case.court_number %></p>
 <% end %>
+
+<div class="button-r mt-3">
+  <%= link_to 'Back', clients_path %>
+</div>
