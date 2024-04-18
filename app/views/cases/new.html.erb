@@ -1,0 +1,25 @@
+<div class="wrapper-case">
+  <div class="wrapper">
+    <div class="header-case">
+      <h3>New Case</h3>
+    </div>
+    <div class="form-case">
+      <%= form_with(model: [@client, @case],local: true) do |form| %>
+        <div class="field mt-3">
+          <%= form.label :court %>
+          <%= form.text_field :court, class: 'form-control' %>
+        </div>
+        <div class="field mt-3">
+          <%= form.label :court_number %>
+          <%= form.text_field :court_number, class: 'form-control' %>
+        </div>
+        <div class="submit-button mt-3">
+          <%= form.submit 'Create Case' %>
+        </div>
+      <% end %>
+    </div>
+    <div class="button mt-3">
+      <%= link_to "Case List", client_cases_path %>
+    </div>
+  </div>
+</div>
