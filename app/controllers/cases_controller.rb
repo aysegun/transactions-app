@@ -17,8 +17,8 @@ class CasesController < ApplicationController
     @case = @client.cases.new(case_params)
     if @case.save
       respond_to do |format|
-        format.turbo_stream { redirect_to client_path(@client) }
-        format.html { redirect_to client_path(@client) }
+        format.turbo_stream { redirect_to client_cases_path }
+        format.html { redirect_to client_cases_path }
       end
     else
       format.turbo_stream { render turbo_stream: turbo_stream.replace('form-errors', partial: 'shared/form_errors', locals: { resource: @cases }) }
