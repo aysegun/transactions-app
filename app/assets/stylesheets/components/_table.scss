@@ -151,3 +151,25 @@ tr.odd-row {
   margin-left: 25px;
   margin-top: 15px;
 }
+
+// case index page
+
+.case-table th {
+  padding: 7px;
+  border-bottom: 2px solid black;
+}
+
+.case-table td {
+
+  padding-right: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.case-table {
+  margin-left: 25px;
+}
+
+.case-table-title {
+  margin-left: 15px;
+  font-weight: bold;
+}
