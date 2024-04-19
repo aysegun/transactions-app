@@ -2,23 +2,23 @@
 
 <p>Case List for <%= @client.last_name %>, <%= @client.first_name %></p>
 <div class="case-table mt-3">
-    <table>
-      <thead>
+  <table>
+    <thead>
+      <tr>
+        <th>Court</th>
+        <th>Court Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cases.each do |individual_case| %>
         <tr>
-          <th>Court</th>
-          <th>Court Number</th>
+          <td><%= individual_case.court%></td>
+          <td><%= individual_case.court_number %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @cases.each do |individual_case| %>
-          <tr>
-            <td><%= individual_case.court%></td>
-            <td><%= individual_case.court_number %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <div class="button-r mt-3">
   <%= link_to 'Back', clients_path %>
