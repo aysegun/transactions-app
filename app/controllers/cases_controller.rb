@@ -7,7 +7,8 @@ class CasesController < ApplicationController
 
   def index
     if params[:client_id].present?
-      @cases = Case.where(client_id: params[:client_id])
+      @client = Client.find(params[:client_id])
+      @cases = @client.cases
     else
       @cases = Case.all
     end
