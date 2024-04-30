@@ -9,7 +9,6 @@ export default class extends Controller {
     console.log('Case ID field target:', this.caseIdFieldTarget);
 
     this.updateFields();
-
   }
 
   updateFields() {
@@ -42,11 +41,11 @@ export default class extends Controller {
   }
 
   caseOptionsChanged() {
+
     this.fetchCaseOptions();
   }
 
   async fetchCaseOptions() {
-    // console.log('TurboStreams:', TurboStreams)
 
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
     const clientId = this.element.dataset.clientId;
@@ -63,7 +62,11 @@ export default class extends Controller {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
           const turboStreamContent = await response.text();
-          TurboStreams.append(turboStreamContent);
+          // TurboStreams.append(turboStreamContent);
+          this.element.insertAdjacentHTML('beforeend', turboStreamContent);
+
+
+
         } else {
           const jsonData = await response.json();
           this.caseInfoFieldTarget.innerHTML = '';
@@ -76,7 +79,9 @@ export default class extends Controller {
           }
         }
       } catch (error) {
-          console.error('Error processing JSON:', error.message );
+          // console.error('Error processing JSON:', error.message );
+          console.error('Error fetching case options:', error.message);
+
           this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
     }
     }
