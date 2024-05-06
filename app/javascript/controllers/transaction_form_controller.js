@@ -5,7 +5,7 @@ export default class extends Controller {
   //casesData = null;
 
   connect() {
-     //console.log('Cases dataset:', this.element.dataset.cases);
+    //console.log('Cases dataset:', this.element.dataset.cases);
     // this.cases = JSON.parse(this.element.dataset.cases);
     // console.log('Parsed cases:', this.cases);
 
