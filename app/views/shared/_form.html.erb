@@ -1,4 +1,4 @@
-<div class="form-transaction" data-controller="transaction-form" data-client-id="<%= @client.id %>" >
+<div class="form-transaction" data-controller="transaction-form" data-client-id="<%= @client.id %>" data-cases='<%= raw @client.cases.to_json %>'>
   <%= form_with(model: [@client, @transaction], remote: true) do |form| %>
     <div class="field mt-3">
       <%= form.label :amount %>
