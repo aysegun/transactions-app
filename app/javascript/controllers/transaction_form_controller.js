@@ -9,6 +9,7 @@ export default class extends Controller {
     // this.cases = JSON.parse(this.element.dataset.cases);
     // console.log('Parsed cases:', this.cases);
 
+
     console.log('Connected to transaction-form controller');
     console.log('Transaction type field target:', this.transactionTypeFieldTarget);
     console.log('Case ID field target:', this.caseIdFieldTarget);
@@ -24,7 +25,7 @@ export default class extends Controller {
 
   updateFields() {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
-    const caseDropdown = this.caseIdFieldTarget.querySelector('select');
+    const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
     console.log('Case Dropdown:', caseDropdown);
     const caseId = caseDropdown ? caseDropdown.value : null;
 
@@ -51,16 +52,6 @@ export default class extends Controller {
     this.updateFields();
   }
 
-  // caseOptionsChanged() {
-
-  //   this.fetchCaseOptions();
-  // }
-  // caseOptionsChanged() {
-  //   const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
-  //   const selectedCaseId = caseDropdown.value;
-  //   console.log('Selected Case ID:', selectedCaseId);
-  //   this.fetchCaseOptions(selectedCaseId);
-  // }
   caseOptionsChanged() {
     console.log('Case options changed event triggered!');
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
@@ -118,45 +109,41 @@ export default class extends Controller {
   //     }
   //   }
   // }
+
   async fetchCaseOptions(selectedCaseId) {
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
     const clientId = this.element.dataset.clientId;
-    console.log('Fetch URL:', `/clients/${clientId}/case_options?transaction_type=${selectedType}&selected_case_id=${selectedCaseId}&timestamp=${Date.now()}`);
+    let url = `/clients/${clientId}/case_options?transaction_type=${selectedType}&timestamp=${Date.now()}`;
 
-    if (clientId) {
-      try {
-        let url = `/clients/${clientId}/case_options?transaction_type=${selectedType}&timestamp=${Date.now()}`;
+    if (selectedCaseId) {
+      url += `&selected_case_id=${selectedCaseId}`;
+    }
 
-        // If a selectedCaseId is provided, append it to the URL
-        if (selectedCaseId) {
-          url += `&selected_case_id=${selectedCaseId}`;
-        }
+    try {
+      const response = await fetch(url);
 
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`Fetch error: ${response.statusText}`);
-        }
-
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
-          const turboStreamContent = await response.text();
-          this.element.insertAdjacentHTML('beforeend', turboStreamContent);
-        } else {
-          const jsonData = await response.json();
-          this.caseInfoFieldTarget.innerHTML = '';
-
-          for (const caseData of jsonData.cases) {
-            const option = document.createElement('option');
-            option.value = caseData.id;
-            option.text = caseData.court;
-            this.caseInfoFieldTarget.appendChild(option);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching case options:', error.message);
-        this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.statusText}`);
       }
+
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
+        const turboStreamContent = await response.text();
+        this.element.insertAdjacentHTML('beforeend', turboStreamContent);
+      } else {
+        const jsonData = await response.json();
+        this.caseInfoFieldTarget.innerHTML = '';
+
+        for (const caseData of jsonData.cases) {
+          const option = document.createElement('option');
+          option.value = caseData.id;
+          option.text = caseData.court;
+          this.caseInfoFieldTarget.appendChild(option);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching case options:', error.message);
+      this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
     }
   }
 
