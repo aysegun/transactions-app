@@ -50,11 +50,8 @@ class TransactionsController < ApplicationController
 
   def case_options
     client_id = params[:client_id]
-    logger.info "Client ID: #{client_id}" # Add logging
-
 
     @cases = Case.where(client_id: client_id)
-    logger.info "Cases: #{@cases}" # Add logging
 
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.replace('caseInfoField', partial: 'shared/case_options', locals: { cases: @cases }) }
