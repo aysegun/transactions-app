@@ -5,10 +5,6 @@ export default class extends Controller {
   //casesData = null;
 
   connect() {
-    //console.log('Cases dataset:', this.element.dataset.cases);
-    // this.cases = JSON.parse(this.element.dataset.cases);
-    // console.log('Parsed cases:', this.cases);
-
 
     console.log('Connected to transaction-form controller');
     console.log('Transaction type field target:', this.transactionTypeFieldTarget);
@@ -31,6 +27,8 @@ export default class extends Controller {
 
     console.log('Transaction type changed:', transactionType);
     console.log('Case ID changed:', caseId);
+
+    //this.fetchCaseOptions(caseId);
 
     this.toggleFieldsVisibility(transactionType, caseId);
 
@@ -61,87 +59,12 @@ export default class extends Controller {
     this.updateFields();
   }
 
-
-  // async fetchCaseOptions() {
-  //   const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
-  //   const selectedCases = this.cases ? this.cases.filter(c => c.transaction_type === selectedType) : [];
-  //   const clientId = this.element.dataset.clientId;
-
-  //   if (clientId) {
-  //     try {
-  //       const response = await fetch(`/clients/${clientId}/case_options?transaction_type=${selectedType}&timestamp=${Date.now()}`);
-
-  //       if (!response.ok) {
-  //         throw new Error(`Fetch error: ${response.statusText}`);
-  //       }
-
-  //       const contentType = response.headers.get('content-type');
-  //       if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
-  //         const turboStreamContent = await response.text();
-  //         this.element.insertAdjacentHTML('beforeend', turboStreamContent);
-  //       } else {
-  //         const jsonData = await response.json();
-  //         this.caseInfoFieldTarget.innerHTML = '';
-
-  //         for (const caseData of jsonData.cases) {
-  //           const option = document.createElement('option');
-  //           option.value = caseData.id;
-  //           option.text = caseData.court;
-  //           this.caseInfoFieldTarget.appendChild(option);
-  //         }
-
-
-  //         console.log('caseIdFieldTarget:', this.caseIdFieldTarget);
-  //         const selectElement = this.caseIdFieldTarget.querySelector('select');
-  //         console.log('selectElement:', selectElement);
-  //         if (selectElement) {
-  //           selectElement.value = selectedCaseId;
-  //         }
-
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching case options:', error.message);
-  //       this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
-  //     }
-  //   }
-  // }
-
-  // async fetchCaseOptions(selectedCaseId) {
-  //   const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
-  //   const clientId = this.element.dataset.clientId;
-  //   let url = `/clients/${clientId}/case_options?transaction_type=${selectedType}&timestamp=${Date.now()}`;
-
-  //   if (selectedCaseId) {
-  //     url += `&selected_case_id=${selectedCaseId}`;
-  //   }
-
-  //   try {
-  //     const response = await fetch(url);
-
-  //     if (!response.ok) {
-  //       throw new Error(`Fetch error: ${response.statusText}`);
-  //     }
-
-  //     const contentType = response.headers.get('content-type');
-  //     if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
-  //       const turboStreamContent = await response.text();
-  //       this.element.insertAdjacentHTML('beforeend', turboStreamContent);
-  //     } else {
-  //       const jsonData = await response.json();
-  //       this.caseInfoFieldTarget.innerHTML = '';
-
-  //       for (const caseData of jsonData.cases) {
-  //         const option = document.createElement('option');
-  //         option.value = caseData.id;
-  //         option.text = caseData.court;
-  //         this.caseInfoFieldTarget.appendChild(option);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching case options:', error.message);
-  //     this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
-  //   }
-  // }
+//   caseOptionsChanged() {
+//     console.log('Case options changed event triggered!');
+//     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
+//     const selectedCaseId = caseDropdown.value.trim(); // Capture the selected case ID
+//     this.fetchCaseOptions(selectedCaseId); // Fetch options based on the selected case ID
+// }
 
   fetchCaseOptions(selectedCaseId) {
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
@@ -179,7 +102,7 @@ export default class extends Controller {
         });
 }
 
-updateCaseOptions(jsonData) {
+  updateCaseOptions(jsonData) {
     this.caseInfoFieldTarget.innerHTML = '';
     for (const caseData of jsonData.cases) {
         const option = document.createElement('option');
@@ -187,22 +110,8 @@ updateCaseOptions(jsonData) {
         option.text = caseData.court;
         this.caseInfoFieldTarget.appendChild(option);
     }
-    this.updateFields();
-}
-
-
-
-  // captureSelectedCaseId() {
-  //   const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
-  //   console.log('Case Dropdown:', caseDropdown);
-  //   if (caseDropdown) {
-  //     const selectedCaseId = caseDropdown.value;
-  //     console.log('Selected Case ID:', selectedCaseId);
-  //     this.updateFields(); // Always update fields when a case is selected
-  //   } else {
-  //     console.log('No case selected.');
-  //     // Handle the case where no case is selected, e.g., reset fields or display a message
-  //   }
-  // }
+    //this.updateFields();
+    this.element.dispatchEvent(new Event('caseOptionsChanged'));
+  }
 
 }
