@@ -19,19 +19,17 @@ export default class extends Controller {
     this.updateFields();
   }
 
-  updateFields() {
+  updateFields(selectedCaseId) {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
     console.log('Case Dropdown:', caseDropdown);
-    const caseId = caseDropdown ? caseDropdown.value.trim() : null;
+    // const caseId = caseDropdown ? caseDropdown.value.trim() : null;
+    // this.caseId = caseId;
 
     console.log('Transaction type changed:', transactionType);
-    console.log('Case ID changed:', caseId);
+    console.log('Case ID changed:', selectedCaseId);
 
-    //this.fetchCaseOptions(caseId);
-
-    this.toggleFieldsVisibility(transactionType, caseId);
-
+    this.toggleFieldsVisibility(transactionType, selectedCaseId);
   }
 
   toggleFieldsVisibility(transactionType, caseId) {
@@ -56,17 +54,16 @@ export default class extends Controller {
 
   caseOptionsChanged() {
     console.log('Case options changed event triggered!');
-    this.updateFields();
+    const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
+    const selectedCaseId = caseDropdown ? caseDropdown.value.trim() : null;
+
+    this.updateFields(selectedCaseId);
+
+    this.fetchCaseOptions(selectedCaseId);
   }
 
-//   caseOptionsChanged() {
-//     console.log('Case options changed event triggered!');
-//     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
-//     const selectedCaseId = caseDropdown.value.trim(); // Capture the selected case ID
-//     this.fetchCaseOptions(selectedCaseId); // Fetch options based on the selected case ID
-// }
-
   fetchCaseOptions(selectedCaseId) {
+    console.log('Fetching case options...');
     const selectedType = this.transactionTypeFieldTarget.querySelector('select').value;
     const clientId = this.element.dataset.clientId;
     const url = `/clients/${clientId}/case_options`;
@@ -76,31 +73,33 @@ export default class extends Controller {
         timestamp: Date.now(),
         ...(selectedCaseId && { selected_case_id: selectedCaseId })
     });
+    const finalUrl = `${url}?${params}`;
+    console.log('Final URL:', finalUrl);
 
-    fetch(`${url}?${params}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Fetch error: ${response.statusText}`);
-            }
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
-                return response.text();
-            } else {
-                return response.json();
-            }
-        })
-        .then(data => {
-            if (typeof data === 'string') {
-                this.element.insertAdjacentHTML('beforeend', data);
-            } else {
-                this.updateCaseOptions(data);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching case options:', error.message);
-            this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
-        });
-}
+    fetch(finalUrl)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Fetch error: ${response.statusText}`);
+          }
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('text/vnd.turbo-stream.html')) {
+              return response.text();
+          } else {
+              return response.json();
+          }
+      })
+    .then(data => {
+        if (typeof data === 'string') {
+            this.element.insertAdjacentHTML('beforeend', data);
+        } else {
+            this.updateCaseOptions(data);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching case options:', error.message);
+        this.caseInfoFieldTarget.innerHTML = '<option value="">Error loading case options</option>';
+    });
+  }
 
   updateCaseOptions(jsonData) {
     this.caseInfoFieldTarget.innerHTML = '';
@@ -110,8 +109,5 @@ export default class extends Controller {
         option.text = caseData.court;
         this.caseInfoFieldTarget.appendChild(option);
     }
-    //this.updateFields();
-    this.element.dispatchEvent(new Event('caseOptionsChanged'));
   }
-
 }
