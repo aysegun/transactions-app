@@ -19,17 +19,18 @@ export default class extends Controller {
     this.updateFields();
   }
 
-  updateFields(selectedCaseId) {
+  updateFields(selectedCaseId = null) {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
     console.log('Case Dropdown:', caseDropdown);
+    const caseId = selectedCaseId || (caseDropdown ? caseDropdown.value.trim() : null);
     // const caseId = caseDropdown ? caseDropdown.value.trim() : null;
     // this.caseId = caseId;
 
     console.log('Transaction type changed:', transactionType);
-    console.log('Case ID changed:', selectedCaseId);
+    console.log('Case ID changed:', caseId);
 
-    this.toggleFieldsVisibility(transactionType, selectedCaseId);
+    this.toggleFieldsVisibility(transactionType, caseId);
   }
 
   toggleFieldsVisibility(transactionType, caseId) {
@@ -56,6 +57,7 @@ export default class extends Controller {
     console.log('Case options changed event triggered!');
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
     const selectedCaseId = caseDropdown ? caseDropdown.value.trim() : null;
+    console.log('Selected case ID:', selectedCaseId);
 
     this.updateFields(selectedCaseId);
 
