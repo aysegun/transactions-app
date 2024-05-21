@@ -2,7 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ['caseInfoField', 'courtField', 'courtNumberField', 'transactionTypeField', 'caseIdField'];
-  //casesData = null;
 
   connect() {
 
@@ -11,29 +10,31 @@ export default class extends Controller {
     console.log('Case ID field target:', this.caseIdFieldTarget);
     console.log('Case ID field target value:', this.caseIdFieldTarget.value || 'Value not selected');
 
-
-
     const casesData = JSON.parse(this.element.dataset.cases);
     console.log('Parsed cases:', casesData);
-
     this.updateFields();
   }
+
 
   updateFields(selectedCaseId = null) {
     const transactionType = this.transactionTypeFieldTarget.querySelector('select').value;
     const caseDropdown = this.caseInfoFieldTarget.querySelector('select');
-    console.log('Case Dropdown:', caseDropdown);
-    const caseId = selectedCaseId || (caseDropdown ? caseDropdown.value.trim() : null);
-    // const caseId = caseDropdown ? caseDropdown.value.trim() : null;
-    // this.caseId = caseId;
+    const caseId = selectedCaseId !== null ? selectedCaseId : (caseDropdown ? caseDropdown.value.trim() : null);
 
+    console.log('Update Fields called');
     console.log('Transaction type changed:', transactionType);
     console.log('Case ID changed:', caseId);
+
+    if (caseId) {
+      this.caseIdFieldTarget.value = caseId;
+      console.log('Case ID field target value set to:', this.caseIdFieldTarget.value);
+    }
 
     this.toggleFieldsVisibility(transactionType, caseId);
   }
 
   toggleFieldsVisibility(transactionType, caseId) {
+    console.log('Toggle Fields Visibility called');
     console.log('caseId:', caseId);
     console.log('transactionType:', transactionType);
 
@@ -80,6 +81,7 @@ export default class extends Controller {
 
     fetch(finalUrl)
       .then(response => {
+        console.log('Fetch response:', response);
           if (!response.ok) {
               throw new Error(`Fetch error: ${response.statusText}`);
           }
@@ -91,10 +93,13 @@ export default class extends Controller {
           }
       })
     .then(data => {
+      console.log('Fetch data:', data);
         if (typeof data === 'string') {
-            this.element.insertAdjacentHTML('beforeend', data);
+          this.element.insertAdjacentHTML('beforeend', data);
+
         } else {
-            this.updateCaseOptions(data);
+            // this.updateCaseOptions(data);
+            this.updateCaseOptions(data, selectedCaseId);
         }
     })
     .catch(error => {
@@ -103,13 +108,34 @@ export default class extends Controller {
     });
   }
 
-  updateCaseOptions(jsonData) {
+  updateCaseOptions(jsonData,selectedCaseId) {
+    console.log('Update Case Options called');
+    console.log('JSON Data:', jsonData);
+
     this.caseInfoFieldTarget.innerHTML = '';
-    for (const caseData of jsonData.cases) {
-        const option = document.createElement('option');
-        option.value = caseData.id;
-        option.text = caseData.court;
-        this.caseInfoFieldTarget.appendChild(option);
-    }
+    jsonData.cases.forEach(caseData => {
+      const option = document.createElement('option');
+      option.value = caseData.id;
+      option.text = caseData.court;
+      if (caseData.id == selectedCaseId) {
+        option.selected = true;
+      }
+      this.caseInfoFieldTarget.appendChild(option);
+    });
+
+    this.caseIdFieldTarget.value = selectedCaseId;
+    console.log('Case ID field target value updated to:', this.caseIdFieldTarget.value);
+
+  }
+
+  populateCaseOptions(casesData) {
+    console.log('Populating initial case options');
+    this.caseInfoFieldTarget.innerHTML = '';
+    casesData.forEach(caseData => {
+      const option = document.createElement('option');
+      option.value = caseData.id;
+      option.text = caseData.court;
+      this.caseInfoFieldTarget.appendChild(option);
+    });
   }
 }

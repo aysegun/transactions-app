@@ -31,6 +31,7 @@ class CasesController < ApplicationController
     @case = Case.find(params[:id])
     @collections = @case.collections
     @client = @case.client
+    @transactions = @case.transactions
   end
 
   def edit

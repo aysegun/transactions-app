@@ -1,5 +1,10 @@
 <h3>Find me on app/views/cases/show.html.erb</h3>
 
+<h1>Case Details</h1>
+<p><strong>Court:</strong> <%= @case.court %></p>
+<p><strong>Court Number:</strong> <%= @case.court_number %></p>
+<p><strong>Client:</strong> <%= @case.client.last_name %></p>
+
 <div class="mt-5">
   <p style="font-weight: bold; margin-left:25px">Collections</p>
 
@@ -61,3 +66,11 @@
 
 
 <button id="printButton">Print Table</button>
+
+<div>
+  <h3>Expenses Related to case</h3>
+  <%= @case.transactions.each do |transaction| %>
+    <p><%= transaction.amount %></p>
+    <p><%= transaction.description %></p>
+    <% end %>
+</div>
