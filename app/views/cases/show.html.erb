@@ -74,6 +74,7 @@
       <tr>
         <th>Amount</th>
         <th>Description</th>
+        <th>Date</th>
       </tr>
     </thead>
     <tbody>
@@ -81,6 +82,7 @@
         <tr>
           <td><%= transaction.amount %></td>
           <td><%= transaction.description %></td>
+          <td><%= transaction.created_at %></td>
         </tr>
       <% end %>
     </tbody>
