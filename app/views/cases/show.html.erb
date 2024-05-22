@@ -69,8 +69,20 @@
 
 <div>
   <h3>Expenses Related to case</h3>
-  <%= @case.transactions.each do |transaction| %>
-    <p><%= transaction.amount %></p>
-    <p><%= transaction.description %></p>
-    <% end %>
+  <table>
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @case.transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction.amount %></td>
+          <td><%= transaction.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
