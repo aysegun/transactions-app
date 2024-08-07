@@ -3,6 +3,7 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = @client.transactions.build(transaction_params)
+    Rails.logger.debug "Transaction params: #{transaction_params.inspect}" # Debugging
 
     if @transaction.save
       respond_to do |format|
@@ -66,7 +67,7 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    base_params = %i[amount date transaction_type description court court_number]
+    base_params = %i[amount date transaction_type description court court_number ]
     params.require(:transaction).permit(*base_params, transaction_cases_attributes: [:case_id])
   end
 end

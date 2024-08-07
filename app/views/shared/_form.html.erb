@@ -11,20 +11,25 @@
     </div>
 
     <div class="field mt-3" data-transaction-form-target="caseInfoField">
-      <%= render 'shared/case_options', collection: @cases %>
+      <%= label_tag :case_info, "Case info" %>
+      <% cases_options = @client.cases.map { |c| [c.court, c.id] } %>
+      <% cases_options << ['New Case', 'new_case'] %>
+      <%= select_tag 'transaction[case_id]', options_for_select(cases_options), id: 'transaction_case_id_select', prompt: 'Select case info or create new case', data: { action: "change->transaction-form#caseOptionsChanged", 'transaction-form-target': 'caseIdField' } %>
     </div>
 
-    <%= turbo_frame_tag "transaction_case_id" do %>
-      <div class="field mt-3" id="court_field"  data-transaction-form-target="courtField">
-        <%= form.label :court %>
-        <%= form.text_field :court %>
-      </div>
+    <div class="field mt-3" id="court_field"  data-transaction-form-target="courtField">
+      <%= form.label :court %>
+      <%= form.text_field :court %>
+    </div>
 
-      <div class="field mt-3" id="court_number_field" data-transaction-form-target="courtNumberField">
-        <%= form.label :court_number %>
-        <%= form.text_field :court_number %>
-      </div>
-    <% end %>
+    <div class="field mt-3" id="court_number_field" data-transaction-form-target="courtNumberField">
+      <%= form.label :court_number %>
+      <%= form.text_field :court_number %>
+    </div>
+
+    <div class="field mt-3" data-transaction-form-target="caseIdField">
+      <%= form.hidden_field :case_id, value: nil, id: 'transaction_hidden_case_id'  %>
+    </div>
 
     <div class="field mt-3">
       <%= form.label :description %>
